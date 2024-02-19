@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+
     import Conversation from './components/Conversation/Conversation.svelte';
     import Sidebar from './components/Sidebar/Sidebar.svelte';
 
