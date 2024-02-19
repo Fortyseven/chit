@@ -1,4 +1,6 @@
 <script>
+    import { onMount } from 'svelte';
+
     let inputEl = undefined;
 
     function onKeyPress(ev) {
@@ -7,6 +9,10 @@
             inputEl.value = '';
         }
     }
+
+    onMount(() => {
+        inputEl.focus();
+    });
 </script>
 
 <input
