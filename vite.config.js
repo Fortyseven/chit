@@ -9,5 +9,6 @@ export default defineConfig({
         alias: {
             '@': path.resolve('/src')
         }
-    }
+    },
+    base: 'https://fortyseven.github.io/chit/'
 });
