@@ -64,10 +64,25 @@
     </select> -->
 <style lang="scss">
     .model-list {
+        width: 100%;
+        .dropdown-menu,
         .dropdown-trigger,
         .dropdown-trigger button {
             width: 100%;
-            border: 1px dashed red;
+        }
+
+        .dropdown-item {
+            display: flex;
+            &:hover {
+                background-color: #fff1;
+                cursor: pointer;
+            }
+            .name {
+                flex: auto;
+            }
+            .details {
+                flex: none;
+            }
         }
     }
 </style>
