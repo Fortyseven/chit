@@ -3,7 +3,7 @@ import * as Storages from '../stores/stores';
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
 
-const STORE_BLACKLIST = [];
+const STORE_BLACKLIST = ['model_settings'];
 
 /***
  * Gets a value from browser local storage
@@ -25,14 +25,18 @@ export function setLocalStorageSubscriptions() {
     Object.keys(Storages)
         .filter((key) => !STORE_BLACKLIST.includes(key))
         .forEach((key) => {
-            unSubscriptions.push(
-                Storages[key].subscribe((value) => {
-                    localStorage.setItem(
-                        PREFIX + '_' + key,
-                        JSON.stringify(value)
-                    );
-                })
-            );
+            if (Storages[key].constructor == 'Array') {
+                //
+            } else {
+                unSubscriptions.push(
+                    Storages[key].subscribe((value) => {
+                        localStorage.setItem(
+                            PREFIX + '_' + key,
+                            JSON.stringify(value)
+                        );
+                    })
+                );
+            }
         });
 }
 

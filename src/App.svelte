@@ -13,7 +13,7 @@
 </script>
 
 <div class="container">
-    <div class="sidebar">
+    <div class="sidebar has-background-black-ter">
         <Sidebar />
     </div>
     <div class="content">
@@ -24,16 +24,14 @@
 <style lang="scss">
     .container {
         height: 100%;
-        border: 1px solid gold;
         display: grid;
         grid-template-columns: 1fr 3fr;
         padding: 1em;
-        gap: 1em;
+        gap: 0.5em;
 
         .sidebar {
             width: 300px;
             height: 100%;
-            background-color: #333;
         }
 
         .content {

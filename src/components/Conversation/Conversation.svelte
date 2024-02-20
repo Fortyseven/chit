@@ -1,4 +1,5 @@
 <script>
+    import ConversationContent from './ConversationContent.svelte';
     import InputBox from './InputBox.svelte';
     import ModelList from './ModelList.svelte';
 
@@ -7,7 +8,9 @@
 
 <div class="container">
     <div class="model-list"><ModelList /></div>
-    <div class="content">{content}</div>
+    <div class="content has-background-black-ter">
+        <ConversationContent />
+    </div>
     <div class="chat-input">
         <InputBox />
     </div>
@@ -18,6 +21,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        gap: 0.5em;
 
         .model-list {
             flex: none;
@@ -27,7 +31,7 @@
             background-color: var(--color-bg-1);
             border-radius: 10px;
             padding: 1em;
-            border: 1px solid green;
+            margin: 0;
         }
         .chat-input {
             flex: none;
