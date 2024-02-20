@@ -1,5 +1,10 @@
 import { get } from 'svelte/store';
-import { models, currentModel, chatTimeline } from '../stores/stores';
+import {
+    models,
+    currentModel,
+    chatTimeline,
+    isInferring
+} from '../stores/stores';
 
 export const API_ENDPOINT = 'http://localhost:11434';
 
@@ -30,6 +35,8 @@ export const OL_chat = async (message) => {
         return timeline;
     });
 
+    isInferring.set(get(chatTimeline).length - 1);
+
     const response = await fetch(`${API_ENDPOINT}/api/chat`, {
         method: 'POST',
         headers: {
@@ -41,6 +48,8 @@ export const OL_chat = async (message) => {
             messages: [msg_packet]
         })
     });
+
+    isInferring.set(null);
     return response.json();
 };
 

@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { continueChat, appendToTimeline } from '../../lib/api';
-    import { chatTimeline } from '../../stores/stores';
+    import { chatTimeline, isInferring } from '../../stores/stores';
 
     let inputEl = undefined;
 
@@ -23,11 +23,22 @@
     }
 
     function onKeyPress(ev) {
-        if (ev.key === 'Enter' && ev.ctrlKey) {
-            submit();
-            ev.preventDefault();
+        if (ev.key === 'Enter') {
+            if (!ev.ctrlKey) {
+                submit();
+                ev.preventDefault();
+            } else {
+                inputEl.value += '\n';
+                ev.preventDefault();
+            }
         }
     }
+
+    isInferring.subscribe(async (value) => {
+        if (!value) {
+            inputEl.focus();
+        }
+    });
 
     onMount(() => {
         inputEl.focus();

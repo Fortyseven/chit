@@ -3,6 +3,7 @@ import { writable, derived } from 'svelte/store';
 export let models = writable([]);
 export let currentModelIndex = writable(0);
 export let chatTimeline = writable([]);
+export let isInferring = writable(false);
 export let model_settings = {
     /* ollama-specific settings */
     embeddingonly: writable(false),

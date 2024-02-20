@@ -1,14 +1,41 @@
 <script>
+    import { onMount, tick } from 'svelte';
+
+    import { chatTimeline, isInferring } from '../../stores/stores';
     import ConversationContent from './ConversationContent.svelte';
     import InputBox from './InputBox.svelte';
     import ModelList from './ModelList.svelte';
 
-    $: content = 'Hello, world!';
+    let contentEl = undefined;
+
+    function scrollToBottom() {
+        if (contentEl) {
+            setTimeout(() => {
+                contentEl.scrollTop = contentEl.scrollHeight;
+                console.log('scrollToBottom', contentEl.scrollHeight);
+            }, 50);
+            // await tick();
+        }
+    }
+
+    chatTimeline.subscribe(async (value) => {
+        console.log('chatTimeline UPDATED', value);
+        scrollToBottom();
+    });
+
+    isInferring.subscribe(async (value) => {
+        console.log('isInferring UPDATED', value);
+        scrollToBottom();
+    });
+
+    onMount(() => {
+        scrollToBottom();
+    });
 </script>
 
 <div class="container">
     <div class="model-list"><ModelList /></div>
-    <div class="content has-background-black-ter">
+    <div class="content has-background-black-ter" bind:this={contentEl}>
         <ConversationContent />
     </div>
     <div class="chat-input">
@@ -32,6 +59,7 @@
             border-radius: 10px;
             padding: 1em;
             margin: 0;
+            overflow: scroll;
         }
         .chat-input {
             flex: none;
