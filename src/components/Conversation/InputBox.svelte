@@ -35,7 +35,7 @@
     }
 
     isInferring.subscribe(async (value) => {
-        if (!value) {
+        if (!value && inputEl) {
             inputEl.focus();
         }
     });
@@ -48,6 +48,7 @@
 <div class="container">
     <textarea
         class="has-text-light has-background-black-ter"
+        disabled={$isInferring}
         placeholder="Type a message..."
         bind:this={inputEl}
         on:keypress={onKeyPress}
@@ -74,6 +75,24 @@
             &:focus {
                 outline-color: #ffaa0033;
                 outline-style: solid;
+            }
+            &:disabled {
+                animation: throb 1s infinite;
+            }
+
+            @keyframes throb {
+                0% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.5;
+                    transform: scale(0.99);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
             }
         }
         button {

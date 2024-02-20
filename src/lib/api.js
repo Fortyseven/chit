@@ -37,20 +37,29 @@ export const OL_chat = async (message) => {
 
     isInferring.set(get(chatTimeline).length - 1);
 
-    const response = await fetch(`${API_ENDPOINT}/api/chat`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            model: get(currentModel).name,
-            stream: false,
-            messages: [msg_packet]
-        })
-    });
+    try {
+        const response = await fetch(`${API_ENDPOINT}/api/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: get(currentModel).name,
+                stream: false,
+                messages: [msg_packet]
+            })
+        });
 
-    isInferring.set(null);
-    return response.json();
+        return response.json();
+    } catch (err) {
+        console.error('Error: ', err);
+        return {
+            role: 'error',
+            message: 'Error connecting to server: ' + err.message
+        };
+    } finally {
+        isInferring.set(null);
+    }
 };
 
 export const continueChat = async (message) => {

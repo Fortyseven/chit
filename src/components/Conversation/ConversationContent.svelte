@@ -11,22 +11,32 @@
 
 <div class="timeline">
     {#each $chatTimeline as line, index}
-        {#if line.role === 'user'}
-            <div
-                class="user"
-                style:color={pendingIndex == index ? 'red' : 'white'}
-            >
-                {line.content}
-            </div>
-            {#if pendingIndex == index}
+        {#if line}
+            {#if line.role === 'user'}
+                <div
+                    class="user"
+                    style:font-weight={pendingIndex == index
+                        ? 'bold'
+                        : 'normal'}
+                >
+                    {line.content}
+                </div>
+                {#if pendingIndex == index}
+                    <div class="bot">
+                        <div class="loader"></div>
+                    </div>
+                {/if}
+            {:else if line.role === 'assistant'}
                 <div class="bot">
-                    <div class="loader"></div>
+                    {line.content}
+                </div>
+            {:else if line.role === 'error'}
+                <div class="bot error">
+                    {line.content}
                 </div>
             {/if}
-        {:else if line.role === 'assistant'}
-            <div class="bot">
-                {line.content}
-            </div>
+        {:else}
+            <div class="bot">💀</div>
         {/if}
     {/each}
 </div>
@@ -53,6 +63,9 @@
             border-top: 1px solid black;
             border-bottom: 1px solid #fff3;
             color: white;
+            &.error {
+                color: #fff;
+            }
         }
     }
 </style>
