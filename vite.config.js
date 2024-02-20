@@ -7,7 +7,8 @@ export default defineConfig({
     plugins: [svelte()],
     resolve: {
         alias: {
-            '@': path.resolve('/src')
+            '@': path.resolve('/src'),
+            $stores: path.resolve('/src/stores/stores.js')
         }
     },
     base: 'https://fortyseven.github.io/chit/'
