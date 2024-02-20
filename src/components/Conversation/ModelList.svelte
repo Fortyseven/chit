@@ -39,9 +39,19 @@
     <div class="dropdown-menu" role="menu" transition:fade>
         <div class="dropdown-content">
             {#each $models as model, index}
-                <a on:click={() => onClick(index)} class="dropdown-item"
-                    >{model.name}</a
-                >
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-no-static-element-interactions -->
+                <div on:click={() => onClick(index)} class="dropdown-item">
+                    <div class="name">
+                        {model.name}
+                    </div>
+                    <div class="details">
+                        ({model.details.parameter_size}, {model.details
+                            .quantization_level}
+                        )
+                    </div>
+                </div>
             {/each}
         </div>
     </div>
