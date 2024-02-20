@@ -4,6 +4,7 @@ import {
     currentModel,
     chatTimeline,
     isInferring
+    // chatContext
 } from '../stores/stores';
 
 export const API_ENDPOINT = 'http://localhost:11434';
@@ -31,9 +32,11 @@ export const OL_chat = async (message) => {
     };
 
     chatTimeline.update((timeline) => {
-        timeline.push(msg_packet);
+        timeline.push(JSON.parse(JSON.stringify(msg_packet)));
         return timeline;
     });
+
+    // msg_packet.content = ;
 
     isInferring.set(get(chatTimeline).length - 1);
 
@@ -46,7 +49,7 @@ export const OL_chat = async (message) => {
             body: JSON.stringify({
                 model: get(currentModel).name,
                 stream: false,
-                messages: [msg_packet]
+                messages: get(chatTimeline)
             })
         });
 

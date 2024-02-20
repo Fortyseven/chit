@@ -28,7 +28,13 @@
                 {/if}
             {:else if line.role === 'assistant'}
                 <div class="bot">
-                    {line.content}
+                    <div class="text">
+                        {line.content}
+                    </div>
+                    <div class="controls">
+                        <button title="Retry">R</button>
+                        <button title="To Clipboard">C</button>
+                    </div>
                 </div>
             {:else if line.role === 'error'}
                 <div class="bot error">
@@ -46,11 +52,11 @@
         // overflow: hidden;
         display: flex;
         flex-direction: column;
-        gap: 1em;
+        gap: 0.75em;
         .user {
             flex: auto;
             // background-color: #fff1;
-            padding: 1em 0;
+
             border-radius: 10px;
         }
 
@@ -65,6 +71,30 @@
             color: white;
             &.error {
                 color: #fff;
+            }
+            display: flex;
+            .text {
+                flex: auto;
+                color: #ddd;
+            }
+            .controls {
+                flex: none;
+                width: 24px;
+                margin-left: 1em;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25em;
+                button {
+                    background: #333;
+                    border-radius: 4px;
+                    color: white;
+                    border: none;
+                    font-size: 10pt;
+                    &:hover {
+                        background: #444;
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }

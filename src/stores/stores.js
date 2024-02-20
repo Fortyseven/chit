@@ -48,3 +48,12 @@ export const currentModel = derived(
         return $models[$currentModelIndex];
     }
 );
+
+// export const chatContext = derived(chatTimeline, ($chatTimeline) => {
+//     let ctx = $chatTimeline
+//         .map((msg) => `${msg.role}: ${msg.content}`)
+//         .join('\n');
+
+//     console.error('chatContext: ', ctx);
+//     return ctx;
+// });

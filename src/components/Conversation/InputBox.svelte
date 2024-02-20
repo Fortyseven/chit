@@ -1,7 +1,11 @@
 <script>
     import { onMount } from 'svelte';
     import { continueChat, appendToTimeline } from '../../lib/api';
-    import { chatTimeline, isInferring } from '../../stores/stores';
+    import {
+        chatTimeline,
+        // chatContext,
+        isInferring
+    } from '../../stores/stores';
 
     let inputEl = undefined;
 
@@ -9,6 +13,12 @@
         let msg = inputEl.value;
 
         if (msg && msg.trim() !== '') {
+            if (msg === '/clear') {
+                chatTimeline.set([]);
+                inputEl.value = '';
+                return;
+            }
+
             inputEl.value = '';
             var result = await continueChat(msg);
 
