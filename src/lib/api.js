@@ -28,8 +28,7 @@ export const refreshModelList = async () => {
 /* Returns null or the response from the server.    */
 export async function OL_chat(message = null) {
     if (get(currentModel) === null) {
-        errorMessage.set('No model selected');
-        return null;
+        throw new Error('No model selected');
     }
 
     // if we don't have a message, it's for use when there's already
@@ -68,8 +67,7 @@ export async function OL_chat(message = null) {
         return new_msg;
     } catch (err) {
         console.error('OL_chat error: ', err);
-        errorMessage.set('Error connecting to server: ' + err.message);
-        return null;
+        throw Error('Error connecting to server: ' + err.message);
     } finally {
         isInferring.set(null);
     }

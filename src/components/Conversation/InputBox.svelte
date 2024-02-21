@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { OL_chat } from '../../lib/api';
-    import { rerollLastResponse } from '../../lib/chat';
+    import { popLastMessage, rerollLastResponse } from '../../lib/chat';
     import {
         chatTimeline,
         isInferring,
@@ -22,6 +22,7 @@
             }
 
             inputEl.value = '';
+
             try {
                 var result = await OL_chat(msg);
 
@@ -35,18 +36,8 @@
             } catch (e) {
                 console.error(e);
                 errorMessage.set(e.message);
-            }
-        }
-    }
-
-    function onKeyPress(ev) {
-        if (ev.key === 'Enter') {
-            if (!ev.ctrlKey) {
-                submit();
-                ev.preventDefault();
-            } else {
-                inputEl.value += '\n';
-                ev.preventDefault();
+                popLastMessage();
+                inputEl.value = msg;
             }
         }
     }
