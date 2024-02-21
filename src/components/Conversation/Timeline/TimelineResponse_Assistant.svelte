@@ -28,7 +28,12 @@
         {/if}
     </div>
     <div class="controls">
-        <button title="To Clipboard">C</button>
+        <button
+            title="To Clipboard"
+            on:click={() => {
+                navigator.clipboard.writeText(line.content);
+            }}>C</button
+        >
         <button title="Retry">R</button>
         <button
             title="Process as Markdown"
