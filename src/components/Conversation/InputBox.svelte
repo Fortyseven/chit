@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { OL_chat } from '../../lib/api';
     import { popLastMessage, rerollLastResponse } from '../../lib/chat';
     import {
@@ -10,6 +10,59 @@
     } from '../../stores/stores';
 
     let inputEl = undefined;
+
+    onMount(() => {
+        inputEl.focus();
+        attachKeyboardShortcuts();
+    });
+
+    onDestroy(() => {
+        detachKeyboardShortcuts();
+    });
+
+    function attachKeyboardShortcuts() {
+        window.addEventListener('keydown', onGlobalKeypress);
+    }
+
+    function detachKeyboardShortcuts() {
+        window.removeEventListener('keydown', onGlobalKeypress);
+    }
+
+    function onGlobalKeypress(ev) {
+        if (ev.key === 'Escape') {
+            inputEl.value = '';
+            inputEl.focus();
+            // TODO: This should abort the current inference
+        }
+
+        // if (ev.key === '2' && ev.ctrlKey) {
+        if (ev.key === 'F3') {
+            if ($chatTimeline.length > 0) {
+                let last_user_message = '';
+                for (let i = $chatTimeline.length - 1; i >= 0; i--) {
+                    if ($chatTimeline[i].role === 'user') {
+                        last_user_message = $chatTimeline[i].content;
+                        break;
+                    }
+                }
+                inputEl.value = last_user_message;
+                inputEl.focus();
+                ev.preventDefault();
+            }
+        }
+    }
+
+    function onInputKeypress(ev) {
+        if (ev.key === 'Enter') {
+            if (!ev.ctrlKey) {
+                submit();
+                ev.preventDefault();
+            } else {
+                inputEl.value += '\n';
+                ev.preventDefault();
+            }
+        }
+    }
 
     async function submit() {
         let msg = inputEl.value;
@@ -66,14 +119,10 @@
             inputEl.focus();
         }
     });
-
-    onMount(() => {
-        inputEl.focus();
-    });
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="container" on:keypress={onKeyPress}>
+<div class="container" on:keypress={onInputKeypress}>
     <textarea
         class="has-text-light has-background-black-ter"
         disabled={$isInferring}
