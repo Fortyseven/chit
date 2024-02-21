@@ -21,9 +21,13 @@ i {
     text-transform: none;
     line-height: 1;
     display: inline-block;
-    margin-right: 0.25em;
+    padding: 0;
+    margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    &.with-text:before {
+        margin-right: 0.25em;
+    }
 }
 
 .mi-add:before {
