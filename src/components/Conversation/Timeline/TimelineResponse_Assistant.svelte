@@ -29,12 +29,14 @@
     </div>
     <div class="controls">
         <button
-            title="To Clipboard"
+            title="Copy to clipboard"
             on:click={() => {
                 navigator.clipboard.writeText(line.content);
-            }}>C</button
+            }}
         >
-        <button title="Retry">R</button>
+            <i class="mi-clipboard" />
+        </button>
+        <button title="Reroll response">R</button>
         <button
             title="Process as Markdown"
             on:click={() => {
@@ -43,7 +45,7 @@
             }}
             class:on={processAsMarkdown}
         >
-            M
+            <i class="mi-text" />
         </button>
         <button
             title="View Source"
@@ -53,7 +55,7 @@
             }}
             class:on={viewSource}
         >
-            V
+            <i class="mi-book" />
         </button>
     </div>
 </div>
@@ -73,10 +75,11 @@
         .text {
             flex: auto;
             color: #ddd;
+            overflow: none;
         }
         .controls {
             flex: none;
-            width: 24px;
+            width: 1.5em;
             margin-left: 1em;
             display: flex;
             flex-direction: column;
@@ -87,6 +90,7 @@
                 color: white;
                 border: none;
                 font-size: 10pt;
+
                 &:hover {
                     background: #444;
                     cursor: pointer;

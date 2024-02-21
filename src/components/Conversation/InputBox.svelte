@@ -91,7 +91,7 @@
         bind:value={$inputText}
     />
     <button class="button is-primary" disabled={$isInferring} on:click={submit}>
-        Send
+        <i class="mi-send with-text">Send</i>
     </button>
     <div class="input-buttons-extra">
         <button
@@ -100,7 +100,7 @@
             title="Clear the current chat"
             disabled={$isInferring || $chatTimeline.length === 0}
         >
-            <i class="mi-delete">Clear</i>
+            <i class="mi-delete with-text">Clear</i>
         </button>
         <button
             class="button is-primary"
@@ -109,7 +109,7 @@
             }}
             title="Step back one response"
             disabled={$isInferring || $chatTimeline.length === 0}
-            ><i class="mi-arrow-left">Back</i>
+            ><i class="mi-arrow-left with-text">Back</i>
         </button>
         <button
             class="button is-primary"
@@ -119,7 +119,7 @@
             title="Retry the last response"
             disabled={$isInferring || $chatTimeline.length === 0}
         >
-            <i class="mi-refresh">Reroll</i>
+            <i class="mi-refresh with-text">Reroll</i>
         </button>
     </div>
 </div>
