@@ -5,6 +5,8 @@
     import Sidebar from './components/Sidebar/Sidebar.svelte';
 
     import { init } from './lib/init';
+    import { errorMessage } from './stores/stores';
+    import ErrorModal from './components/ErrorModal.svelte';
 
     onMount(async () => {
         console.log('onMount');
@@ -19,6 +21,9 @@
     <div class="content">
         <Conversation />
     </div>
+    {#if $errorMessage}
+        <ErrorModal message={$errorMessage} />
+    {/if}
 </div>
 
 <style lang="scss">

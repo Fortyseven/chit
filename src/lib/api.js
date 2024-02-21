@@ -3,7 +3,8 @@ import {
     models,
     currentModel,
     chatTimeline,
-    isInferring
+    isInferring,
+    errorMessage
     // chatContext
 } from '../stores/stores';
 
@@ -24,23 +25,30 @@ export const refreshModelList = async () => {
 };
 
 /* ------------------------------------------------ */
+/* Returns null or the response from the server.    */
+export async function OL_chat(message = null) {
+    if (get(currentModel) === null) {
+        errorMessage.set('No model selected');
+        return null;
+    }
 
-export const OL_chat = async (message) => {
-    const msg_packet = {
-        role: 'user',
-        content: message
-    };
+    // if we don't have a message, it's for use when there's already
+    // a user message in the timeline, so skip adding it again
+    if (message !== null) {
+        const msg_packet = {
+            role: 'user',
+            content: message
+        };
 
-    chatTimeline.update((timeline) => {
-        timeline.push(JSON.parse(JSON.stringify(msg_packet)));
-        return timeline;
-    });
-
-    // msg_packet.content = ;
-
-    isInferring.set(get(chatTimeline).length - 1);
+        chatTimeline.update((timeline) => {
+            timeline.push(JSON.parse(JSON.stringify(msg_packet)));
+            return timeline;
+        });
+    }
 
     try {
+        isInferring.set(get(chatTimeline).length - 1);
+
         const response = await fetch(`${API_ENDPOINT}/api/chat`, {
             method: 'POST',
             headers: {
@@ -53,22 +61,24 @@ export const OL_chat = async (message) => {
             })
         });
 
-        return response.json();
+        let new_msg = await response.json();
+
+        console.log('OL_chat response: ', new_msg);
+
+        return new_msg;
     } catch (err) {
-        console.error('Error: ', err);
-        return {
-            role: 'error',
-            message: 'Error connecting to server: ' + err.message
-        };
+        console.error('OL_chat error: ', err);
+        errorMessage.set('Error connecting to server: ' + err.message);
+        return null;
     } finally {
         isInferring.set(null);
     }
-};
+}
 
-export const continueChat = async (message) => {
-    const response = await OL_chat(message);
-    return response;
-};
+// export const continueChat = async (message) => {
+//     const response = await OL_chat(message);
+//     return response;
+// };
 
 export const appendToTimeline = (message) => {
     get(chatTimeline).push(message);

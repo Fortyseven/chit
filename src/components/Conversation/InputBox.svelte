@@ -1,10 +1,12 @@
 <script>
     import { onMount } from 'svelte';
-    import { continueChat, appendToTimeline } from '../../lib/api';
+    import { OL_chat } from '../../lib/api';
+    import { rerollLastResponse } from '../../lib/chat';
     import {
         chatTimeline,
-        // chatContext,
-        isInferring
+        isInferring,
+        inputText,
+        errorMessage
     } from '../../stores/stores';
 
     let inputEl = undefined;
@@ -20,15 +22,20 @@
             }
 
             inputEl.value = '';
-            var result = await continueChat(msg);
+            try {
+                var result = await OL_chat(msg);
 
-            console.log('RESULT: ', result.message);
-
-            // appendToTimeline(result.message);
-            chatTimeline.update((timeline) => {
-                timeline.push(result.message);
-                return timeline;
-            });
+                if (result) {
+                    // appendToTimeline(result.message);
+                    chatTimeline.update((timeline) => {
+                        timeline.push(result.message);
+                        return timeline;
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+                errorMessage.set(e.message);
+            }
         }
     }
 
@@ -44,6 +51,25 @@
         }
     }
 
+    function onClear() {
+        if (confirm('Are you sure you want to clear the chat?')) {
+            chatTimeline.set([]);
+        }
+    }
+
+    function onBack() {
+        let last_user_message = '';
+
+        chatTimeline.update((timeline) => {
+            timeline.pop();
+            last_user_message = timeline[timeline.length - 1].content;
+            timeline.pop();
+            return timeline;
+        });
+        inputEl.value = last_user_message;
+        inputEl.focus();
+    }
+
     isInferring.subscribe(async (value) => {
         if (!value && inputEl) {
             inputEl.focus();
@@ -55,22 +81,54 @@
     });
 </script>
 
-<div class="container">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="container" on:keypress={onKeyPress}>
     <textarea
         class="has-text-light has-background-black-ter"
         disabled={$isInferring}
         placeholder="Type a message..."
         bind:this={inputEl}
-        on:keypress={onKeyPress}
+        bind:value={$inputText}
     />
-    <button class="button is-primary" on:click={submit}>Send</button>
+    <button class="button is-primary" disabled={$isInferring} on:click={submit}>
+        Send
+    </button>
+    <div class="input-buttons-extra">
+        <button
+            class="button is-primary"
+            on:click={onClear}
+            title="Clear the current chat"
+            disabled={$isInferring || $chatTimeline.length === 0}
+        >
+            <i class="mi-delete">Clear</i>
+        </button>
+        <button
+            class="button is-primary"
+            on:click={async () => {
+                if (!$isInferring) await onBack();
+            }}
+            title="Step back one response"
+            disabled={$isInferring || $chatTimeline.length === 0}
+            ><i class="mi-arrow-left">Back</i>
+        </button>
+        <button
+            class="button is-primary"
+            on:click={async () => {
+                if (!$isInferring) await rerollLastResponse();
+            }}
+            title="Retry the last response"
+            disabled={$isInferring || $chatTimeline.length === 0}
+        >
+            <i class="mi-refresh">Reroll</i>
+        </button>
+    </div>
 </div>
 
 <style lang="scss">
     .container {
         display: grid;
-        grid-template-columns: 1fr 100px;
-        gap: 1em;
+        grid-template-columns: 1fr 7rem 6rem;
+        gap: 0.45em;
 
         textarea {
             flex: auto;
@@ -78,7 +136,7 @@
             padding: 1em;
             border: none;
             outline-style: none;
-            border-radius: 10px;
+            border-radius: 4px;
             border-top: 1px solid #0004;
             border-bottom: 1px solid #fff4;
             background-image: linear-gradient(0deg, #1118 25%, #3338 100%);
@@ -105,10 +163,20 @@
                 }
             }
         }
+
         button {
             flex: none;
             display: block;
             height: 100% !important;
+        }
+        .input-buttons-extra {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            button {
+                height: 2em !important;
+                line-height: 0;
+            }
         }
     }
 </style>

@@ -2,7 +2,7 @@
     import { onMount, tick } from 'svelte';
 
     import { chatTimeline, isInferring } from '../../stores/stores';
-    import ConversationContent from './ConversationContent.svelte';
+    import ConversationTimeline from './Timeline/ConversationTimeline.svelte';
     import InputBox from './InputBox.svelte';
     import ModelList from './ModelList.svelte';
 
@@ -12,7 +12,6 @@
         if (contentEl) {
             setTimeout(() => {
                 contentEl.scrollTop = contentEl.scrollHeight;
-                console.log('scrollToBottom', contentEl.scrollHeight);
             }, 50);
             // await tick();
         }
@@ -36,7 +35,7 @@
 <div class="container">
     <div class="model-list"><ModelList /></div>
     <div class="content has-background-black-ter" bind:this={contentEl}>
-        <ConversationContent />
+        <ConversationTimeline />
     </div>
     <div class="chat-input">
         <InputBox />

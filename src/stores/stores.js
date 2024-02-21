@@ -4,6 +4,8 @@ export let models = writable([]);
 export let currentModelIndex = writable(0);
 export let chatTimeline = writable([]);
 export let isInferring = writable(false);
+export let inputText = writable('');
+export let errorMessage = writable('');
 export let model_settings = {
     /* ollama-specific settings */
     embeddingonly: writable(false),
@@ -45,15 +47,9 @@ export let model_settings = {
 export const currentModel = derived(
     [models, currentModelIndex],
     ([$models, $currentModelIndex]) => {
+        if (!$models || $models.length === 0) {
+            return null;
+        }
         return $models[$currentModelIndex];
     }
 );
-
-// export const chatContext = derived(chatTimeline, ($chatTimeline) => {
-//     let ctx = $chatTimeline
-//         .map((msg) => `${msg.role}: ${msg.content}`)
-//         .join('\n');
-
-//     console.error('chatContext: ', ctx);
-//     return ctx;
-// });
