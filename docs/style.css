@@ -1,5 +1,6 @@
 /* @import 'https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css'; */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 html {
     height: 100%;
     padding: 0;
@@ -17,17 +18,4 @@ body {
 
 * {
     font-family: 'Roboto Condensed', sans-serif !important;
-}
-
-.debug1 {
-    border: 1px solid red;
-}
-.debug2 {
-    border: 1px solid green;
-}
-.debug3 {
-    border: 1px solid gold;
-}
-.debug4 {
-    border: 1px dashed #f0f;
 }
