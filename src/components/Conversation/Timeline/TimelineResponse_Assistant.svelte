@@ -1,15 +1,19 @@
 <script>
     import markdownit from 'markdown-it';
     import { onMount } from 'svelte';
+    import { defaultMarkdown } from '../../../stores/stores';
 
     export let line;
+
+    console.log('defaultMarkdown', $defaultMarkdown);
 
     let processAsMarkdown = false;
     let viewSource = false;
     const md = markdownit();
 
     onMount(() => {
-        if (line.content.includes('```')) {
+        console.log('defaultMarkdown mount', $defaultMarkdown);
+        if (line.content.includes('```') || $defaultMarkdown) {
             processAsMarkdown = true;
         }
     });

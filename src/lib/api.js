@@ -4,16 +4,17 @@ import {
     currentModel,
     chatTimeline,
     isInferring,
-    errorMessage
+    apiEndpoint
+    // errorMessage
     // chatContext
 } from '../stores/stores';
 
-export const API_ENDPOINT = 'http://localhost:11434';
+export const DEFAULT_API_ENDPOINT = 'http://localhost:11434';
 
 /* ------------------------------------------------ */
 
 export const OL_listLocalModels = async () => {
-    const response = await fetch(`${API_ENDPOINT}/api/tags`);
+    const response = await fetch(`${get(apiEndpoint)}/api/tags`);
     return response.json();
 };
 
@@ -48,7 +49,7 @@ export async function OL_chat(message = null) {
     try {
         isInferring.set(get(chatTimeline).length - 1);
 
-        const response = await fetch(`${API_ENDPOINT}/api/chat`, {
+        const response = await fetch(`${get(apiEndpoint)}/api/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -58,7 +58,11 @@ export function syncLocalStorageStores() {
             // if we have a value and the store has a set method
             if (value && Storages[key]?.set) {
                 // set the svelte store value from the localstorage value
-                Storages[key].set(JSON.parse(value));
+                try {
+                    Storages[key].set(JSON.parse(value));
+                } catch (e) {
+                    console.error(`Error setting ${key}; skipping...`);
+                }
             }
         });
 }

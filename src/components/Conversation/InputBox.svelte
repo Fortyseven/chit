@@ -32,6 +32,7 @@
         if (ev.key === 'Escape') {
             inputEl.value = '';
             inputEl.focus();
+            $isInferring = false;
             // TODO: This should abort the current inference
         }
 
@@ -130,7 +131,12 @@
         bind:this={inputEl}
         bind:value={$inputText}
     />
-    <button class="button is-primary" disabled={$isInferring} on:click={submit}>
+    <button
+        class="button is-primary"
+        disabled={$isInferring}
+        title="Submit query"
+        on:click={submit}
+    >
         <i class="mi-send with-text">Send</i>
     </button>
     <div class="input-buttons-extra">

@@ -1,4 +1,5 @@
 import { writable, derived } from 'svelte/store';
+import { DEFAULT_API_ENDPOINT } from '../lib/api';
 
 export let models = writable([]);
 export let currentModelIndex = writable(0);
@@ -6,6 +7,18 @@ export let chatTimeline = writable([]);
 export let isInferring = writable(false);
 export let inputText = writable('');
 export let errorMessage = writable('');
+
+export let defaultModelName = writable(undefined);
+
+export let selectedTab = writable('chat');
+
+export let apiEndpoint = writable(DEFAULT_API_ENDPOINT);
+/* ------------------------------ */
+
+export let defaultMarkdown = writable(true);
+
+/* ------------------------------ */
+
 export let model_settings = {
     /* ollama-specific settings */
     embeddingonly: writable(false),

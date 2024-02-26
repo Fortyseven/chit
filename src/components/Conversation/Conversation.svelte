@@ -4,7 +4,7 @@
     import { chatTimeline, isInferring } from '../../stores/stores';
     import ConversationTimeline from './Timeline/ConversationTimeline.svelte';
     import InputBox from './InputBox.svelte';
-    import ModelList from './ModelList.svelte';
+    import ModelList from './ModelList/ModelList.svelte';
 
     let contentEl = undefined;
 
