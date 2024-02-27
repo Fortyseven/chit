@@ -1,19 +1,28 @@
 <script>
     import { onMount } from 'svelte';
 
-    import Conversation from './components/Conversation/Conversation.svelte';
-    import Sidebar from './components/Conversation/Sidebar/Sidebar.svelte';
-    import Settings from './components/Settings/Settings.svelte';
+    import Settings from './components/TabPages/Settings/Settings.svelte';
 
     import { init } from './lib/init';
     import { errorMessage, selectedTab } from './stores/stores';
+
+    import Conversation from './components/TabPages/Conversation/Conversation.svelte';
     import ErrorModal from './components/ErrorModal.svelte';
+    import Modelfiles from './components/TabPages/Modelfiles/Modelfiles.svelte';
+    import Prompts from './components/TabPages/Prompts/Prompts.svelte';
     import TabBar from './components/Tabs/TabBar.svelte';
 
     onMount(async () => {
         console.log('onMount');
         await init();
     });
+
+    const PAGES = {
+        chat: Conversation,
+        modelfiles: Modelfiles,
+        settings: Settings,
+        prompts: Prompts
+    };
 </script>
 
 <div class="tab-container">
@@ -21,21 +30,7 @@
         <TabBar />
     </div>
     <div class="tab-content">
-        {#if $selectedTab === 'settings'}
-            <Settings />
-        {:else if $selectedTab === 'modelfiles'}
-            modemslsdsml
-        {:else}
-            <div class="chat-content">
-                <div class="sidebar has-background-black-ter">
-                    <Sidebar />
-                </div>
-                <div class="conversation">
-                    <Conversation />
-                </div>
-            </div>
-            <!-- <ModelList /> -->
-        {/if}
+        <svelte:component this={PAGES[$selectedTab]} />
     </div>
 </div>
 
@@ -61,25 +56,6 @@
             // grid-template-columns: 1fr 3fr;
             padding: 1em 0.5em;
             gap: 0.5em;
-
-            .chat-content {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: row;
-                gap: 0.5em;
-                .sidebar {
-                    flex: 0 0 300px;
-                    width: 300px;
-                    height: 100%;
-                }
-
-                .conversation {
-                    flex: auto;
-                    width: 100%;
-                    height: 90vh;
-                }
-            }
         }
     }
 </style>

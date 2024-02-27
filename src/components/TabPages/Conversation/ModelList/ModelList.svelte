@@ -4,7 +4,7 @@
         currentModel,
         currentModelIndex,
         models
-    } from '../../../stores/stores';
+    } from '../../../../stores/stores';
     import ModelListControls from './ModelListControls.svelte';
 
     let isOpen = false;

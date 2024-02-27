@@ -1,6 +1,5 @@
 <script>
-    import { DEFAULT_API_ENDPOINT } from '../../lib/api';
-    import { apiEndpoint } from '../../stores/stores';
+    import { apiEndpoint, DEFAULT_API_ENDPOINT } from '../../../stores/stores';
 </script>
 
 <fieldset>

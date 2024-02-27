@@ -1,13 +1,13 @@
 <script>
     import { onDestroy, onMount } from 'svelte';
-    import { OL_chat } from '../../lib/api';
-    import { popLastMessage, rerollLastResponse } from '../../lib/chat';
+    import { OL_chat } from '../../../lib/api';
+    import { popLastMessage, rerollLastResponse } from '../../../lib/chat';
     import {
         chatTimeline,
         isInferring,
         inputText,
         errorMessage
-    } from '../../stores/stores';
+    } from '../../../stores/stores';
 
     let inputEl = undefined;
 

@@ -1,7 +1,7 @@
 <script>
     import { onMount, tick } from 'svelte';
 
-    import { chatTimeline, isInferring } from '../../stores/stores';
+    import { chatTimeline, isInferring } from '../../../stores/stores';
     import ConversationTimeline from './Timeline/ConversationTimeline.svelte';
     import InputBox from './InputBox.svelte';
     import ModelList from './ModelList/ModelList.svelte';

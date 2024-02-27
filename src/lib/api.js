@@ -9,8 +9,6 @@ import {
     // chatContext
 } from '../stores/stores';
 
-export const DEFAULT_API_ENDPOINT = 'http://localhost:11434';
-
 /* ------------------------------------------------ */
 
 export const OL_listLocalModels = async () => {

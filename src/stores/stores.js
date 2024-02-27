@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store';
-import { DEFAULT_API_ENDPOINT } from '../lib/api';
+
+export const DEFAULT_API_ENDPOINT = 'http://localhost:11434';
 
 export let models = writable([]);
 export let currentModelIndex = writable(0);

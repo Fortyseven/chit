@@ -1,7 +1,7 @@
 <script>
     import markdownit from 'markdown-it';
     import { onMount } from 'svelte';
-    import { defaultMarkdown } from '../../../stores/stores';
+    import { defaultMarkdown } from '../../../../stores/stores';
 
     export let line;
 
