@@ -4,12 +4,13 @@
 </script>
 
 <div class="chat-content">
-    <div class="sidebar has-background-black-ter">
+    <!-- <div class="sidebar has-background-black-ter">
         <Sidebar />
-    </div>
+    </div> -->
     <div class="conversation">
         <Timeline />
     </div>
+    <Sidebar />
 </div>
 
 <style lang="scss">
@@ -19,11 +20,11 @@
         display: flex;
         flex-direction: row;
         gap: 0.5em;
-        .sidebar {
-            flex: 0 0 300px;
-            width: 300px;
-            height: 100%;
-        }
+        // .sidebar {
+        //     flex: 0 0 300px;
+        //     width: 300px;
+        //     height: 100%;
+        // }
 
         .conversation {
             flex: auto;

@@ -39,7 +39,7 @@
     <ErrorModal message={$errorMessage} />
 {/if}
 
-<style lang="scss">
+<style lang="scss" global>
     .tab-container {
         display: flex;
         flex-direction: column;
@@ -56,6 +56,25 @@
             // grid-template-columns: 1fr 3fr;
             padding: 1em 0.5em;
             gap: 0.5em;
+        }
+    }
+
+    :global(fieldset) {
+        padding: 1em;
+        border: 1px solid #333;
+        border-radius: 14px;
+        border-left-color: #444 !important;
+        border-right-color: #444 !important;
+        border-bottom-color: #888 !important;
+        background-color: #222;
+        background-image: linear-gradient(0deg, #000 50%, #1a1a1a 100%);
+        box-shadow: 0 0 10px #fff1;
+        legend {
+            font-size: 1.2em;
+            color: #fff;
+            font-weight: bold;
+            padding-left: 0.25em;
+            padding-right: 0.25em;
         }
     }
 </style>
