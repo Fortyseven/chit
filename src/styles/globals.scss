@@ -18,3 +18,22 @@
 // .debug4 {
 //     border: 1px dashed #f0f;
 // }
+
+.timeline {
+    .text {
+        width: calc(100% - 100px);
+        overflow-x: unset;
+        ;
+
+        ul {
+            margin-top: 0;
+            list-style: square;
+        }
+
+        pre {
+            max-width: 100%;
+            text-wrap: wrap;
+            ;
+        }
+    }
+}
