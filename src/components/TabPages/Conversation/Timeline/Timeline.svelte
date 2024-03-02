@@ -1,10 +1,10 @@
 <script>
     import { onMount, tick } from 'svelte';
 
-    import { chatTimeline, isInferring } from '../../../stores/stores';
-    import ConversationTimeline from './Timeline/ConversationTimeline.svelte';
-    import InputBox from './InputBox/InputBox.svelte';
-    import ModelList from './ModelList/ModelList.svelte';
+    import { chatTimeline, isInferring } from '../../../../stores/stores';
+    import ConversationTimeline from './ConversationTimeline.svelte';
+    import InputBox from '../InputBox/InputBox.svelte';
+    import ModelList from '../ModelList/ModelList.svelte';
 
     let contentEl = undefined;
 
@@ -37,6 +37,7 @@
     <div class="content has-background-black-ter" bind:this={contentEl}>
         <ConversationTimeline />
     </div>
+    <div class="loading-stripe" class:isLoading={$isInferring}></div>
     <div class="chat-input">
         <InputBox />
     </div>
@@ -62,6 +63,30 @@
         }
         .chat-input {
             flex: none;
+        }
+    }
+    .loading-stripe {
+        width: 100%;
+        height: 1em;
+        background-color: #300;
+        border-radius: 4px;
+
+        &.isLoading {
+            background-color: #f00;
+            animation: pulse 750ms infinite;
+            border: 1px solid red;
+            display: none;
+        }
+    }
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 1;
         }
     }
 </style>
