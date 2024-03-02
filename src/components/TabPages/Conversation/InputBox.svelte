@@ -61,15 +61,20 @@
                 ev.preventDefault();
             }
         }
+
+        // ctrl+backspace
+        if (ev.key === 'Backspace' && ev.ctrlKey) {
+            if ($inputText.length === 0 && $chatTimeline.length > 0) {
+                onBack();
+                ev.preventDefault();
+            }
+        }
     }
 
     function onInputKeypress(ev) {
         if (ev.key === 'Enter') {
-            if (!ev.ctrlKey) {
+            if (!ev.shiftKey) {
                 submit();
-                ev.preventDefault();
-            } else {
-                $inputText += '\n';
                 ev.preventDefault();
             }
         }
@@ -96,6 +101,7 @@
                         timeline.push(result.message);
                         return timeline;
                     });
+                    inputEl.focus();
                 }
             } catch (e) {
                 console.error(e);
@@ -114,6 +120,12 @@
     }
 
     function onBack() {
+        if ($chatTimeline.length === 0) {
+            $inputText = '';
+            inputEl.focus();
+            return;
+        }
+
         let last_user_message = '';
 
         chatTimeline.update((timeline) => {
@@ -169,7 +181,8 @@
                 if (!$isInferring) await onBack();
             }}
             title="Step back one response"
-            disabled={$isInferring || $chatTimeline.length === 0}
+            disabled={$isInferring ||
+                ($inputText.length === 0 && $chatTimeline.length === 0)}
             ><i class="mi-arrow-left with-text">Back</i>
         </button>
         <!-- ---------------------------- -->
