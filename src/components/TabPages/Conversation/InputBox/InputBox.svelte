@@ -1,75 +1,47 @@
 <script>
-    import { onDestroy, onMount } from 'svelte';
-    import { OL_chat } from '../../../lib/api';
-    import { popLastMessage, rerollLastResponse } from '../../../lib/chat';
+    // @ts-nocheck
+
+    import { onMount } from 'svelte';
     import {
         chatTimeline,
         isInferring,
         inputText,
         errorMessage
-    } from '../../../stores/stores';
-    import { isSidebarOpen } from '../../../stores/stores_ui';
+    } from '../../../../stores/stores';
+    import { isSidebarOpen } from '../../../../stores/stores_ui';
+
+    import GlobalInputs from './GlobalInputs.svelte';
+    import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
+    import { OL_chat } from '../../../../lib/api';
+    import { popLastMessage, rerollLastResponse } from '../../../../lib/chat';
 
     let inputEl = undefined;
 
     onMount(() => {
         inputEl.focus();
-        attachKeyboardShortcuts();
     });
 
-    onDestroy(() => {
-        detachKeyboardShortcuts();
+    eventBus__keyboard.subscribe((value) => {
+        switch (value) {
+            case 'inputbox-focus':
+                inputEl.focus();
+                $eventBus__keyboard = null;
+                break;
+            case 'inputbox-back':
+                onBack();
+                $eventBus__keyboard = null;
+                break;
+        }
     });
-
-    function attachKeyboardShortcuts() {
-        window.addEventListener('keydown', onGlobalKeypress);
-    }
-
-    function detachKeyboardShortcuts() {
-        window.removeEventListener('keydown', onGlobalKeypress);
-    }
 
     isSidebarOpen.subscribe((value) => {
         if (value) {
-            detachKeyboardShortcuts();
+            // detachKeyboardShortcuts();
         } else {
-            attachKeyboardShortcuts();
+            // attachKeyboardShortcuts();
             inputEl?.focus();
         }
     });
-
-    function onGlobalKeypress(ev) {
-        if (ev.key === 'Escape') {
-            $inputText = '';
-            inputEl.focus();
-            $isInferring = false;
-            // TODO: This should abort the current inference
-        }
-
-        // if (ev.key === '2' && ev.ctrlKey) {
-        if (ev.key === 'F3') {
-            if ($chatTimeline.length > 0) {
-                let last_user_message = '';
-                for (let i = $chatTimeline.length - 1; i >= 0; i--) {
-                    if ($chatTimeline[i].role === 'user') {
-                        last_user_message = $chatTimeline[i].content;
-                        break;
-                    }
-                }
-                $inputText = last_user_message;
-                inputEl.focus();
-                ev.preventDefault();
-            }
-        }
-
-        // ctrl+backspace
-        if (ev.key === 'Backspace' && ev.ctrlKey) {
-            if ($inputText.length === 0 && $chatTimeline.length > 0) {
-                onBack();
-                ev.preventDefault();
-            }
-        }
-    }
 
     function onInputKeypress(ev) {
         if (ev.key === 'Enter') {
@@ -96,7 +68,6 @@
                 var result = await OL_chat(msg);
 
                 if (result) {
-                    // appendToTimeline(result.message);
                     chatTimeline.update((timeline) => {
                         timeline.push(result.message);
                         return timeline;
@@ -120,6 +91,7 @@
     }
 
     function onBack() {
+        console.log('onBack');
         if ($chatTimeline.length === 0) {
             $inputText = '';
             inputEl.focus();
@@ -145,8 +117,14 @@
     });
 </script>
 
+<GlobalInputs />
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="container" on:keypress={onInputKeypress}>
+<div
+    class="container"
+    on:keypress={onInputKeypress}
+    on:inputbox-focus={() => inputEl.focus()}
+    on:inputbox-back={() => onBack()}
+>
     <textarea
         class="has-text-light has-background-black-ter"
         disabled={$isInferring}

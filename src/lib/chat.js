@@ -12,10 +12,17 @@ export function rewindChatToIndex(index) {
     });
 }
 
-export async function rerollLastResponse(index = undefined) {
-    if (index) {
+/**
+ * Rerolls the last response in the chat timeline. If an index is provided, the
+ * chat timeline will be truncated to that index before rerolling.
+ *
+ * @param {*} rewindToIndex if an index is provided, the chat timeline will be
+ * truncated to that index
+ */
+export async function rerollLastResponse(rewindToIndex = undefined) {
+    if (rewindToIndex) {
         // we're rerolling back to a specific response
-        rewindChatToIndex(index);
+        rewindChatToIndex(rewindToIndex);
     }
 
     // check if previous entry in chatTimeline is a bot response
@@ -39,6 +46,9 @@ export async function rerollLastResponse(index = undefined) {
     }
 }
 
+/**
+ * Removes the last message from the chat timeline.
+ */
 export function popLastMessage() {
     chatTimeline.update((timeline) => {
         timeline.pop();
