@@ -67,7 +67,7 @@
         </button>
         <!-- -------------- -->
         <button
-            class="has-tooltip-left"
+            class="has-tooltip-left has-tooltip-multiline"
             data-tooltip="Rewind chat to here and reroll this response"
             on:click={() => rerollLastResponse(index)}
         >
