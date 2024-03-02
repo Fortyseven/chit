@@ -1,4 +1,6 @@
 <script>
+    import TimelineResponse_User from './TimelineResponse_User.svelte';
+
     import { chatTimeline, isInferring } from '$stores';
     import TimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
 
@@ -14,21 +16,9 @@
     {#each $chatTimeline as line, index}
         {#if line}
             {#if line.role === 'user'}
-                <div
-                    class="user"
-                    style:font-weight={pendingIndex == index
-                        ? 'bold'
-                        : 'normal'}
-                >
-                    {line.content}
-                </div>
-                {#if pendingIndex == index}
-                    <div class="bot">
-                        <div class="loader"></div>
-                    </div>
-                {/if}
+                <TimelineResponse_User {line} {index} {pendingIndex} />
             {:else if line.role === 'assistant'}
-                <TimelineResponse_Assistant {line} />
+                <TimelineResponse_Assistant {line} {index} />
             {:else if line.role === 'error'}
                 <div class="bot error">
                     {line.content}
