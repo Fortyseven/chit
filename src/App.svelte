@@ -11,6 +11,7 @@
     import Modelfiles from './components/TabPages/Modelfiles/Modelfiles.svelte';
     import Prompts from './components/TabPages/Prompts/Prompts.svelte';
     import TabBar from './components/Tabs/TabBar.svelte';
+    import DebugStatePanel from './components/UI/DebugStatePanel/DebugStatePanel.svelte';
 
     onMount(async () => {
         console.log('onMount');
@@ -33,6 +34,7 @@
         <svelte:component this={PAGES[$selectedTab]} />
     </div>
 </div>
+<DebugStatePanel />
 
 <div class="error-message"></div>
 {#if $errorMessage}
