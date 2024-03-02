@@ -9,7 +9,8 @@
 		"check": "svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"build-gh": "npm run build && git add docs && git commit -m 'github pages update' && git push"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
