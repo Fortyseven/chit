@@ -2,17 +2,16 @@
     import markdownit from 'markdown-it';
     import { onMount } from 'svelte';
     import { defaultMarkdown } from '../../../../stores/stores';
+    import { rerollLastResponse } from '../../../../lib/chat';
 
     export let line;
-
-    console.log('defaultMarkdown', $defaultMarkdown);
+    export let index;
 
     let processAsMarkdown = false;
     let viewSource = false;
     const md = markdownit();
 
     onMount(() => {
-        console.log('defaultMarkdown mount', $defaultMarkdown);
         if (line.content.includes('```') || $defaultMarkdown) {
             processAsMarkdown = true;
         }
@@ -32,6 +31,7 @@
         {/if}
     </div>
     <div class="controls">
+        <!-- -------------- -->
         <button
             title="Copy to clipboard"
             on:click={() => {
@@ -40,7 +40,7 @@
         >
             <i class="mi-clipboard" />
         </button>
-        <button title="Reroll response">R</button>
+        <!-- -------------- -->
         <button
             title="Process as Markdown"
             on:click={() => {
@@ -51,6 +51,7 @@
         >
             <i class="mi-text" />
         </button>
+        <!-- -------------- -->
         <button
             title="View Source"
             on:click={() => {
@@ -61,6 +62,14 @@
         >
             <i class="mi-book" />
         </button>
+        <!-- -------------- -->
+        <button
+            title="Reroll response"
+            on:click={() => rerollLastResponse(index)}
+        >
+            R
+        </button>
+        <!-- -------------- -->
     </div>
 </div>
 
