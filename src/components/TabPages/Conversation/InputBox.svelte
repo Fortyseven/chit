@@ -142,6 +142,7 @@
         bind:this={inputEl}
         bind:value={$inputText}
     />
+    <!-- ---------------------------- -->
     <button
         class="button is-primary"
         disabled={$isInferring}
@@ -150,6 +151,7 @@
     >
         <i class="mi-send with-text">Send</i>
     </button>
+    <!-- ---------------------------------------------------------------------->
     <div class="input-buttons-extra">
         <button
             class="button is-primary"
@@ -160,6 +162,7 @@
         >
             <i class="mi-delete with-text">Clear</i>
         </button>
+        <!-- ---------------------------- -->
         <button
             class="button is-primary"
             on:click={async () => {
@@ -169,6 +172,7 @@
             disabled={$isInferring || $chatTimeline.length === 0}
             ><i class="mi-arrow-left with-text">Back</i>
         </button>
+        <!-- ---------------------------- -->
         <button
             class="button is-primary"
             on:click={async () => {
@@ -179,6 +183,7 @@
         >
             <i class="mi-refresh with-text">Reroll</i>
         </button>
+        <!-- ---------------------------- -->
     </div>
 </div>
 
