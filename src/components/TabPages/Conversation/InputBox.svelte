@@ -8,6 +8,7 @@
         inputText,
         errorMessage
     } from '../../../stores/stores';
+    import { isSidebarOpen } from '../../../stores/stores_ui';
 
     let inputEl = undefined;
 
@@ -28,9 +29,18 @@
         window.removeEventListener('keydown', onGlobalKeypress);
     }
 
+    isSidebarOpen.subscribe((value) => {
+        if (value) {
+            detachKeyboardShortcuts();
+        } else {
+            attachKeyboardShortcuts();
+            inputEl?.focus();
+        }
+    });
+
     function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
-            inputEl.value = '';
+            $inputText = '';
             inputEl.focus();
             $isInferring = false;
             // TODO: This should abort the current inference
@@ -46,7 +56,7 @@
                         break;
                     }
                 }
-                inputEl.value = last_user_message;
+                $inputText = last_user_message;
                 inputEl.focus();
                 ev.preventDefault();
             }
@@ -59,23 +69,23 @@
                 submit();
                 ev.preventDefault();
             } else {
-                inputEl.value += '\n';
+                $inputText += '\n';
                 ev.preventDefault();
             }
         }
     }
 
     async function submit() {
-        let msg = inputEl.value;
+        let msg = $inputText;
 
         if (msg && msg.trim() !== '') {
             if (msg === '/clear') {
                 chatTimeline.set([]);
-                inputEl.value = '';
+                $inputText = '';
                 return;
             }
 
-            inputEl.value = '';
+            $inputText = '';
 
             try {
                 var result = await OL_chat(msg);
@@ -91,7 +101,7 @@
                 console.error(e);
                 errorMessage.set(e.message);
                 popLastMessage();
-                inputEl.value = msg;
+                $inputText = msg;
             }
         }
     }
@@ -99,6 +109,7 @@
     function onClear() {
         if (confirm('Are you sure you want to clear the chat?')) {
             chatTimeline.set([]);
+            $inputText = '';
         }
     }
 
@@ -111,7 +122,7 @@
             timeline.pop();
             return timeline;
         });
-        inputEl.value = last_user_message;
+        $inputText = last_user_message;
         inputEl.focus();
     }
 
@@ -144,7 +155,8 @@
             class="button is-primary"
             on:click={onClear}
             title="Clear the current chat"
-            disabled={$isInferring || $chatTimeline.length === 0}
+            disabled={$isInferring ||
+                ($inputText.length === 0 && $chatTimeline.length === 0)}
         >
             <i class="mi-delete with-text">Clear</i>
         </button>
