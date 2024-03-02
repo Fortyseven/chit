@@ -33,7 +33,8 @@
     <div class="controls">
         <!-- -------------- -->
         <button
-            title="Copy to clipboard"
+            class="has-tooltip-left"
+            data-tooltip="Copy to clipboard"
             on:click={() => {
                 navigator.clipboard.writeText(line.content);
             }}
@@ -42,7 +43,8 @@
         </button>
         <!-- -------------- -->
         <button
-            title="Process as Markdown"
+            class="has-tooltip-left"
+            data-tooltip="Process as Markdown"
             on:click={() => {
                 processAsMarkdown = !processAsMarkdown;
                 viewSource = false;
@@ -53,7 +55,8 @@
         </button>
         <!-- -------------- -->
         <button
-            title="View Source"
+            class="has-tooltip-left"
+            data-tooltip="View raw source"
             on:click={() => {
                 processAsMarkdown = false;
                 viewSource = !viewSource;
@@ -64,7 +67,8 @@
         </button>
         <!-- -------------- -->
         <button
-            title="Reroll response"
+            class="has-tooltip-left"
+            data-tooltip="Rewind chat to here and reroll this response"
             on:click={() => rerollLastResponse(index)}
         >
             R
