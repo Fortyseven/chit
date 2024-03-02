@@ -3,7 +3,7 @@ import * as Storages from '../stores/stores';
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
 
-const STORE_BLACKLIST = ['model_settings'];
+const STORE_BLACKLIST = ['model_settings', 'DEFAULT_API_ENDPOINT'];
 
 /***
  * Gets a value from browser local storage
@@ -28,14 +28,18 @@ export function setLocalStorageSubscriptions() {
             if (Storages[key].constructor == 'Array') {
                 //
             } else {
-                unSubscriptions.push(
-                    Storages[key].subscribe((value) => {
-                        localStorage.setItem(
-                            PREFIX + '_' + key,
-                            JSON.stringify(value)
-                        );
-                    })
-                );
+                try {
+                    unSubscriptions.push(
+                        Storages[key].subscribe((value) => {
+                            localStorage.setItem(
+                                PREFIX + '_' + key,
+                                JSON.stringify(value)
+                            );
+                        })
+                    );
+                } catch (e) {
+                    console.error(`Error subscribing to '${key}' skipping...`);
+                }
             }
         });
 }
