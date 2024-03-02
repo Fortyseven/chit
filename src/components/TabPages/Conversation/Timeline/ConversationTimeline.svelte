@@ -46,9 +46,9 @@
         display: flex;
         flex-direction: column;
         gap: 0.75em;
+        font-size: 1.35em;
         .user {
             flex: auto;
-            // background-color: #fff1;
 
             border-radius: 10px;
         }
