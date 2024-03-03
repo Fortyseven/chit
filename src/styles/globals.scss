@@ -1,3 +1,14 @@
+:root {
+    --accent-color1 {
+        color: #fb0;
+    }
+
+    --accent-color2 {
+        color: #0bf;
+    }
+}
+
+
 @mixin debug {
     box-shadow: 0 0 10px #f0f;
 }
