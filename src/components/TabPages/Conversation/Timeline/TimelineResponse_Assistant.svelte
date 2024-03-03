@@ -36,7 +36,7 @@
             class="has-tooltip-left"
             data-tooltip="Copy to clipboard"
             on:click={() => {
-                navigator.clipboard.writeText(line.content);
+                navigator.clipboard.writeText(line.content.trim());
             }}
         >
             <i class="mi-clipboard" />
