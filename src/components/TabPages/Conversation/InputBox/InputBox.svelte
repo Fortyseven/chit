@@ -148,14 +148,16 @@
     </button>
     <!-- ---------------------------------------------------------------------->
     <div class="input-buttons-extra">
+        <!-- ---------------------------- -->
         <button
             class="button is-primary"
-            on:click={() => onClear()}
-            title="Clear the current chat"
-            disabled={$isInferring ||
-                ($inputText.length === 0 && $chatTimeline.length === 0)}
+            on:click={async () => {
+                if (!$isInferring) await rerollLastResponse();
+            }}
+            title="Retry the last response"
+            disabled={$isInferring || $chatTimeline.length === 0}
         >
-            <i class="mi-delete with-text">Clear</i>
+            <i class="mi-refresh with-text">Reroll</i>
         </button>
         <!-- ---------------------------- -->
         <button
@@ -171,15 +173,13 @@
         <!-- ---------------------------- -->
         <button
             class="button is-primary"
-            on:click={async () => {
-                if (!$isInferring) await rerollLastResponse();
-            }}
-            title="Retry the last response"
-            disabled={$isInferring || $chatTimeline.length === 0}
+            on:click={() => onClear()}
+            title="Clear the current chat"
+            disabled={$isInferring ||
+                ($inputText.length === 0 && $chatTimeline.length === 0)}
         >
-            <i class="mi-refresh with-text">Reroll</i>
+            <i class="mi-delete with-text">Clear</i>
         </button>
-        <!-- ---------------------------- -->
     </div>
 </div>
 
