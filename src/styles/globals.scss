@@ -53,6 +53,13 @@
             background-repeat: repeat-y;
             border-radius: 10px;
             border-bottom: 1px solid #333;
+            font-size: 0.8em;
+        }
+
+        code {
+            font-family: monospace !important;
+            color: #fb0;
+            line-height: 1.1em;
         }
     }
 }
