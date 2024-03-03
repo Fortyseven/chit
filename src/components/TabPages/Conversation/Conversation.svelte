@@ -1,5 +1,5 @@
 <script>
-    import Timeline from './Timeline.svelte';
+    import Timeline from './Timeline/Timeline.svelte';
     import Sidebar from './Sidebar/Sidebar.svelte';
 </script>
 
