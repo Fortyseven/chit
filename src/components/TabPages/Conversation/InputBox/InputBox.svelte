@@ -25,7 +25,7 @@
     eventBus__keyboard.subscribe((value) => {
         switch (value) {
             case 'inputbox-focus':
-                inputEl.focus();
+                inputEl?.focus();
                 $eventBus__keyboard = null;
                 break;
             case 'inputbox-back':
