@@ -10,16 +10,16 @@ export default defineConfig({
             preprocess: sveltePreprocess({
                 scss: {
                     prependData: "@import 'src/styles/globals.scss';"
-                },
+                }
             })
         })
     ],
     resolve: {
         alias: {
             '@': path.resolve('/src'),
-            $lib: path.resolve("./src/lib/*"),
-            $stores: path.resolve('/src/stores/stores.js')
+            $lib: path.resolve('./src/lib/*'),
+            $stores: path.resolve('./src/stores/*')
         }
     },
-    base: 'https://fortyseven.github.io/chit/',
+    base: 'https://fortyseven.github.io/chit/'
 });
