@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import {
         chatTimeline,
         inputText,
@@ -8,7 +8,9 @@
     import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
     import { rerollLastResponse } from '../../../../lib/chat';
 
-    const dispatch = createEventDispatcher();
+    import HelpKeyboard from './Modal_KeyboardHelp.svelte';
+
+    let isVisible = false;
 
     onMount(() => {
         attachKeyboardShortcuts();
@@ -75,5 +77,13 @@
                 ev.preventDefault();
             }
         }
+
+        // ctrl+/
+        if (ev.key === '/' && ev.ctrlKey) {
+            isVisible = !isVisible;
+            ev.preventDefault();
+        }
     }
 </script>
+
+<HelpKeyboard {isVisible} />
