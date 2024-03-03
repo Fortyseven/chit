@@ -194,28 +194,13 @@
             border-radius: 4px;
             border-top: 1px solid #0004;
             border-bottom: 1px solid #fff4;
-            background-image: linear-gradient(0deg, #1118 25%, #3338 100%);
+            // background-image: linear-gradient(0deg, #1118 25%, #3338 100%);
             &:focus {
                 outline-color: #ffaa0033;
                 outline-style: solid;
             }
             &:disabled {
-                animation: throb 1s infinite;
-            }
-
-            @keyframes throb {
-                0% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-                50% {
-                    opacity: 0.5;
-                    transform: scale(0.99);
-                }
-                100% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
+                opacity: 0.5;
             }
         }
 
