@@ -6,11 +6,7 @@
     export let line;
 </script>
 
-<div
-    class="user"
-    style:font-weight={pendingIndex == index ? 'bold' : 'normal'}
-    class:loading={$isInferring}
->
+<div class="user" class:loading={$isInferring}>
     {line.content}
 </div>
 
@@ -20,21 +16,5 @@
             content: '> ';
             font-weight: bold;
         }
-        // &.loading {
-        //     //throbbing animation
-        //     animation: pulse 750ms infinite;
-
-        //     @keyframes pulse {
-        //         0% {
-        //             opacity: 1;
-        //         }
-        //         50% {
-        //             opacity: 0.5;
-        //         }
-        //         100% {
-        //             opacity: 1;
-        //         }
-        //     }
-        // }
     }
 </style>
