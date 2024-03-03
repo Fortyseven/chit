@@ -58,8 +58,7 @@
 
         if (msg && msg.trim() !== '') {
             if (msg === '/clear') {
-                chatTimeline.set([]);
-                $inputText = '';
+                onClear(true);
                 return;
             }
 
@@ -84,11 +83,16 @@
         }
     }
 
-    function onClear() {
-        if (confirm('Are you sure you want to clear the chat?')) {
-            chatTimeline.set([]);
-            $inputText = '';
+    function onClear(skip_confirm = false) {
+        if (
+            !skip_confirm &&
+            !confirm('Are you sure you want to clear the chat?')
+        ) {
+            return;
         }
+
+        chatTimeline.set([]);
+        $inputText = '';
     }
 
     function onBack() {
@@ -146,7 +150,7 @@
     <div class="input-buttons-extra">
         <button
             class="button is-primary"
-            on:click={onClear}
+            on:click={() => onClear()}
             title="Clear the current chat"
             disabled={$isInferring ||
                 ($inputText.length === 0 && $chatTimeline.length === 0)}
