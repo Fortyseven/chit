@@ -1,13 +1,16 @@
 <script>
     import TimelineResponse_User from './TimelineResponse_User.svelte';
 
-    import { chatTimeline, isInferring } from '$stores';
+    import {
+        chatTimeline,
+        inferringInProgress
+    } from '../../../../stores/stores.js';
     import TimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
 
     let pendingIndex = null;
 
-    isInferring.subscribe(async (value) => {
-        console.log('isInferring UPDATED', value);
+    inferringInProgress.subscribe(async (value) => {
+        console.log('inferringInProgress UPDATED', value);
         pendingIndex = value;
     });
 </script>

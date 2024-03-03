@@ -3,7 +3,7 @@
     import {
         chatTimeline,
         inputText,
-        isInferring
+        inferringInProgress
     } from '../../../../stores/stores';
     import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
     import { rerollLastResponse } from '../../../../lib/chat';
@@ -39,7 +39,7 @@
     function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
             $inputText = '';
-            $isInferring = false;
+            $inferringInProgress = false;
             focusInputBox();
             // TODO: This should abort the current inference
         }

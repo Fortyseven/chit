@@ -2,6 +2,7 @@
     // @ts-nocheck
 
     import { onMount } from 'svelte';
+
     import {
         chatTimeline,
         isInferring,
@@ -111,7 +112,7 @@
     }
 
     isInferring.subscribe(async (value) => {
-        if (!value && inputEl) {
+        if (!value) {
             inputEl.focus();
         }
     });

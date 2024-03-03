@@ -5,7 +5,7 @@ export const DEFAULT_API_ENDPOINT = 'http://localhost:11434';
 export let models = writable([]);
 export let currentModelIndex = writable(0);
 export let chatTimeline = writable([]);
-export let isInferring = writable(false);
+export let inferringInProgress = writable(false);
 export let inputText = writable('');
 export let errorMessage = writable('');
 
@@ -132,5 +132,12 @@ export const currentModel = derived(
             return null;
         }
         return $models[$currentModelIndex];
+    }
+);
+
+export const isInferring = derived(
+    [inferringInProgress],
+    ([$inferringInProgress]) => {
+        return $inferringInProgress !== null;
     }
 );

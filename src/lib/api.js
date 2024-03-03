@@ -3,7 +3,7 @@ import {
     models,
     currentModel,
     chatTimeline,
-    isInferring,
+    inferringInProgress,
     apiEndpoint
     // errorMessage
     // chatContext
@@ -45,7 +45,7 @@ export async function OL_chat(message = null) {
     }
 
     try {
-        isInferring.set(get(chatTimeline).length - 1);
+        inferringInProgress.set(get(chatTimeline).length - 1);
 
         const response = await fetch(`${get(apiEndpoint)}/api/chat`, {
             method: 'POST',
@@ -68,7 +68,7 @@ export async function OL_chat(message = null) {
         console.error('OL_chat error: ', err);
         throw Error('Error connecting to server: ' + err.message);
     } finally {
-        isInferring.set(null);
+        inferringInProgress.set(null);
     }
 }
 

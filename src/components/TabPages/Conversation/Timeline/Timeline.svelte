@@ -1,10 +1,10 @@
 <script>
-    import { onMount, tick } from 'svelte';
+    import { onMount } from 'svelte';
 
-    import { chatTimeline, isInferring } from '../../../../stores/stores';
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import ModelList from '../ModelList/ModelList.svelte';
+    import { chatTimeline, isInferring } from '../../../../stores/stores';
 
     let contentEl = undefined;
 
