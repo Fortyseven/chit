@@ -71,7 +71,7 @@
             data-tooltip="Rewind chat to here and reroll this response"
             on:click={() => rerollLastResponse(index)}
         >
-            R
+            <i class="mi-refresh" />
         </button>
         <!-- -------------- -->
     </div>
