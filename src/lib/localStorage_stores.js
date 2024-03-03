@@ -3,7 +3,12 @@ import * as Storages from '../stores/stores';
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
 
-const STORE_BLACKLIST = ['model_settings', 'DEFAULT_API_ENDPOINT'];
+const STORE_BLACKLIST = [
+    'model_settings',
+    'DEFAULT_API_ENDPOINT',
+    'inferringInProgress',
+    'isInferring'
+];
 
 /***
  * Gets a value from browser local storage

@@ -138,6 +138,6 @@ export const currentModel = derived(
 export const isInferring = derived(
     [inferringInProgress],
     ([$inferringInProgress]) => {
-        return $inferringInProgress !== null;
+        return $inferringInProgress !== null && $inferringInProgress !== false;
     }
 );
