@@ -114,7 +114,8 @@
                 }
                 &.on {
                     animation: fadein 0.5s;
-                    border: 1px solid #ffff;
+                    background-color: #777;
+                    color: black;
                     @keyframes fadein {
                         from {
                             border: 1px solid #fff0;
