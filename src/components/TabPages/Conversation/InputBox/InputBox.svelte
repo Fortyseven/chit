@@ -19,7 +19,7 @@
     let inputEl = undefined;
 
     onMount(() => {
-        inputEl.focus();
+        inputEl?.focus();
     });
 
     eventBus__keyboard.subscribe((value) => {
@@ -73,7 +73,7 @@
                         timeline.push(result.message);
                         return timeline;
                     });
-                    inputEl.focus();
+                    inputEl?.focus();
                 }
             } catch (e) {
                 console.error(e);
@@ -95,7 +95,7 @@
         console.log('onBack');
         if ($chatTimeline.length === 0) {
             $inputText = '';
-            inputEl.focus();
+            inputEl?.focus();
             return;
         }
 
@@ -108,12 +108,12 @@
             return timeline;
         });
         $inputText = last_user_message;
-        inputEl.focus();
+        inputEl?.focus();
     }
 
     isInferring.subscribe(async (value) => {
         if (!value) {
-            inputEl.focus();
+            inputEl?.focus();
         }
     });
 </script>
@@ -123,7 +123,7 @@
 <div
     class="container"
     on:keypress={onInputKeypress}
-    on:inputbox-focus={() => inputEl.focus()}
+    on:inputbox-focus={() => inputEl?.focus()}
     on:inputbox-back={() => onBack()}
 >
     <textarea
