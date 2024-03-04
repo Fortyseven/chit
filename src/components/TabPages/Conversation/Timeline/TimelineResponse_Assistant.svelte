@@ -3,6 +3,7 @@
     import { onMount } from 'svelte';
     import { defaultMarkdown } from '../../../../stores/stores';
     import { rerollLastResponse } from '../../../../lib/chat';
+    import ChatButton from '../../../UI/ChatButton.svelte';
 
     export let line;
     export let index;
@@ -32,47 +33,39 @@
     </div>
     <div class="controls">
         <!-- -------------- -->
-        <button
-            class="has-tooltip-left"
-            data-tooltip="Copy to clipboard"
-            on:click={() => {
+        <ChatButton
+            tooltip="Copy to clipboard"
+            iconName="clipboard"
+            onClick={() => {
                 navigator.clipboard.writeText(line.content.trim());
             }}
-        >
-            <i class="mi-clipboard" />
-        </button>
+        />
         <!-- -------------- -->
-        <button
-            class="has-tooltip-left"
-            data-tooltip="Process as Markdown"
-            on:click={() => {
+        <ChatButton
+            onClick={() => {
                 processAsMarkdown = !processAsMarkdown;
                 viewSource = false;
             }}
-            class:on={processAsMarkdown}
-        >
-            <i class="mi-text" />
-        </button>
+            tooltip="Process as Markdown"
+            iconName="text"
+            enabled={processAsMarkdown}
+        />
         <!-- -------------- -->
-        <button
-            class="has-tooltip-left"
-            data-tooltip="View raw source"
-            on:click={() => {
+        <ChatButton
+            onClick={() => {
                 processAsMarkdown = false;
                 viewSource = !viewSource;
             }}
-            class:on={viewSource}
-        >
-            <i class="mi-book" />
-        </button>
+            tooltip="View raw source"
+            iconName="book"
+            enabled={viewSource}
+        />
         <!-- -------------- -->
-        <button
-            class="has-tooltip-left has-tooltip-multiline"
-            data-tooltip="Rewind chat to here and reroll this response"
-            on:click={() => rerollLastResponse(index)}
-        >
-            <i class="mi-refresh" />
-        </button>
+        <ChatButton
+            onClick={() => rerollLastResponse(index)}
+            tooltip="Rewind chat to here and reroll this response"
+            iconName="refresh"
+        />
         <!-- -------------- -->
     </div>
 </div>
