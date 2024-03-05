@@ -25,17 +25,17 @@ export const refreshModelList = async () => {
 
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
-export async function OL_chat(message = null) {
+export async function OL_chat(user_message = null) {
     if (get(currentModel) === null) {
         throw new Error('No model selected');
     }
 
     // if we don't have a message, it's for use when there's already
     // a user message in the timeline, so skip adding it again
-    if (message !== null) {
+    if (user_message !== null) {
         const msg_packet = {
             role: 'user',
-            content: message
+            content: user_message
         };
 
         chatTimeline.update((timeline) => {
@@ -45,6 +45,7 @@ export async function OL_chat(message = null) {
     }
 
     try {
+        // sets the pending message index to expect for the response
         inferringInProgress.set(get(chatTimeline).length - 1);
 
         const response = await fetch(`${get(apiEndpoint)}/api/chat`, {
