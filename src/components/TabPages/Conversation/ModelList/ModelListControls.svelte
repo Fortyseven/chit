@@ -13,7 +13,7 @@
         <Icon icon="favorite" label="Set as Default" />
     </button>
     <button class="button is-primary" on:click={onMakeDefault}>
-        <Icon icon="document" label="New Chat" />
+        <Icon icon="document" label="Save Chat" />
     </button>
 </div>
 
