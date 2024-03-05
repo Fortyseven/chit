@@ -8,6 +8,16 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": false,
+		// "module": "ESNext",
 		// "moduleResolution": "bundler"
+		"baseUrl": "src",
+		"paths": {
+			"$lib/*": [
+				"lib/*"
+			],
+			"$stores/*": [
+				"stores/*"
+			],
+		}
 	}
 }

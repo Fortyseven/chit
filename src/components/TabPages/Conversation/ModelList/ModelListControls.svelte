@@ -1,5 +1,6 @@
 <script>
-    import { defaultModelName, currentModel } from '../../../../stores/stores';
+    import { defaultModelName, currentModel } from '$stores/stores';
+
     import Icon from '../../../UI/Icon.svelte';
 
     function onMakeDefault() {

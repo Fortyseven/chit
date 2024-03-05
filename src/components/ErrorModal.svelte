@@ -1,5 +1,6 @@
 <script>
-    import { errorMessage } from '../stores/stores';
+    import { errorMessage } from '$stores/stores';
+
     export let message = '';
 
     function dismiss() {

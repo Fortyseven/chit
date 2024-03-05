@@ -1,8 +1,10 @@
 <script>
-    import markdownit from 'markdown-it';
     import { onMount } from 'svelte';
-    import { defaultMarkdown } from '../../../../stores/stores';
-    import { rerollLastResponse } from '../../../../lib/chat';
+    import markdownit from 'markdown-it';
+
+    import { defaultMarkdown } from '$stores/stores';
+    import { rerollLastResponse } from '$lib/chat';
+
     import ChatButton from '../../../UI/ChatButton.svelte';
 
     export let line;

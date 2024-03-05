@@ -1,8 +1,9 @@
 <script>
-    import * as stores from '../../../stores/stores';
     import { onDestroy, onMount } from 'svelte';
-    import DebugStatePanelValue from './DebugStatePanelValue.svelte';
     import { fade } from 'svelte/transition';
+
+    import * as stores from '$stores/stores';
+    import DebugStatePanelValue from './DebugStatePanelValue.svelte';
 
     /* Make these stand out in the panel. For now we're just sticking
        a highlight class on them. */

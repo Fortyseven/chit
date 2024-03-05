@@ -1,10 +1,7 @@
 <script>
-    import TimelineResponse_User from './TimelineResponse_User.svelte';
+    import { chatTimeline, inferringInProgress } from '$stores/stores.js';
 
-    import {
-        chatTimeline,
-        inferringInProgress
-    } from '../../../../stores/stores.js';
+    import TimelineResponse_User from './TimelineResponse_User.svelte';
     import TimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
 
     let pendingIndex = null;

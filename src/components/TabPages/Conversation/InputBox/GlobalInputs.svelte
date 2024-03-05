@@ -4,9 +4,9 @@
         chatTimeline,
         inputText,
         inferringInProgress
-    } from '../../../../stores/stores';
-    import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
-    import { rerollLastResponse } from '../../../../lib/chat';
+    } from '$stores/stores';
+    import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
+    import { rerollLastResponse } from '$lib/chat';
 
     import HelpKeyboard from './Modal_KeyboardHelp.svelte';
 

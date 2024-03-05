@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
+    import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     export let isVisible = false;
 

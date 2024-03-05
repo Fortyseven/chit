@@ -8,13 +8,14 @@
         isInferring,
         inputText,
         errorMessage
-    } from '../../../../stores/stores';
-    import { isSidebarOpen } from '../../../../stores/stores_ui';
+    } from '$stores/stores';
+    import { isSidebarOpen } from '$stores/stores_ui';
+
+    import { OL_chat } from '$lib/api';
+    import { popLastMessage, rerollLastResponse } from '$lib/chat';
+    import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     import GlobalInputs from './GlobalInputs.svelte';
-    import { eventBus__keyboard } from '../../../../lib/events/eventBus__keyboard';
-    import { OL_chat } from '../../../../lib/api';
-    import { popLastMessage, rerollLastResponse } from '../../../../lib/chat';
 
     let inputEl = undefined;
 

@@ -17,8 +17,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve('/src'),
-            $lib: path.resolve('./src/lib/*'),
-            $stores: path.resolve('./src/stores/*')
+            $lib: path.resolve('./src/lib'),
+            $stores: path.resolve('./src/stores')
         }
     },
     base: 'https://fortyseven.github.io/chit/'

@@ -1,5 +1,5 @@
 <script>
-    import { isInferring } from '../../../../stores/stores';
+    import { isInferring } from '$stores/stores';
 </script>
 
 <div class="loading-stripe" class:isLoading={$isInferring}></div>

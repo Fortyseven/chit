@@ -1,12 +1,13 @@
 <script>
-    import LoadingStripe from './LoadingStripe.svelte';
-
     import { onMount } from 'svelte';
 
+    import { chatTimeline, isInferring } from '$stores/stores';
+
+    import ChatSettings from './ChatSettings/ChatSettings.svelte';
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
+    import LoadingStripe from './LoadingStripe.svelte';
     import ModelList from '../ModelList/ModelList.svelte';
-    import { chatTimeline, isInferring } from '../../../../stores/stores';
 
     let contentEl = undefined;
 

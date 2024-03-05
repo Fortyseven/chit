@@ -1,5 +1,5 @@
 <script>
-    import { selectedTab } from '../../stores/stores';
+    import { selectedTab } from '$stores/stores_ui';
     import Icon from '../UI/Icon.svelte';
 
     const TABS = [

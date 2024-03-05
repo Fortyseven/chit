@@ -1,5 +1,5 @@
 <script>
-    import { isInferring } from '../../../../stores/stores';
+    import { isInferring } from '$stores/stores';
     import ChatButton from '../../../UI/ChatButton.svelte';
 
     export let pendingIndex = null;

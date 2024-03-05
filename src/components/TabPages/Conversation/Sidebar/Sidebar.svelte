@@ -1,6 +1,6 @@
 <script>
     // import LLM_Settings from './DEACTIVATED.LLM_Settings.svelt';
-    import { isSidebarOpen } from '../../../../stores/stores_ui';
+    import { isSidebarOpen } from '$stores/stores_ui';
 
     const closeSidebar = (e) => {
         if (e.key === 'Escape') {

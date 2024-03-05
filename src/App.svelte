@@ -1,11 +1,12 @@
 <script>
     import { onMount } from 'svelte';
 
+    import { errorMessage } from '$stores/stores';
+    import { selectedTab } from '$stores/stores_ui';
+
+    import { init } from '$lib/init';
+
     import Settings from './components/TabPages/Settings/Settings.svelte';
-
-    import { init } from './lib/init';
-    import { errorMessage, selectedTab } from './stores/stores';
-
     import Conversation from './components/TabPages/Conversation/Conversation.svelte';
     import ErrorModal from './components/ErrorModal.svelte';
     import Modelfiles from './components/TabPages/Modelfiles/Modelfiles.svelte';

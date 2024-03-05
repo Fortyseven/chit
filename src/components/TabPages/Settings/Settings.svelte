@@ -1,5 +1,5 @@
 <script>
-    import { apiEndpoint, DEFAULT_API_ENDPOINT } from '../../../stores/stores';
+    import { apiEndpoint, DEFAULT_API_ENDPOINT } from '$stores/stores';
 </script>
 
 <fieldset>
