@@ -1,15 +1,31 @@
 <script>
     import { fade } from 'svelte/transition';
 
-    import { currentModel, currentModelIndex, models } from '$stores/stores';
+    import { model_favorites, models } from '$stores/stores';
+    import { chat_state } from '$stores/chat_state';
 
     import ModelListControls from './ModelListControls.svelte';
+    import Icon from '/src/components/UI/Icon.svelte';
 
     let isOpen = false;
 
-    function onClick(index) {
-        $currentModelIndex = index;
+    function onClick(model_name) {
+        $chat_state.model_name = model_name;
         isOpen = false;
+    }
+
+    function isInFavorites(modelName) {
+        return $model_favorites.includes(modelName);
+    }
+
+    function toggleFavorite(modelName) {
+        if (isInFavorites(modelName)) {
+            $model_favorites = $model_favorites.filter(
+                (name) => name !== modelName
+            );
+        } else {
+            $model_favorites = [...$model_favorites, modelName];
+        }
     }
 
     // bind escape to close isOpen
@@ -18,6 +34,22 @@
             isOpen = false;
         }
     });
+
+    let favorites = [];
+    let non_favorites = [];
+    let final_model_list = [];
+    $: {
+        non_favorites = $models.filter(
+            (model) => !$model_favorites.includes(model.name)
+        );
+        non_favorites.sort();
+        favorites = $models.filter((model) =>
+            $model_favorites.includes(model.name)
+        );
+        favorites.sort();
+
+        final_model_list = [...favorites, ...non_favorites];
+    }
 </script>
 
 <div class="model-list-container">
@@ -30,7 +62,7 @@
                 aria-haspopup="true"
                 aria-controls="dropdown-menu"
             >
-                <span>{$currentModel?.name || '--'}</span>
+                <span>{$chat_state.model_name || '--'}</span>
                 <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -38,18 +70,37 @@
         </div>
         <div class="dropdown-menu" role="menu" transition:fade>
             <div class="dropdown-content">
-                {#each $models as model, index}
+                {#each final_model_list as model, index}
                     <!-- svelte-ignore a11y-missing-attribute -->
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <!-- svelte-ignore a11y-no-static-element-interactions -->
-                    <div on:click={() => onClick(index)} class="dropdown-item">
-                        <div class="name">
+                    <div
+                        on:click={() => onClick(model.name)}
+                        class="dropdown-item"
+                    >
+                        <div
+                            class="name"
+                            style:color={isInFavorites(model.name)
+                                ? 'white'
+                                : ''}
+                        >
                             {model.name}
                         </div>
                         <div class="details">
                             ({model.details.parameter_size}, {model.details
                                 .quantization_level}
                             )
+                        </div>
+                        <div class="icon-favorite">
+                            <button
+                                title="Toggle Favorite"
+                                on:click={() => toggleFavorite(model.name)}
+                                style:color={isInFavorites(model.name)
+                                    ? 'white'
+                                    : '#666'}
+                            >
+                                <Icon icon="bookmark" />
+                            </button>
                         </div>
                     </div>
                 {/each}
@@ -71,16 +122,26 @@
         display: flex;
         flex-direction: row;
         gap: 0.5em;
+        width: auto;
         > div {
-            flex: auto;
+            flex: 1 1 auto;
         }
-    }
-    .model-list {
-        width: 100%;
-        .dropdown-menu,
-        .dropdown-trigger,
-        .dropdown-trigger button {
-            width: 100%;
+
+        .model-list {
+            .dropdown-menu,
+            .dropdown-trigger,
+            .dropdown-trigger button {
+                width: 100%;
+            }
+
+            .dropdown-menu {
+                width: 350px;
+                position: fixed;
+                z-index: 999;
+                top: 125px;
+                left: unset;
+                box-shadow: 0 15px 30px #0008;
+            }
         }
 
         .dropdown-item {
@@ -94,6 +155,20 @@
             }
             .details {
                 flex: none;
+                color: #777;
+                font-size: 0.8em;
+            }
+        }
+
+        .icon-favorite {
+            margin-left: 0.5em;
+            button {
+                background: transparent;
+                color: white;
+                border: none;
+            }
+            &.is-favorite {
+                //
             }
         }
     }

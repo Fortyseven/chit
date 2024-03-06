@@ -9,10 +9,16 @@
 </script>
 
 <div class="control-container">
+    <button
+        class="button is-primary"
+        on:click={onMakeDefault}
+        title="Set As Default"
+    >
+        <Icon icon="favorite" />
     </button>
-    <button class="button is-primary" on:click={onMakeDefault}>
+    <!-- <button class="button is-primary" on:click={onMakeDefault}>
         <Icon icon="document" label="Save Chat" />
-    </button>
+    </button> -->
 </div>
 
 <style lang="scss">
