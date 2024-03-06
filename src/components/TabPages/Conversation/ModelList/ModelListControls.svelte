@@ -8,9 +8,7 @@
     }
 </script>
 
-<div class="container">
-    <button class="button is-primary" on:click={onMakeDefault}>
-        <Icon icon="favorite" label="Set as Default" />
+<div class="control-container">
     </button>
     <button class="button is-primary" on:click={onMakeDefault}>
         <Icon icon="document" label="Save Chat" />
@@ -18,12 +16,13 @@
 </div>
 
 <style lang="scss">
-    .container {
+    .control-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 0.5em;
     }
 
     .button {
+        width: 100%;
     }
 </style>

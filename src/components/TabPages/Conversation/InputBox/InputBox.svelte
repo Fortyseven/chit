@@ -126,7 +126,7 @@
 <GlobalInputs />
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    class="container"
+    class="input-container"
     on:keypress={onInputKeypress}
     on:inputbox-focus={() => inputEl?.focus()}
     on:inputbox-back={() => onBack()}
@@ -185,7 +185,7 @@
 </div>
 
 <style lang="scss">
-    .container {
+    .input-container {
         display: grid;
         grid-template-columns: 1fr 7rem 6rem;
         gap: 0.45em;
