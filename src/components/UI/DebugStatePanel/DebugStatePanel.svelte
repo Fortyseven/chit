@@ -3,6 +3,9 @@
     import { fade } from 'svelte/transition';
 
     import * as stores from '$stores/stores';
+    import * as stores_ui from '$stores/stores_ui';
+    import * as stores_chat_state from '$stores/chat_state';
+
     import DebugStatePanelValue from './DebugStatePanelValue.svelte';
 
     /* Make these stand out in the panel. For now we're just sticking
@@ -27,14 +30,20 @@
         }
     };
 
+    $: total_stores = {
+        ...stores,
+        ...stores_ui,
+        ...stores_chat_state
+    };
+
     onMount(() => {
-        Object.keys(stores)
+        Object.keys(total_stores)
             .filter((store) => !hideStores.includes(store))
             .forEach((store) => {
-                if (!stores[store].subscribe) {
+                if (!total_stores[store].subscribe) {
                     // delete stores[store];
                 } else {
-                    stores[store].subscribe((value) => {
+                    total_stores[store].subscribe((value) => {
                         store_subs[store] = getTextRep(value);
                     });
                 }
@@ -44,8 +53,8 @@
     });
     onDestroy(() => {
         Object.keys(stores).forEach((store) => {
-            if (typeof stores[store].unsubscribe === 'function') {
-                stores[store].unsubscribe();
+            if (typeof total_stores[store].unsubscribe === 'function') {
+                total_stores[store].unsubscribe();
             }
         });
 

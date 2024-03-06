@@ -10,7 +10,7 @@
     <div class="conversation">
         <Timeline />
     </div>
-    <Sidebar />
+    <!-- <Sidebar /> -->
 </div>
 
 <style lang="scss">

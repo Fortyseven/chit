@@ -1,4 +1,5 @@
 import * as Storages from '../stores/stores';
+import * as Storages_ChatState from '../stores/chat_state';
 
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
@@ -7,7 +8,9 @@ const STORE_BLACKLIST = [
     'model_settings',
     'DEFAULT_API_ENDPOINT',
     'inferringInProgress',
-    'isInferring'
+    'isInferring',
+    'chat_state_type',
+    'chat_state_defaults'
 ];
 
 /***
@@ -19,23 +22,16 @@ export function getLocalStore(key) {
     return localStorage.getItem(PREFIX + '_' + key);
 }
 
-/***
- * Sets up subscriptions to our svelte stores, and saves their values
- * to browser local storage on change. Don't provide this for stores
- * that don't need to be persisted in the STORE_BLACKLIST.
- *
- * @returns {void}
- */
-export function setLocalStorageSubscriptions() {
-    Object.keys(Storages)
+function _setLocalStoreSubscriptionsGroup(group) {
+    Object.keys(group)
         .filter((key) => !STORE_BLACKLIST.includes(key))
         .forEach((key) => {
-            if (Storages[key].constructor == 'Array') {
+            if (group[key].constructor == 'Array') {
                 //
             } else {
                 try {
                     unSubscriptions.push(
-                        Storages[key].subscribe((value) => {
+                        group[key].subscribe((value) => {
                             localStorage.setItem(
                                 PREFIX + '_' + key,
                                 JSON.stringify(value)
@@ -50,28 +46,45 @@ export function setLocalStorageSubscriptions() {
 }
 
 /***
- * Imports data from browser local storage into our svelte stores, where possible.
- * Don't provide this for stores that don't need to be persisted in the STORE_BLACKLIST.
- * @param quizId
+ * Sets up subscriptions to our svelte stores, and saves their values
+ * to browser local storage on change. Don't provide this for stores
+ * that don't need to be persisted in the STORE_BLACKLIST.
+ *
+ * @returns {void}
  */
+export function setLocalStorageSubscriptions() {
+    _setLocalStoreSubscriptionsGroup(Storages);
+    _setLocalStoreSubscriptionsGroup(Storages_ChatState);
+}
 
-export function syncLocalStorageStores() {
-    console.debug('Attempting to restore local storage stores...');
-
-    Object.keys(Storages)
+function _syncLocalStorageStores_Group(group) {
+    Object.keys(group)
         .filter((key) => !STORE_BLACKLIST.includes(key))
         .forEach((key) => {
             // try to get the saved value from browser localstorage
             const value = getLocalStore(key);
 
             // if we have a value and the store has a set method
-            if (value && Storages[key]?.set) {
+            if (value && group[key]?.set) {
                 // set the svelte store value from the localstorage value
                 try {
-                    Storages[key].set(JSON.parse(value));
+                    group[key].set(JSON.parse(value));
                 } catch (e) {
                     console.error(`Error setting ${key}; skipping...`);
                 }
             }
         });
+}
+
+/***
+ * Imports data from browser local storage into our svelte stores, where possible.
+ * Don't provide this for stores that don't need to be persisted in the STORE_BLACKLIST.
+ * @param quizId
+ */
+
+export function restoreLocalStorageStores() {
+    console.debug('Attempting to restore local storage stores...');
+
+    _syncLocalStorageStores_Group(Storages);
+    _syncLocalStorageStores_Group(Storages_ChatState);
 }

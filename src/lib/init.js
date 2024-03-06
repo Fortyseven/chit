@@ -8,13 +8,13 @@ import {
 import { refreshModelList } from './api';
 import {
     setLocalStorageSubscriptions,
-    syncLocalStorageStores
+    restoreLocalStorageStores
 } from './localStorage_stores';
 
 export async function init() {
     console.log('🟢 Initializing app...');
 
-    syncLocalStorageStores();
+    restoreLocalStorageStores();
     setLocalStorageSubscriptions();
 
     // set default model if a chat is not already in progress

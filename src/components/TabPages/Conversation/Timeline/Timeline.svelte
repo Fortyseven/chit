@@ -35,23 +35,53 @@
     });
 </script>
 
-<div class="container">
-    <div class="model-list"><ModelList /></div>
-    <div class="content has-background-black-ter" bind:this={contentEl}>
-        <ConversationTimeline />
+<div class="timeline-container">
+    <div class="TEMP1">
+        <div class="content">
+            <ChatSettings />
+        </div>
     </div>
-    <LoadingStripe />
-    <div class="chat-input">
-        <InputBox />
+    <div class="TEMP2">
+        <div class="content has-background-black-ter" bind:this={contentEl}>
+            <ConversationTimeline />
+        </div>
+        <LoadingStripe />
+        <div class="chat-input">
+            <InputBox />
+        </div>
     </div>
 </div>
 
 <style lang="scss">
-    .container {
+    .timeline-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         height: 100%;
         gap: 0.5em;
+        // border: 1px solid red; //1344px
+        max-width: unset;
+        margin: auto;
+        padding: 1em;
+
+        .TEMP1 {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            flex: 0 0 400px;
+            height: 100%;
+            background: #222;
+            // border-radius: 10px;
+            // border-top: 1px solid rgba(0, 0, 0, 0.2666666667);
+            // border-bottom: 1px solid rgba(255, 255, 255, 0.2666666667);
+        }
+        .TEMP2 {
+            flex: 1 1 1280px;
+            height: 100%;
+            display: flex;
+            gap: 0.5em;
+            flex-direction: column;
+            // max-width: 1280px;
+        }
 
         .model-list {
             flex: none;
@@ -59,10 +89,12 @@
         .content {
             flex: 1 1 auto;
             background-color: var(--color-bg-1);
-            border-radius: 10px;
             padding: 1em;
             margin: 0;
             overflow: scroll;
+            border-radius: 4px;
+            border-top: 2px solid rgba(0, 0, 0, 0.2666666667);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2666666667);
         }
         .chat-input {
             flex: none;
