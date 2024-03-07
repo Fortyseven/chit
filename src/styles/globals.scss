@@ -42,7 +42,6 @@
 
         pre {
             max-width: 100%;
-            text-wrap: wrap;
             color: #fb0;
             background-color: #000;
             line-height: 1.1em;
@@ -54,7 +53,7 @@
             border-bottom: 1px solid #333;
             font-size: 0.8em;
             letter-spacing: -1px;
-            height: 100%;
+            white-space: break-spaces;
         }
 
         em,

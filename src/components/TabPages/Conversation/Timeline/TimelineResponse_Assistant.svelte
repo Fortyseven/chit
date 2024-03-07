@@ -131,10 +131,6 @@
             flex: auto;
             color: #ddd;
             overflow: none;
-
-            pre {
-                white-space: normal;
-            }
         }
         .controls {
             flex: none;
