@@ -73,16 +73,6 @@ export let typicalp = writable(typicalp_default);
 
 // derived
 
-export const currentModel = derived(
-    [models, currentModelIndex],
-    ([$models, $currentModelIndex]) => {
-        if (!$models || $models.length === 0) {
-            return null;
-        }
-        return $models[$currentModelIndex];
-    }
-);
-
 export const isInferring = derived(
     [inferringInProgress],
     ([$inferringInProgress]) => {

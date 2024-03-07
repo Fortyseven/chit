@@ -1,12 +1,9 @@
 import { get } from 'svelte/store';
 import {
     models,
-    currentModel,
     chatTimeline,
     inferringInProgress,
     apiEndpoint
-    // errorMessage
-    // chatContext
 } from '../stores/stores';
 import { chat_state } from '../stores/chat_state';
 
@@ -27,7 +24,7 @@ export const refreshModelList = async () => {
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
 export async function OL_chat(user_message = null) {
-    if (get(currentModel) === null) {
+    if (get(chat_state)?.model_name === null) {
         throw new Error('No model selected');
     }
 
@@ -78,59 +75,68 @@ export async function OL_chat(user_message = null) {
     }
 }
 
-// /* ------------------------------------------------ */
-// /* Returns null or the response from the server.    */
-// export async function OL_chat(message = null) {
-//     if (get(currentModel) === null) {
-//         throw new Error('No model selected');
-//     }
+/*
+curl http://localhost:11434/api/show -d '{
+  "name": "llama2"
+}'
+ */
+export async function OL_model_details(model_name) {
+    try {
+        const response = await fetch(`${get(apiEndpoint)}/api/show`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: model_name
+            })
+        });
 
-//     // if we don't have a message, it's for use when there's already
-//     // a user message in the timeline, so skip adding it again
-//     if (message !== null) {
-//         const msg_packet = {
-//             role: 'user',
-//             content: message
-//         };
+        let details = await response.json();
 
-//         chatTimeline.update((timeline) => {
-//             timeline.push(JSON.parse(JSON.stringify(msg_packet)));
-//             return timeline;
-//         });
-//     }
+        return details;
+    } catch (err) {
+        console.error('OL_model_details error: ', err);
+        throw Error('Error connecting to server: ' + err.message);
+    }
+}
 
-//     try {
-//         inferringInProgress.set(get(chatTimeline).length - 1);
+function _parseConfigString(configString) {
+    const configArray = configString.split('\n');
+    const configObject = {};
 
-//         const response = await fetch(`${get(apiEndpoint)}/api/chat`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 model: get(currentModel).name,
-//                 stream: false,
-//                 messages: get(chatTimeline)
-//             })
-//         });
+    configArray.forEach((entry) => {
+        const [key, value] = entry.split(/\s+/);
+        if (key && value !== undefined) {
+            configObject[key] = isNaN(value) ? value : parseFloat(value);
+        }
+    });
 
-//         let new_msg = await response.json();
+    return configObject;
+}
 
-//         console.log('OL_chat response: ', new_msg);
+export async function updateModelDetails(model_name) {
+    OL_model_details(model_name).then((details) => {
+        chat_state.update((state) => {
+            state.template = details.template;
+            // iterate state.values properties and replace with values from details.parameters
 
-//         return new_msg;
-//     } catch (err) {
-//         console.error('OL_chat error: ', err);
-//         throw Error('Error connecting to server: ' + err.message);
-//     } finally {
-//         inferringInProgress.set(null);
-//     }
-// }
+            if (details.parameters) {
+                const params = _parseConfigString(details.parameters);
+                for (const key of Object.keys(state.values)) {
+                    if (params[key]) {
+                        console.log('PARAM', key, params[key]);
+                        state.values[key] = params[key];
+                    }
+                }
+            }
 
-// export const continueChat = async (message) => {
-//     const response = await OL_chat(message);
-//     return response;
-// };
+            console.log('FINAL', state);
+
+            return state;
+        });
+    });
+}
 
 export const appendToTimeline = (message) => {
     get(chatTimeline).push(message);
