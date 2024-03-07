@@ -36,13 +36,13 @@
 </script>
 
 <div class="timeline-container">
-    <div class="TEMP1">
+    <div class="left">
         <div class="content">
             <ChatLog />
         </div>
     </div>
 
-    <div class="TEMP2">
+    <div class="center">
         <div class="content" bind:this={contentEl}>
             <ConversationTimeline />
         </div>
@@ -51,7 +51,7 @@
             <InputBox />
         </div>
     </div>
-    <div class="TEMP1">
+    <div class="right">
         <div class="content">
             <ChatSettings />
         </div>
@@ -69,18 +69,25 @@
         margin: auto;
         padding: 1em;
 
-        .TEMP1 {
+        .left,
+        .right {
             display: flex;
             flex-direction: column;
             gap: 0.5em;
-            flex: 0 0 400px;
+            flex: 0 0 300px;
             height: 100%;
-            background: #222;
-            // border-radius: 10px;
-            // border-top: 1px solid rgba(0, 0, 0, 0.2666666667);
-            // border-bottom: 1px solid rgba(255, 255, 255, 0.2666666667);
+            background: #303030;
         }
-        .TEMP2 {
+        .left {
+            display: none;
+        }
+        .right {
+            flex: 0 0 600px;
+            @media (max-width: 1280px) {
+                flex-basis: 300px;
+            }
+        }
+        .center {
             flex: 1 1 1280px;
             height: 100%;
             display: flex;
