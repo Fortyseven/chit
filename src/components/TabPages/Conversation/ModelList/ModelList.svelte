@@ -9,7 +9,7 @@
 
     let isOpen = false;
 
-    function onClick(model_name) {
+    async function onClick(model_name) {
         $chat_state.model_name = model_name;
         isOpen = false;
     }
