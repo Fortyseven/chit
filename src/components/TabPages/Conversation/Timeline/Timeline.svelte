@@ -3,6 +3,7 @@
 
     import { chatTimeline, isInferring } from '$stores/stores';
 
+    import ChatLog from './ChatLog/ChatLog.svelte';
     import ChatSettings from './ChatSettings/ChatSettings.svelte';
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
@@ -38,9 +39,10 @@
 <div class="timeline-container">
     <div class="TEMP1">
         <div class="content">
-            <ChatSettings />
+            <ChatLog />
         </div>
     </div>
+
     <div class="TEMP2">
         <div class="content" bind:this={contentEl}>
             <ConversationTimeline />
@@ -48,6 +50,11 @@
         <LoadingStripe />
         <div class="chat-input">
             <InputBox />
+        </div>
+    </div>
+    <div class="TEMP1">
+        <div class="content">
+            <ChatSettings />
         </div>
     </div>
 </div>

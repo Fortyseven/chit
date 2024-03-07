@@ -15,31 +15,8 @@
 </script>
 
 <!-- {@debug chat_state} -->
-<div class="model-list"><ModelList /></div>
+<div class="model-list">Da Chatz</div>
 <hr />
-{#if $chat_state}
-    <ul>
-        {#each Object.keys(get(chat_state).values) as key}
-            <li>
-                <!-- svelte-ignore a11y-label-has-associated-control -->
-                <label>{key}</label>
-                <input bind:value={$chat_state.values[key]} />
-            </li>
-        {/each}
-    </ul>
-{/if}
-<hr />
-<div class="system-prompt">
-    <!-- svelte-ignore a11y-label-has-associated-control -->
-    <label>System Prompt</label>
-    <textarea bind:value={$chat_state.system_prompt} placeholder="None" />
-</div>
-<hr />
-<div class="template-prompt">
-    <!-- svelte-ignore a11y-label-has-associated-control -->
-    <label>Template Prompt</label>
-    <textarea bind:value={$chat_state.template} />
-</div>
 
 <style lang="scss">
     hr {

@@ -107,7 +107,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="model-list-controls">
         <ModelListControls />
     </div>
 </div>
@@ -123,8 +123,13 @@
         flex-direction: row;
         gap: 0.5em;
         width: auto;
-        > div {
+
+        .model-list {
             flex: 1 1 auto;
+        }
+
+        .model-list-controls {
+            flex: 0 0 auto;
         }
 
         .model-list {
