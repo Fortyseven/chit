@@ -49,14 +49,24 @@ export async function OL_chat(user_message = null) {
         const body = {
             model: get(chat_state).model_name,
             stream: false,
-            messages: [
+            messages: [...get(chatTimeline)]
+        };
+
+        const sys_prompt = get(chat_state).system_prompt.trim();
+
+        // TODO: only prepend the system prompt if it's not empty, otherwise
+        // you'll override the default model prompt. Then again, this may
+        // be desired behavior, so we can add a setting for it?
+
+        if (sys_prompt) {
+            body.messages = [
                 {
                     role: 'system',
-                    content: get(chat_state).system_prompt.trim()
+                    content: sys_prompt
                 },
-                ...get(chatTimeline)
-            ]
-        };
+                ...body.messages
+            ];
+        }
 
         console.log('OL_chat body: ', body);
 
