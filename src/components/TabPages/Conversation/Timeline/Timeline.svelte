@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="TEMP2">
-        <div class="content has-background-black-ter" bind:this={contentEl}>
+        <div class="content" bind:this={contentEl}>
             <ConversationTimeline />
         </div>
         <LoadingStripe />
@@ -81,6 +81,9 @@
             gap: 0.5em;
             flex-direction: column;
             // max-width: 1280px;
+            .content {
+                background-color: #161920;
+            }
         }
 
         .model-list {

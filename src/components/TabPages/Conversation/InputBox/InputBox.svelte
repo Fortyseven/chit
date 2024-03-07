@@ -132,7 +132,6 @@
     on:inputbox-back={() => onBack()}
 >
     <textarea
-        class="has-text-light has-background-black-ter"
         disabled={$isInferring}
         placeholder="Type a message..."
         bind:this={inputEl}
@@ -200,6 +199,8 @@
             border-top: 1px solid #0004;
             border-bottom: 1px solid #fff4;
             // background-image: linear-gradient(0deg, #1118 25%, #3338 100%);
+            background-color: lighten(#161920, 3%);
+            color: white;
             &:focus {
                 outline-color: #ffaa0033;
                 outline-style: solid;
