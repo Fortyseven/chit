@@ -5,13 +5,23 @@
     import { get } from 'svelte/store';
 
     import { chat_state } from '$stores/chat_state.js';
+    import { appState } from '$stores/stores';
 
     import ModelList from '../../ModelList/ModelList.svelte';
-    // import * as Storages from '$stores/stores.js';
+    import SystemPromptManager from './SystemPromptManager.svelte';
+
+    let isManagerOpen = false;
 
     onMount(() => {
         console.log('chat_state', get(chat_state));
     });
+
+    function savePrompt() {
+        appState.update((state) => {
+            state.savedSystemPrompts.push($chat_state.system_prompt);
+            return state;
+        });
+    }
 </script>
 
 <!-- {@debug chat_state} -->
@@ -31,8 +41,23 @@
 <hr />
 <div class="system-prompt">
     <!-- svelte-ignore a11y-label-has-associated-control -->
-    <label>System Prompt</label>
+    <label>
+        System Prompt
+        <button on:click={savePrompt}>Add</button>
+        <button
+            on:click={(ev) => {
+                isManagerOpen = true;
+                ev.preventDefault();
+            }}>Edit</button
+        >
+    </label>
     <textarea bind:value={$chat_state.system_prompt} placeholder="None" />
+    <SystemPromptManager
+        isOpen={isManagerOpen}
+        onClose={() => {
+            isManagerOpen = false;
+        }}
+    />
 </div>
 <hr />
 <div class="template-prompt">
