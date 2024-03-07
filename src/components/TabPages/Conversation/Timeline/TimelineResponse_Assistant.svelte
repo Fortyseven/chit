@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import markdownit from 'markdown-it';
 
-    import { defaultMarkdown } from '$stores/stores';
+    import { chatTimeline, defaultMarkdown } from '$stores/stores';
     import { rerollLastResponse } from '$lib/chat';
 
     import ChatButton from '../../../UI/ChatButton.svelte';
@@ -10,24 +10,63 @@
     export let line;
     export let index;
 
-    let processAsMarkdown = false;
-    let viewSource = false;
+    let textEl;
+    let isBeingEdited = false;
+
+    let viewMode = 'markdown';
+
     const md = markdownit();
+
+    /* ----------------- */
 
     onMount(() => {
         if (line.content.includes('```') || $defaultMarkdown) {
-            processAsMarkdown = true;
+            viewMode = 'markdown';
         }
     });
 
-    $: processedContent = processAsMarkdown
-        ? md.render(line.content.trim()).trim()
-        : line.content.trim();
+    /* ----------------- */
+
+    function endEditing() {
+        isBeingEdited = false;
+        viewMode = 'markdown';
+
+        chatTimeline.update((t) => {
+            t[index].content = textEl.textContent.trim();
+            return t;
+        });
+
+        textEl.contentEditable = false;
+        textEl.blur();
+
+        textEl.removeEventListener('blur', endEditing);
+    }
+
+    function editEntry(index) {
+        if (isBeingEdited) {
+            // save
+            endEditing();
+        } else {
+            isBeingEdited = true;
+            viewMode = 'source';
+            textEl.contentEditable = true;
+            textEl.focus();
+            // hook on blur
+            textEl.addEventListener('blur', endEditing);
+        }
+    }
+
+    /* ----------------- */
+
+    $: processedContent =
+        viewMode == 'markdown'
+            ? md.render(line.content.trim()).trim()
+            : line.content.trim();
 </script>
 
 <div class="bot">
-    <div class="text">
-        {#if viewSource}
+    <div class="text" bind:this={textEl}>
+        {#if viewMode == 'source'}
             <pre>{line.content}</pre>
         {:else}
             {@html processedContent}
@@ -43,24 +82,28 @@
             }}
         />
         <!-- -------------- -->
-        <ChatButton
-            onClick={() => {
-                processAsMarkdown = !processAsMarkdown;
-                viewSource = false;
-            }}
-            tooltip="Process as Markdown"
-            iconName="text"
-            enabled={processAsMarkdown}
-        />
+        {#if viewMode == 'markdown'}
+            <ChatButton
+                onClick={() => {
+                    viewMode = 'source';
+                }}
+                tooltip="View raw source"
+                iconName="book"
+            />
+        {:else}
+            <ChatButton
+                onClick={() => {
+                    viewMode = 'markdown';
+                }}
+                tooltip="Process as Markdown"
+                iconName="text"
+            />
+        {/if}
         <!-- -------------- -->
         <ChatButton
-            onClick={() => {
-                processAsMarkdown = false;
-                viewSource = !viewSource;
-            }}
-            tooltip="View raw source"
-            iconName="book"
-            enabled={viewSource}
+            onClick={() => editEntry(index)}
+            tooltip="Edit this response"
+            iconName="edit"
         />
         <!-- -------------- -->
         <ChatButton
