@@ -8,7 +8,6 @@
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
-    import ModelList from '../ModelList/ModelList.svelte';
 
     let contentEl = undefined;
 

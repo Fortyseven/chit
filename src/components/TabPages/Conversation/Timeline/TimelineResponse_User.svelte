@@ -2,8 +2,6 @@
     import { isInferring } from '$stores/stores';
     import ChatButton from '../../../UI/ChatButton.svelte';
 
-    export let pendingIndex = null;
-    export let index;
     export let line;
 
     // replace \n with <br>

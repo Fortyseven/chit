@@ -23,25 +23,6 @@
         padding: 0;
         margin: 1em 0;
     }
-    .system-prompt,
-    .template-prompt {
-        display: flex;
-        flex-direction: column;
-        label {
-            color: white;
-            margin-bottom: 0.5em;
-        }
-        textarea {
-            border: none;
-            border-radius: 10px;
-            height: 6em;
-            padding: 0.5em;
-            font-family: monospace !important;
-            outline: none;
-            background-color: #444;
-            color: white;
-        }
-    }
     ul {
         list-style: none;
         padding: 0;
