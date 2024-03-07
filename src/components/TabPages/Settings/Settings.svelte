@@ -1,5 +1,5 @@
 <script>
-    import { apiEndpoint, DEFAULT_API_ENDPOINT } from '$stores/stores';
+    import { appState, DEFAULT_API_ENDPOINT } from '$stores/stores';
 </script>
 
 <fieldset>
@@ -8,14 +8,14 @@
         <label
             for="api-endpoint"
             on:dblclick={() => {
-                $apiEndpoint = DEFAULT_API_ENDPOINT;
+                $appState.apiEndpoint = DEFAULT_API_ENDPOINT;
             }}
         >
             API Endpoint
         </label>
         <input
             type="text"
-            bind:value={$apiEndpoint}
+            bind:value={$appState.apiEndpoint}
             placeholder="API Endpoint..."
         />
     </div>

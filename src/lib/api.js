@@ -3,14 +3,14 @@ import {
     models,
     chatTimeline,
     inferringInProgress,
-    apiEndpoint
+    appState
 } from '../stores/stores';
 import { chat_state } from '../stores/chat_state';
 
 /* ------------------------------------------------ */
 
 export const OL_listLocalModels = async () => {
-    const response = await fetch(`${get(apiEndpoint)}/api/tags`);
+    const response = await fetch(`${get(appState).apiEndpoint}/api/tags`);
     return response.json();
 };
 
@@ -60,7 +60,7 @@ export async function OL_chat(user_message = null) {
 
         console.log('OL_chat body: ', body);
 
-        const response = await fetch(`${get(apiEndpoint)}/api/chat`, {
+        const response = await fetch(`${get(appState).apiEndpoint}/api/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ curl http://localhost:11434/api/show -d '{
  */
 export async function OL_model_details(model_name) {
     try {
-        const response = await fetch(`${get(apiEndpoint)}/api/show`, {
+        const response = await fetch(`${get(appState).apiEndpoint}/api/show`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

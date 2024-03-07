@@ -10,7 +10,23 @@ export let inputText = writable('');
 export let errorMessage = writable('');
 export let defaultModelName = writable(undefined);
 
-export let apiEndpoint = writable(DEFAULT_API_ENDPOINT);
+export const appState = writable({
+    apiEndpoint: DEFAULT_API_ENDPOINT,
+    // chatTimeline: [],
+    // currentModelIndex: 0,
+    // defaultModelName: undefined,
+    // errorMessage: '',
+    // inferringInProgress: false,
+    // inputText: '',
+    // models: [],
+    savedSystemPrompts: []
+    // showSettings: false,
+    // showSystemPrompts: false,
+    // showUserPrompts: false,
+    // systemPrompt: '',
+    // userPrompt: '',
+    // userPrompts: []
+});
 
 /* ------------------------------ */
 
