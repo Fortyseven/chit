@@ -54,6 +54,21 @@
             border-bottom: 1px solid #333;
             font-size: 0.8em;
             letter-spacing: -1px;
+            height: 100%;
+        }
+
+        em,
+        strong {
+            color: rgb(193, 166, 91) !important;
+            font-weight: bold;
+
+            &::before {
+                content: '*';
+            }
+
+            &::after {
+                content: '*';
+            }
         }
 
         code {
