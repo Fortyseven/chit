@@ -49,7 +49,13 @@ export async function OL_chat(user_message = null) {
         const body = {
             model: get(chat_state).model_name,
             stream: false,
-            messages: get(chatTimeline)
+            messages: [
+                {
+                    role: 'system',
+                    content: get(chat_state).system_prompt.trim()
+                },
+                ...get(chatTimeline)
+            ]
         };
 
         console.log('OL_chat body: ', body);
