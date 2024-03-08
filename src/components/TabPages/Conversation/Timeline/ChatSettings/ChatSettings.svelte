@@ -9,6 +9,7 @@
 
     import ModelList from '../../ModelList/ModelList.svelte';
     import SystemPromptManager from './SystemPromptManager.svelte';
+    import ChatButton from '$components/UI/ChatButton.svelte';
 
     let isManagerOpen = false;
 
@@ -42,14 +43,28 @@
 <div class="system-prompt">
     <!-- svelte-ignore a11y-label-has-associated-control -->
     <label>
-        System Prompt
-        <button on:click={savePrompt}>Add</button>
-        <button
-            on:click={(ev) => {
-                isManagerOpen = true;
-                ev.preventDefault();
-            }}>Edit</button
-        >
+        <div style:display="flex">
+            <div style:flex="auto">System Prompt</div>
+            <div
+                style:display={'flex'}
+                style="flex: 1 1 auto; justify-content: flex-end;"
+            >
+                <ChatButton iconName="add" onClick={savePrompt} label="Add" />
+                <ChatButton
+                    label="Edit"
+                    iconName="edit"
+                    onClick={(ev) => {
+                        isManagerOpen = true;
+                        ev.preventDefault();
+                    }}
+                />
+                <ChatButton
+                    label="Clear"
+                    iconName="delete"
+                    onClick={() => ($chat_state.system_prompt = '')}
+                />
+            </div>
+        </div>
     </label>
     <textarea bind:value={$chat_state.system_prompt} placeholder="None" />
     <SystemPromptManager
