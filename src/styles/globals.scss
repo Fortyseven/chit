@@ -81,3 +81,23 @@
 .tabs li {
     background-color: #111;
 }
+
+.settings {
+    fieldset {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 1em;
+        margin-bottom: 1em;
+
+        legend {
+            font-size: 1.25em;
+            font-weight: bold;
+            padding: 0 0.5em;
+        }
+    }
+
+    label,
+    input {
+        padding: 0.25em 0.5em;
+    }
+}
