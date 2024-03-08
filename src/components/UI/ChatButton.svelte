@@ -2,17 +2,23 @@
     export let onClick;
     export let tooltip;
     export let iconName;
+    export let label = '';
     export let enabled = false;
 </script>
 
 <div>
     <button
         class="has-tooltip-left"
+        class:has-label={label}
         data-tooltip={tooltip}
         on:click={onClick}
         class:on={enabled}
     >
-        <i class="mi-{iconName}" />
+        {#if label}
+            <i class="mi-{iconName}">&nbsp;{label}</i>
+        {:else}
+            <i class="mi-{iconName}" />
+        {/if}
     </button>
 </div>
 
