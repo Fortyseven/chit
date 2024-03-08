@@ -7,11 +7,14 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": false,
+		"strict": true,
 		// "module": "ESNext",
 		// "moduleResolution": "bundler"
 		"baseUrl": "src",
 		"paths": {
+			"$src/*": [
+				"/*"
+			],
 			"$lib/*": [
 				"lib/*"
 			],

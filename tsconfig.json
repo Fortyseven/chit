@@ -4,13 +4,16 @@
         "baseUrl": "src",
         "paths": {
             "$src/*": [
-                "*"
+                "src/*"
             ],
             "$lib/*": [
                 "lib/*"
             ],
             "$stores/*": [
                 "stores/*"
+            ],
+            "$components/*": [
+                "components/*"
             ],
         }
     }
