@@ -5,7 +5,11 @@
         inputText,
         inferringInProgress
     } from '$stores/stores';
-    import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
+    import {
+        ebk_inputBoxBack,
+        ebk_inputBoxFocus,
+        eventBus__keyboard
+    } from '$lib/events/eventBus__keyboard';
     import { rerollLastResponse } from '$lib/chat';
 
     import HelpKeyboard from './Modal_KeyboardHelp.svelte';
@@ -28,21 +32,11 @@
         window.removeEventListener('keydown', onGlobalKeypress);
     }
 
-    function focusInputBox() {
-        // dispatch('inputbox-focus', {});
-        $eventBus__keyboard = 'inputbox-focus';
-    }
-
-    function onBackInputBox() {
-        // dispatch('inputbox-back', {});
-        $eventBus__keyboard = 'inputbox-back';
-    }
-
-    function onGlobalKeypress(ev) {
+    async function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
             $inputText = '';
             $inferringInProgress = false;
-            focusInputBox();
+            ebk_inputBoxFocus();
             // TODO: This should abort the current inference
         }
 
@@ -57,7 +51,7 @@
                     }
                 }
                 $inputText = last_user_message;
-                focusInputBox();
+                ebk_inputBoxFocus();
                 ev.preventDefault();
             }
         }
@@ -65,7 +59,7 @@
         // ctrl+backspace
         if (ev.key === 'Backspace' && ev.ctrlKey) {
             if ($inputText.length === 0 && $chatTimeline.length > 0) {
-                onBackInputBox();
+                ebk_inputBoxBack();
                 ev.preventDefault();
             }
         }
@@ -73,7 +67,8 @@
         // ctrl+e
         if (ev.key === 'e' && ev.ctrlKey) {
             if ($chatTimeline.length > 0) {
-                rerollLastResponse();
+                await rerollLastResponse();
+                ebk_inputBoxFocus();
                 ev.preventDefault();
             }
         }
