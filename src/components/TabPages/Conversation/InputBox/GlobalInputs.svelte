@@ -73,6 +73,12 @@
             }
         }
 
+        // ctrl+space
+        if (ev.key === ' ' && ev.ctrlKey) {
+            ebk_inputBoxFocus();
+            ev.preventDefault();
+        }
+
         // ctrl+/
         if (ev.key === '/' && ev.ctrlKey) {
             isVisible = !isVisible;
