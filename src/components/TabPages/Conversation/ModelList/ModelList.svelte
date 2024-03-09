@@ -3,6 +3,7 @@
 
     import { model_favorites, models } from '$stores/stores';
     import { chat_state } from '$stores/chat_state';
+    import { appState } from '$stores/stores_ui';
 
     import ModelListControls from './ModelListControls.svelte';
     import Icon from '/src/components/UI/Icon.svelte';

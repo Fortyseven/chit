@@ -1,5 +1,6 @@
 import * as Storages from '../stores/stores';
 import * as Storages_ChatState from '../stores/chat_state';
+import * as Storages_UI from '../stores/stores_ui';
 
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
@@ -55,6 +56,7 @@ function _setLocalStoreSubscriptionsGroup(group) {
 export function setLocalStorageSubscriptions() {
     _setLocalStoreSubscriptionsGroup(Storages);
     _setLocalStoreSubscriptionsGroup(Storages_ChatState);
+    _setLocalStoreSubscriptionsGroup(Storages_UI);
 }
 
 function _syncLocalStorageStores_Group(group) {
@@ -87,4 +89,5 @@ export function restoreLocalStorageStores() {
 
     _syncLocalStorageStores_Group(Storages);
     _syncLocalStorageStores_Group(Storages_ChatState);
+    _syncLocalStorageStores_Group(Storages_UI);
 }

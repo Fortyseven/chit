@@ -1,10 +1,10 @@
 <script>
     // import LLM_Settings from './DEACTIVATED.LLM_Settings.svelt';
-    import { isSidebarOpen } from '$stores/stores_ui';
+    import { appState } from '$stores/stores_ui';
 
     const closeSidebar = (e) => {
         if (e.key === 'Escape') {
-            $isSidebarOpen = false;
+            $appState.isSidebarOpen = false;
             window.removeEventListener('keydown', closeSidebar);
             e.stopPropagation();
             e.preventDefault();
@@ -12,8 +12,8 @@
     };
 
     function onClick() {
-        if (!$isSidebarOpen) {
-            $isSidebarOpen = true;
+        if (!$appState.isSidebarOpen) {
+            $appState.isSidebarOpen = true;
             window.addEventListener('keydown', closeSidebar);
         }
     }
@@ -22,15 +22,18 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="wrapper">
-    <div class="transparent-background" class:isOpen={$isSidebarOpen}></div>
+    <div
+        class="transparent-background"
+        class:isOpen={$appState.isSidebarOpen}
+    ></div>
     <div
         id="Sidebar"
-        class:isOpen={$isSidebarOpen}
+        class:isOpen={$appState.isSidebarOpen}
         on:click={() => {
             onClick();
         }}
     >
-        <div class="sidebar-contents" class:isOpen={$isSidebarOpen}>
+        <div class="sidebar-contents" class:isOpen={$appState.isSidebarOpen}>
             <div class="close"><button class="delete is-large"></button></div>
             <!-- <LLM_Settings /> -->
         </div>

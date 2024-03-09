@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
 
     import { errorMessage } from '$stores/stores';
-    import { selectedTab } from '$stores/stores_ui';
+    import { appState } from '$stores/stores_ui';
 
     import { init } from '$lib/init';
 
@@ -32,7 +32,7 @@
         <TabBar />
     </div>
     <div class="tab-content">
-        <svelte:component this={PAGES[$selectedTab]} />
+        <svelte:component this={PAGES[$appState.selectedTab]} />
     </div>
 </div>
 <DebugStatePanel />

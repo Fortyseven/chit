@@ -9,7 +9,7 @@
         inputText,
         errorMessage
     } from '$stores/stores';
-    import { isSidebarOpen } from '$stores/stores_ui';
+    import { appState } from '$stores/stores_ui';
 
     import { OL_chat } from '$lib/api';
     import { popLastMessage, rerollLastResponse } from '$lib/chat';
@@ -36,14 +36,14 @@
         }
     });
 
-    isSidebarOpen.subscribe((value) => {
-        if (value) {
-            // detachKeyboardShortcuts();
-        } else {
-            // attachKeyboardShortcuts();
-            inputEl?.focus();
-        }
-    });
+    // isSidebarOpen.subscribe((value) => {
+    //     if (value) {
+    //         // detachKeyboardShortcuts();
+    //     } else {
+    //         // attachKeyboardShortcuts();
+    //         inputEl?.focus();
+    //     }
+    // });
 
     function onInputKeypress(ev) {
         if (ev.key === 'Enter') {
