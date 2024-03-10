@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
     --accent-color1 {
         color: #fb0;
@@ -8,27 +10,30 @@
     }
 }
 
+* {
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
 
 @mixin debug {
     box-shadow: 0 0 10px #f0f;
 }
 
+html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
 
-// .debug1 {
-//     border: 1px solid red;
-// }
-
-// .debug2 {
-//     border: 1px solid green;
-// }
-
-// .debug3 {
-//     border: 1px solid gold;
-// }
-
-// .debug4 {
-//     border: 1px dashed #f0f;
-// }
+body {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 18px;
+    line-height: unset;
+}
 
 .timeline {
     .text {
