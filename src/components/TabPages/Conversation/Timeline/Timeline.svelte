@@ -8,6 +8,7 @@
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
+    import { appState } from '$stores/stores_ui';
 
     let contentEl = undefined;
 
@@ -42,12 +43,14 @@
         </div>
     </div>
 
-    <div class="center">
-        <div class="content" bind:this={contentEl}>
+    <div class="center" class:constrain-width={$appState.constrainChatWidth}>
+        <div class="conversation-timeline" bind:this={contentEl}>
             <ConversationTimeline />
         </div>
-        <LoadingStripe />
-        <div class="chat-input">
+        <div class="loading-stripe">
+            <LoadingStripe />
+        </div>
+        <div class="input-box">
             <InputBox />
         </div>
     </div>
@@ -67,7 +70,7 @@
         // border: 1px solid red; //1344px
         max-width: unset;
         margin: auto;
-        padding: 1em;
+        // padding: 1em;
 
         .left,
         .right {
@@ -88,14 +91,28 @@
             }
         }
         .center {
-            flex: 1 1 1280px;
             height: 100%;
             display: flex;
             gap: 0.5em;
             flex-direction: column;
-            // max-width: 1280px;
-            .content {
+            margin: auto;
+
+            &.constrain-width {
+                max-width: 1280px;
+            }
+
+            .conversation-timeline {
                 background-color: #161920;
+                flex: 1 1 auto;
+                padding: 1em;
+            }
+
+            .loading-stripe {
+                flex: 0 0 0.25em;
+            }
+
+            .input-box {
+                flex: 0 0 auto;
             }
         }
 
@@ -112,7 +129,7 @@
             border-top: 2px solid rgba(0, 0, 0, 0.2666666667);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2666666667);
         }
-        .chat-input {
+        .input-box {
             flex: none;
         }
     }
