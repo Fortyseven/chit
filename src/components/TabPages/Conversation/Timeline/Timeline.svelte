@@ -83,7 +83,7 @@
         }
         .right {
             flex: 0 0 600px;
-            @media (max-width: 1280px) {
+            @media (max-width: $breakpoint-medium) {
                 flex-basis: 300px;
             }
         }

@@ -52,11 +52,11 @@
         .tab-bar {
             flex: 0;
         }
+
         .tab-content {
             width: 100%;
             height: 100%;
             display: grid;
-            // grid-template-columns: 1fr 3fr;
             padding: 1em 0.5em;
             gap: 0.5em;
         }
@@ -72,6 +72,7 @@
         background-color: #222;
         background-image: linear-gradient(0deg, #000 50%, #1a1a1a 100%);
         box-shadow: 0 0 10px #fff1;
+
         legend {
             font-size: 1.2em;
             color: #fff;

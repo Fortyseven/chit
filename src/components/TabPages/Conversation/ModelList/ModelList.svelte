@@ -1,6 +1,4 @@
 <script>
-    import { fade } from 'svelte/transition';
-
     import { model_favorites, models } from '$stores/stores';
     import { chat_state } from '$stores/chat_state';
     import { appState } from '$stores/stores_ui';
@@ -76,7 +74,7 @@
                     </span>
                 </button>
             </div>
-            <div class="dropdown-menu" role="menu" transition:fade>
+            <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                     {#each final_model_list as model, index}
                         <!-- svelte-ignore a11y-missing-attribute -->

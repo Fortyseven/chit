@@ -1,6 +1,5 @@
 <script>
     import { onDestroy, onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
 
     import * as stores from '$stores/stores';
     import * as stores_ui from '$stores/stores_ui';
@@ -67,7 +66,7 @@
 </script>
 
 {#if visible}
-    <div id="DebugStatePanel" transition:fade>
+    <div id="DebugStatePanel">
         {#each Object.keys(store_subs) as store}
             <DebugStatePanelValue
                 key={store}

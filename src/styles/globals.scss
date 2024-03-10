@@ -8,7 +8,10 @@
     --accent-color2 {
         color: #0bf;
     }
+
 }
+
+$breakpoint-medium : 1280px;
 
 * {
     font-family: 'Roboto Condensed', sans-serif !important;
@@ -27,6 +30,7 @@ html {
 
 body {
     min-height: 100%;
+    height: 100%;
     padding: 0;
     margin: 0;
     overflow: hidden;

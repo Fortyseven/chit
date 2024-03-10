@@ -1,6 +1,6 @@
 <script>
     import Timeline from './Timeline/Timeline.svelte';
-    import Sidebar from './Sidebar/Sidebar.svelte';
+    // import Sidebar from './Sidebar/Sidebar.svelte';
 </script>
 
 <div class="chat-content">
@@ -29,7 +29,7 @@
         .conversation {
             flex: auto;
             width: 100%;
-            height: 90vh;
+            height: 100%;
         }
     }
 </style>

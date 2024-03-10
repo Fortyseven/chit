@@ -192,7 +192,7 @@
         textarea {
             flex: auto;
             width: 100%;
-            padding: 1em;
+            padding: 0.5em;
             border: none;
             outline-style: none;
             border-radius: 4px;
