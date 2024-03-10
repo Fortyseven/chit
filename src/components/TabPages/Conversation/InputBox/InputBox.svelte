@@ -198,7 +198,7 @@
             border-radius: 4px;
             border-top: 1px solid #0004;
             border-bottom: 1px solid #fff4;
-            // background-image: linear-gradient(0deg, #1118 25%, #3338 100%);
+            font-size: 1.35em;
             background-color: lighten(#161920, 3%);
             color: white;
             &:focus {
@@ -215,6 +215,7 @@
             display: block;
             height: 100% !important;
         }
+
         .input-buttons-extra {
             display: flex;
             flex-direction: column;
