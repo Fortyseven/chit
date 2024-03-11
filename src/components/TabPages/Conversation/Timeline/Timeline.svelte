@@ -96,6 +96,7 @@
             gap: 0.5em;
             flex-direction: column;
             margin: auto;
+            width: 100%;
 
             &.constrain-width {
                 max-width: 1280px;
@@ -103,8 +104,9 @@
 
             .conversation-timeline {
                 background-color: #161920;
-                flex: 1 1 auto;
+                flex: 1 1 0;
                 padding: 1em;
+                overflow-y: auto;
             }
 
             .loading-stripe {
