@@ -44,9 +44,16 @@ body {
         width: calc(100% - 100px);
         overflow-x: unset;
 
+        ol,
         ul {
             margin-top: 0;
             list-style: square;
+            margin-left: 1em;
+            list-style-type: decimal;
+
+            li {
+                margin-bottom: 0.5em;
+            }
         }
 
         pre {
@@ -87,6 +94,27 @@ body {
 
         p {
             margin-bottom: 1em;
+        }
+
+        h4,
+        h3,
+        h2,
+        h1 {
+            color: #0bf;
+            font-weight: bold;
+            margin: 0.5em 0 0.5em 0;
+            border-bottom: 1px solid rgba(0, 187, 255, 0.5);
+            font-size: 1.2em;
+        }
+
+        h2 {
+            color: #0ff;
+            font-size: 1.1em;
+        }
+
+        h3 {
+            color: #aff;
+            font-size: 1em;
         }
     }
 }
