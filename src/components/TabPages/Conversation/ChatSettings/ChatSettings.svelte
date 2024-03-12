@@ -7,7 +7,7 @@
     import { chat_state } from '$stores/chat_state.js';
     import { appState } from '$stores/stores';
 
-    import ModelList from '../../ModelList/ModelList.svelte';
+    import ModelList from '../ModelList/ModelList.svelte';
     import SystemPromptManager from './SystemPromptManager.svelte';
     import ChatButton from '$components/UI/ChatButton.svelte';
 

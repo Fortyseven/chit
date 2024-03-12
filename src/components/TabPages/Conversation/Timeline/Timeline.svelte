@@ -3,8 +3,8 @@
 
     import { chatTimeline, isInferring } from '$stores/stores';
 
-    import ChatLog from './ChatLog/ChatLog.svelte';
-    import ChatSettings from './ChatSettings/ChatSettings.svelte';
+    import ChatLog from '../ChatLog/ChatLog.svelte';
+    import ChatSettings from '../ChatSettings/ChatSettings.svelte';
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
@@ -82,7 +82,7 @@
             background: #303030;
         }
         .left {
-            display: none;
+            // display: none;
         }
         .right {
             flex: 0 0 600px;
