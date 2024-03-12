@@ -79,12 +79,17 @@
             flex: 1 1 auto;
             height: 100%;
             background: #303030;
-            max-width: 640px;
+            max-width: 20vw;
         }
         .right {
-            flex: 0 0 600px;
+            flex: 0 0 20vw;
             @media (max-width: $breakpoint-medium) {
                 flex-basis: 300px;
+            }
+        }
+        .left {
+            @media (max-width: $breakpoint-medium) {
+                display: none;
             }
         }
         .center {
