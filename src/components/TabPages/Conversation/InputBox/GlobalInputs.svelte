@@ -7,8 +7,7 @@
     } from '$stores/stores';
     import {
         ebk_inputBoxBack,
-        ebk_inputBoxFocus,
-        eventBus__keyboard
+        ebk_inputBoxFocus
     } from '$lib/events/eventBus__keyboard';
     import { rerollLastResponse } from '$lib/chat';
 

@@ -4,8 +4,13 @@ import {
     chatTimeline,
     inferringInProgress,
     appState
-} from '../stores/stores';
-import { chat_state } from '../stores/chat_state';
+} from '../../stores/stores';
+import { chat_state } from '../../stores/chat_state';
+
+/* ------------------------------------------------ */
+export const cancelInference = () => {
+    inferringInProgress.set(null);
+};
 
 /* ------------------------------------------------ */
 

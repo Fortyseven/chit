@@ -1,5 +1,5 @@
 <script>
-    import { updateModelDetails } from '/src/lib/api';
+    import { updateModelDetails } from '$lib/api/api';
     import { defaultModelName } from '$stores/stores';
     import { chat_state } from '$stores/chat_state';
 

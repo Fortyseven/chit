@@ -6,7 +6,7 @@
     import ModelListControls from './ModelListControls.svelte';
     import Icon from '/src/components/UI/Icon.svelte';
 
-    import { updateModelDetails } from '$lib/api';
+    import { updateModelDetails } from '$lib/api/api';
 
     let isOpen = false;
 

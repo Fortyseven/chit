@@ -11,7 +11,7 @@
     } from '$stores/stores';
     import { appState } from '$stores/stores_ui';
 
-    import { OL_chat } from '$lib/api';
+    import { OL_chat } from '$lib/api/api';
     import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
