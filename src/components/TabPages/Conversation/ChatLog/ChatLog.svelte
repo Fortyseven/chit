@@ -30,19 +30,32 @@
             {#each $chat_log as { chat_state, chat_timeline }, index}
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
-                <div
-                    class="chat-entry"
-                    on:click={restoreChatStateLog(chat_state.guid)}
-                >
-                    {#if chat_timeline[1]}
-                        <!-- svelte-ignore a11y-label-has-associated-control -->
-                        <label class="title">
-                            {chat_timeline[0].content}
-                        </label>
-                        <div class="response-extract">
-                            {chat_timeline[1].content.substring(0, 80)}...
-                        </div>
-                    {/if}
+                <div class="entry-wrapper">
+                    <div
+                        class="chat-details"
+                        on:click={restoreChatStateLog(chat_state.guid)}
+                    >
+                        {#if chat_timeline[1]}
+                            <!-- svelte-ignore a11y-label-has-associated-control -->
+                            <label class="title">
+                                {chat_timeline[0].content}
+                            </label>
+                            <div class="response-extract">
+                                {chat_timeline[1].content.substring(0, 80)}...
+                            </div>
+                        {/if}
+                    </div>
+                    <div class="entry-controls">
+                        <ChatButton
+                            iconName="delete"
+                            onClick={() => {
+                                chat_log.update((log) => {
+                                    log.splice(index, 1);
+                                    return log;
+                                });
+                            }}
+                        />
+                    </div>
                 </div>
             {/each}
         </div>
@@ -73,34 +86,49 @@
             padding-right: 0.5em;
             overflow-y: scroll;
 
-            .chat-entry {
-                cursor: pointer;
+            .entry-wrapper {
                 display: flex;
-                flex-direction: column;
-                padding: 0.5em 0;
-
+                flex-direction: row;
                 &:hover {
                     background-color: #ffffff0e;
                 }
 
-                .title {
-                    color: yellow;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    font-size: 1.2em;
+                .chat-details {
+                    flex: 1 1 auto;
                     width: 100%;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0.5em 0;
+                    overflow: auto;
+
+                    .title {
+                        color: yellow;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        font-size: 1.2em;
+                        width: 100%;
+                    }
+
+                    hr {
+                        padding: 0;
+                        margin: 1em 0;
+                    }
+
+                    label {
+                        display: block;
+                        margin-bottom: 0.5em;
+                        width: 6.5em;
+                    }
                 }
 
-                hr {
-                    padding: 0;
-                    margin: 1em 0;
-                }
-
-                label {
-                    display: block;
-                    margin-bottom: 0.5em;
-                    width: 6.5em;
+                .entry-controls {
+                    flex: 1 1 2em;
+                    button {
+                        height: 2em !important;
+                        line-height: 0;
+                    }
                 }
             }
         }
