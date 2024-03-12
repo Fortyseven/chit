@@ -1,14 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-    --accent-color1 {
-        color: #fb0;
-    }
-
-    --accent-color2 {
-        color: #0bf;
-    }
-
+    --accent-color1: #fb0;
+    --accent-color2: #0bf;
 }
 
 $breakpoint-medium : 1280px;
