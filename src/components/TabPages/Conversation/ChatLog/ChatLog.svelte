@@ -54,6 +54,10 @@
         height: 100%;
         overflow: hidden;
 
+        @media (max-width: $breakpoint-medium) {
+            max-width: 300px;
+        }
+
         h1 {
             color: white;
             font-size: 1.5em;

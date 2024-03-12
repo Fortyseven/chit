@@ -13,11 +13,6 @@
 
 $breakpoint-medium : 1280px;
 
-* {
-    font-family: 'Roboto Condensed', sans-serif !important;
-}
-
-
 @mixin debug {
     box-shadow: 0 0 10px #f0f;
 }

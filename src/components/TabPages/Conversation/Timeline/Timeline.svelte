@@ -100,9 +100,9 @@
             }
 
             .conversation-timeline {
-                background-color: #161920;
+                // background-color: #161920;
                 flex: 1 1 0;
-                padding: 1em;
+                // padding: 1em;
                 overflow-y: auto;
             }
 
