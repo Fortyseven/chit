@@ -1,6 +1,21 @@
-import { chatTimeline } from '../stores/stores';
-import { OL_chat } from '../lib/api';
+import { chatTimeline, inputText } from '../stores/stores';
+import { OL_chat } from '$lib/api';
+import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
+import { chat_state } from '../stores/chat_state';
+
+export function clearChat() {
+    chatTimeline.set([]);
+    inputText.set('');
+
+    // starting from scratch, so no guid yet unless saved
+    chat_state.update((state) => {
+        state.guid = undefined;
+        return state;
+    });
+
+    ebk_inputBoxFocus();
+}
 
 /**
  * Truncates the up to the given index in the chat timeline.

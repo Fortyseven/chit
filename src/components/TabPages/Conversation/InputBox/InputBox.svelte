@@ -12,10 +12,11 @@
     import { appState } from '$stores/stores_ui';
 
     import { OL_chat } from '$lib/api';
-    import { popLastMessage, rerollLastResponse } from '$lib/chat';
+    import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     import GlobalInputs from './GlobalInputs.svelte';
+    import { saveChatStateToLog } from '$lib/log';
 
     let inputEl = undefined;
 
@@ -36,15 +37,6 @@
         }
     });
 
-    // isSidebarOpen.subscribe((value) => {
-    //     if (value) {
-    //         // detachKeyboardShortcuts();
-    //     } else {
-    //         // attachKeyboardShortcuts();
-    //         inputEl?.focus();
-    //     }
-    // });
-
     function onInputKeypress(ev) {
         if (ev.key === 'Enter') {
             if (!ev.shiftKey) {
@@ -55,11 +47,14 @@
     }
 
     async function submit() {
-        let msg = $inputText;
+        let msg = $inputText.trim();
 
-        if (msg && msg.trim() !== '') {
+        if (msg !== '') {
             if (msg === '/clear') {
                 onClear(true);
+                return;
+            } else if (msg === '/save') {
+                saveChatStateToLog();
                 return;
             }
 
@@ -92,8 +87,7 @@
             return;
         }
 
-        chatTimeline.set([]);
-        $inputText = '';
+        clearChat();
     }
 
     function onBack() {

@@ -38,9 +38,7 @@
 
 <div class="timeline-container">
     <div class="left">
-        <div class="content">
-            <ChatLog />
-        </div>
+        <ChatLog />
     </div>
 
     <div class="center" class:constrain-width={$appState.constrainChatWidth}>
@@ -66,8 +64,9 @@
         display: flex;
         flex-direction: row;
         height: 100%;
+        max-height: calc(100vh - 5em);
         gap: 0.5em;
-        // border: 1px solid red; //1344px
+        // border: 1px dashed greenyellow; //1344px
         max-width: unset;
         margin: auto;
         // padding: 1em;
@@ -77,12 +76,10 @@
             display: flex;
             flex-direction: column;
             gap: 0.5em;
-            flex: 0 0 300px;
+            flex: 1 1 auto;
             height: 100%;
             background: #303030;
-        }
-        .left {
-            // display: none;
+            max-width: 640px;
         }
         .right {
             flex: 0 0 600px;

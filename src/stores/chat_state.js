@@ -16,11 +16,14 @@ export const chat_state_defaults = {
     top_p: 0.6
 };
 
+export const chat_log = writable([]);
+
 export const chat_state = writable({
     model_name: '',
     system_prompt:
         'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.',
     template: '',
+    guid: undefined,
     values: {
         mirostat: chat_state_defaults.mirostat,
         mirostat_eta: chat_state_defaults.mirostat_eta,
