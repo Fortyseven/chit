@@ -55,6 +55,7 @@
                 return;
             } else if (msg === '/save') {
                 saveChatStateToLog();
+                $inputText = '';
                 return;
             }
 
