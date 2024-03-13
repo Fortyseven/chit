@@ -22,12 +22,10 @@
     }
 
     chatTimeline.subscribe(async (value) => {
-        console.log('chatTimeline UPDATED', value);
         scrollToBottom();
     });
 
     isInferring.subscribe(async (value) => {
-        console.log('isInferring UPDATED', value);
         scrollToBottom();
     });
 
