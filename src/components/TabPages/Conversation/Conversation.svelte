@@ -1,4 +1,5 @@
 <script>
+    import StatusBar from './StatusBar/StatusBar.svelte';
     import Timeline from './Timeline/Timeline.svelte';
     // import Sidebar from './Sidebar/Sidebar.svelte';
 </script>
@@ -10,6 +11,7 @@
     <div class="conversation">
         <Timeline />
     </div>
+    <StatusBar />
     <!-- <Sidebar /> -->
 </div>
 

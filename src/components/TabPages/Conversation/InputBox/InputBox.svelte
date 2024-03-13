@@ -9,7 +9,6 @@
         inputText,
         errorMessage
     } from '$stores/stores';
-    import { appState } from '$stores/stores_ui';
 
     import { OL_chat } from '$lib/api/api';
     import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
@@ -17,6 +16,7 @@
 
     import GlobalInputs from './GlobalInputs.svelte';
     import { saveChatStateToLog } from '$lib/log';
+    import { chat_state } from '$stores/chat_state';
 
     let inputEl = undefined;
 
@@ -131,7 +131,10 @@
         placeholder="Type a message..."
         bind:this={inputEl}
         bind:value={$inputText}
+        class:overflow={$inputText.length + $chat_state.system_prompt.length >=
+            $chat_state.values.num_ctx}
     />
+
     <!-- ---------------------------- -->
     <button
         class="button is-primary"
@@ -193,15 +196,20 @@
             border-radius: 4px;
             border-top: 1px solid #0004;
             border-bottom: 1px solid #fff4;
-            font-size: 1.35em;
+            font-size: 1.2em;
             background-color: lighten(#161920, 3%);
             color: white;
+            font-family: inherit;
             &:focus {
                 outline-color: #ffaa0033;
                 outline-style: solid;
             }
             &:disabled {
                 opacity: 0.5;
+            }
+
+            &.overflow {
+                color: #f44;
             }
         }
 
