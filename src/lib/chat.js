@@ -1,5 +1,5 @@
 import { chatTimeline, inputText } from '../stores/stores';
-import { OL_chat } from '$lib/api';
+import { OL_chat } from '$lib/api/api';
 import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
 import { chat_state } from '../stores/chat_state';
