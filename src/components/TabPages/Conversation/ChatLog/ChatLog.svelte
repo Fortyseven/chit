@@ -103,7 +103,7 @@
                     overflow: auto;
 
                     .title {
-                        color: yellow;
+                        color: var(--accent-color1);
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
