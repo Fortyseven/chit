@@ -33,6 +33,7 @@
 
     async function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
+            cancelInference();
             $inputText = '';
             $inferringInProgress = false;
             ebk_inputBoxFocus();
