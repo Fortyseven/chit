@@ -40,25 +40,35 @@ export async function rerollLastResponse(rewindToIndex = undefined) {
         rewindChatToIndex(rewindToIndex);
     }
 
+    let offset = 1;
+    let priorChatEntry = undefined;
+
     // check if previous entry in chatTimeline is a bot response
-    const priorChatEntry = get(chatTimeline)[get(chatTimeline).length - 1];
-
-    if (priorChatEntry.role !== 'user') {
-        popLastMessage();
-
-        // rerun inference
-        let response = await OL_chat();
-
-        if (response) {
-            // add new response to timeline
-            chatTimeline.update((timeline) => {
-                timeline.push(response.message);
-                return timeline;
-            });
-        } else {
-            console.error('Failed to reroll last response');
+    while (priorChatEntry?.role !== 'user') {
+        let pos = get(chatTimeline).length - offset;
+        if (pos < 0) {
+            console.error('No user message found in chat timeline');
+            return;
         }
+        priorChatEntry = get(chatTimeline)[pos];
+        offset++;
     }
+
+    popLastMessage();
+
+    // rerun inference
+    let response = await OL_chat();
+
+    if (response) {
+        // add new response to timeline
+        chatTimeline.update((timeline) => {
+            timeline.push(response.message);
+            return timeline;
+        });
+    } else {
+        console.error('Failed to reroll last response');
+    }
+    // }
 }
 
 /**
