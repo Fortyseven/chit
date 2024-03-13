@@ -1,18 +1,13 @@
 <script>
     import StatusBar from './StatusBar/StatusBar.svelte';
     import Timeline from './Timeline/Timeline.svelte';
-    // import Sidebar from './Sidebar/Sidebar.svelte';
 </script>
 
 <div class="chat-content">
-    <!-- <div class="sidebar has-background-black-ter">
-        <Sidebar />
-    </div> -->
     <div class="conversation">
         <Timeline />
     </div>
     <StatusBar />
-    <!-- <Sidebar /> -->
 </div>
 
 <style lang="scss">
@@ -22,11 +17,6 @@
         display: flex;
         flex-direction: row;
         gap: 0.5em;
-        // .sidebar {
-        //     flex: 0 0 300px;
-        //     width: 300px;
-        //     height: 100%;
-        // }
 
         .conversation {
             flex: auto;
