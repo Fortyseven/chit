@@ -5,7 +5,7 @@ import {
     inferringInProgress,
     appState
 } from '../../stores/stores';
-import { chat_state } from '../../stores/chat_state';
+import { chatState_resetToDefaults, chat_state } from '../../stores/chat_state';
 
 /* ------------------------------------------------ */
 export const cancelInference = () => {
@@ -25,6 +25,27 @@ export const refreshModelList = async () => {
     models.set(response.models);
     console.log('Models: ', get(models));
 };
+
+function _getChatParamObject() {
+    const chat_parameters = get(chat_state).values;
+
+    //FIXME:
+    delete chat_parameters.stop;
+
+    let new_chat_parameters = {};
+
+    for (const key of Object.keys(chat_parameters)) {
+        if (chat_parameters[key] !== undefined && chat_parameters[key] != -1) {
+            try {
+                new_chat_parameters[key] = parseFloat(chat_parameters[key]);
+            } catch (e) {
+                new_chat_parameters[key] = chat_parameters[key];
+            }
+        }
+    }
+
+    return new_chat_parameters;
+}
 
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
@@ -54,8 +75,13 @@ export async function OL_chat(user_message = null) {
         const body = {
             model: get(chat_state).model_name,
             stream: false,
-            messages: [...get(chatTimeline)]
+            messages: [...get(chatTimeline)],
+            options: {
+                ..._getChatParamObject()
+            }
         };
+
+        console.log('OL_chat REQUEST body: ', body);
 
         const sys_prompt = get(chat_state).system_prompt.trim();
 
@@ -73,8 +99,6 @@ export async function OL_chat(user_message = null) {
             ];
         }
 
-        console.log('OL_chat body: ', body);
-
         const response = await fetch(`${get(appState).apiEndpoint}/api/chat`, {
             method: 'POST',
             headers: {
@@ -85,7 +109,7 @@ export async function OL_chat(user_message = null) {
 
         let new_msg = await response.json();
 
-        console.log('OL_chat response: ', new_msg);
+        console.log('OL_chat RESPONSE: ', new_msg);
 
         return new_msg;
     } catch (err) {
@@ -138,6 +162,8 @@ function _parseConfigString(configString) {
 
 export async function updateModelDetails(model_name) {
     OL_model_details(model_name).then((details) => {
+        chatState_resetToDefaults();
+
         chat_state.update((state) => {
             state.template = details.template;
             // iterate state.values properties and replace with values from details.parameters
@@ -151,8 +177,6 @@ export async function updateModelDetails(model_name) {
                     }
                 }
             }
-
-            console.log('FINAL', state);
 
             return state;
         });

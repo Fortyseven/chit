@@ -41,6 +41,27 @@ export const chat_state = writable({
     }
 });
 
+export const chatState_resetToDefaults = () => {
+    chat_state.update((state) => {
+        state.values = {
+            mirostat: chat_state_defaults.mirostat,
+            mirostat_eta: chat_state_defaults.mirostat_eta,
+            mirostat_tau: chat_state_defaults.mirostat_tau,
+            num_ctx: chat_state_defaults.num_ctx,
+            num_predict: chat_state_defaults.num_predict,
+            repeat_last_n: chat_state_defaults.repeat_last_n,
+            repeat_penalty: chat_state_defaults.repeat_penalty,
+            seed: chat_state_defaults.seed,
+            // stop: chat_state_defaults.stop,
+            temperature: chat_state_defaults.temperature,
+            tfs_z: chat_state_defaults.tfs_z,
+            top_k: chat_state_defaults.top_k,
+            top_p: chat_state_defaults.top_p
+        };
+        return state;
+    });
+};
+
 export const chat_state_type = {
     // num_gpu:Number,
     // num_gqa:Number,

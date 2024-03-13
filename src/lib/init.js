@@ -1,11 +1,14 @@
 import { get } from 'svelte/store';
+
 import {
     chatTimeline,
     currentModelIndex,
     defaultModelName,
     models
 } from '../stores/stores';
-import { refreshModelList } from './api';
+
+import { refreshModelList } from './api/api';
+
 import {
     setLocalStorageSubscriptions,
     restoreLocalStorageStores
