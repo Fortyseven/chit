@@ -1,19 +1,21 @@
 import { writable } from 'svelte/store';
 
+/* these are just out of nowhere sane defaults; actual defaults will
+come from the modelfile refresh */
 export const chat_state_defaults = {
-    mirostat_eta: 0.5,
-    mirostat_tau: 3.0,
-    mirostat: 1,
+    mirostat_eta: 0.1,
+    mirostat_tau: 5.0,
+    mirostat: 0,
     num_ctx: 2048,
-    num_predict: 1024,
+    num_predict: -1,
     repeat_last_n: 64,
-    repeat_penalty: 1.2,
+    repeat_penalty: 1.1,
     seed: -1,
-    stop: ['<|end_of_turn|>', '<|endoftext|>'],
-    temperature: 0.7,
-    tfs_z: 2,
-    top_k: 10,
-    top_p: 0.6
+    // stop: ['<|end_of_turn|>', '<|endoftext|>'],
+    temperature: 0.8,
+    tfs_z: 1.0,
+    top_k: 40,
+    top_p: 0.9
 };
 
 export const chat_log = writable([]);
@@ -33,7 +35,7 @@ export const chat_state = writable({
         repeat_last_n: chat_state_defaults.repeat_last_n,
         repeat_penalty: chat_state_defaults.repeat_penalty,
         seed: chat_state_defaults.seed,
-        stop: chat_state_defaults.stop,
+        // stop: chat_state_defaults.stop,
         temperature: chat_state_defaults.temperature,
         tfs_z: chat_state_defaults.tfs_z,
         top_k: chat_state_defaults.top_k,
