@@ -8,14 +8,12 @@
     import ConversationTimeline from './ConversationTimeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
-    import { appState } from '$stores/stores_ui';
-
-    let contentEl = undefined;
+    import { appState, contentEl } from '$stores/stores_ui';
 
     function scrollToBottom() {
-        if (contentEl) {
+        if ($contentEl) {
             setTimeout(() => {
-                contentEl.scrollTop = contentEl.scrollHeight;
+                $contentEl.scrollTop = $contentEl.scrollHeight;
             }, 50);
             // await tick();
         }
@@ -40,7 +38,7 @@
     </div>
 
     <div class="center" class:constrain-width={$appState.constrainChatWidth}>
-        <div class="conversation-timeline" bind:this={contentEl}>
+        <div class="conversation-timeline" bind:this={$contentEl}>
             <ConversationTimeline />
         </div>
         <div class="loading-stripe">

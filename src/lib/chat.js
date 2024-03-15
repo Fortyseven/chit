@@ -3,6 +3,19 @@ import { OL_chat } from '$lib/api/api';
 import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
 import { chat_state } from '../stores/chat_state';
+import { contentEl } from '../stores/stores_ui';
+
+export function scrollToBottom() {
+    if (get(contentEl)) {
+        setTimeout(() => {
+            contentEl.update((el) => {
+                el.scrollTop = el.scrollHeight;
+                return el;
+            });
+        }, 50);
+        // await tick();
+    }
+}
 
 export function clearChat() {
     chatTimeline.set([]);
