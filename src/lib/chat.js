@@ -62,7 +62,7 @@ export async function rerollLastResponse(rewindToIndex = undefined) {
     if (response) {
         // add new response to timeline
         chatTimeline.update((timeline) => {
-            timeline.push(response.message);
+            timeline.push(response);
             return timeline;
         });
     } else {
@@ -71,7 +71,7 @@ export async function rerollLastResponse(rewindToIndex = undefined) {
     // }
 }
 
-/**
+/*
  * Removes the last message from the chat timeline.
  */
 export function popLastMessage() {

@@ -63,14 +63,14 @@
 
             try {
                 var result = await OL_chat(msg);
-
                 if (result) {
                     chatTimeline.update((timeline) => {
-                        timeline.push(result.message);
+                        timeline.push(result);
                         return timeline;
                     });
                     inputEl?.focus();
                 }
+                console.log('New timeline:', $chatTimeline);
             } catch (e) {
                 console.error(e);
                 errorMessage.set(e.message);

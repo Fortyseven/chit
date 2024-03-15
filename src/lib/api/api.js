@@ -1,11 +1,36 @@
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
+
 import {
     models,
     chatTimeline,
     inferringInProgress,
     appState
 } from '../../stores/stores';
+
 import { chatState_resetToDefaults, chat_state } from '../../stores/chat_state';
+
+export const pendingResponse = writable({
+    role: 'assistant',
+    content: ''
+});
+export const responseInProgress = writable(false);
+
+const utf8Decoder = new TextDecoder('utf-8');
+
+function _updatePendingResponse(response) {
+    console.log('updatePendingRepsonse  ', response);
+    pendingResponse.update((pr) => {
+        pr.content += response;
+        return pr;
+    });
+}
+
+function _clearPendingResponse() {
+    pendingResponse.set({
+        role: 'assistant',
+        content: ''
+    });
+}
 
 /* ------------------------------------------------ */
 export const cancelInference = () => {
@@ -74,8 +99,9 @@ export async function OL_chat(user_message = null) {
 
         const body = {
             model: get(chat_state).model_name,
-            stream: false,
+            stream: true,
             messages: [...get(chatTimeline)],
+            template: get(chat_state).template,
             options: {
                 ..._getChatParamObject()
             }
@@ -99,7 +125,7 @@ export async function OL_chat(user_message = null) {
             ];
         }
 
-        const response = await fetch(`${get(appState).apiEndpoint}/api/chat`, {
+        const stream = await fetch(`${get(appState).apiEndpoint}/api/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,11 +133,26 @@ export async function OL_chat(user_message = null) {
             body: JSON.stringify(body)
         });
 
-        let new_msg = await response.json();
+        responseInProgress.set(true);
+        _clearPendingResponse();
 
-        console.log('OL_chat RESPONSE: ', new_msg);
+        for await (const chunk of stream.body) {
+            const objects = utf8Decoder
+                .decode(chunk)
+                .split('\n')
+                .filter((x) => x.length > 0)
+                .map((x) => JSON.parse(x));
 
-        return new_msg;
+            for (const obj of objects) {
+                if (obj.message) {
+                    _updatePendingResponse(obj.message.content);
+                }
+            }
+        }
+
+        responseInProgress.set(false);
+
+        return get(pendingResponse);
     } catch (err) {
         console.error('OL_chat error: ', err);
         throw Error('Error connecting to server: ' + err.message);

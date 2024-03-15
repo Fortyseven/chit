@@ -1,11 +1,12 @@
 <script>
     import { chatTimeline, inferringInProgress } from '$stores/stores.js';
+    import { pendingResponse, responseInProgress } from '$lib/api/api';
 
     import TimelineResponse_User from './TimelineResponse_User.svelte';
     import TimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
+    import TimelineResponseAssistant from './TimelineResponse_Assistant.svelte';
 
     let pendingIndex = null;
-
     inferringInProgress.subscribe(async (value) => {
         console.log('inferringInProgress UPDATED', value);
         pendingIndex = value;
@@ -28,6 +29,9 @@
             <div class="bot">💀</div>
         {/if}
     {/each}
+    {#if $responseInProgress}
+        <TimelineResponseAssistant line={$pendingResponse} index={-1} />
+    {/if}
 </div>
 
 <style lang="scss">
