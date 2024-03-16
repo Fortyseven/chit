@@ -4,8 +4,8 @@
 
     const TABS = [
         ['Chat', 'chat', 'message'],
-        ['Prompts', 'prompts', 'pen'],
-        ['Modelfiles', 'modelfiles', 'comment'],
+        // ['Prompts', 'prompts', 'pen'],
+        // ['Modelfiles', 'modelfiles', 'comment'],
         ['Settings', 'settings', 'settings']
     ];
 </script>
