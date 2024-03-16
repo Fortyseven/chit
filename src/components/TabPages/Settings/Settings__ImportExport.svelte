@@ -1,6 +1,5 @@
 <script>
     import Icon from '/src/components/UI/Icon.svelte';
-    import { appState, DEFAULT_API_ENDPOINT } from '$stores/stores';
 </script>
 
 <fieldset>

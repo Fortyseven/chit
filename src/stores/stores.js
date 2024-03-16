@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
 
-export const DEFAULT_API_ENDPOINT = 'http://localhost:11434';
+export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
+export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/_';
 
 export let models = writable([]);
 export let currentModelIndex = writable(0);
@@ -11,7 +12,8 @@ export let errorMessage = writable('');
 export let defaultModelName = writable(undefined);
 
 export const appState = writable({
-    apiEndpoint: DEFAULT_API_ENDPOINT,
+    apiEndpoint: DEFAULT_OL_ENDPOINT,
+    pbEndpoint: DEFAULT_PB_ENDPOINT,
     // chatTimeline: [],
     // currentModelIndex: 0,
     // defaultModelName: undefined,

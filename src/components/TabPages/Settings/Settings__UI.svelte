@@ -1,5 +1,4 @@
 <script>
-    import { DEFAULT_API_ENDPOINT } from '$stores/stores';
     import { appState } from '$stores/stores_ui';
 </script>
 
