@@ -8,10 +8,11 @@
     }
 </script>
 
-<span class="modal">
+<span class="modal" on:click={dismiss}>
     <dialog open on:keypress={dismiss}>
         <h1>Error</h1>
-        <code>{message}</code>
+        <p>{message}</p>
+        <br />
         <br />
         <button on:click={() => ($errorMessage = '')}>Bummer</button>
     </dialog>

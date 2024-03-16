@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
+    --font-primary: 'Roboto Condensed', sans-serif;
     --accent-color1: #fb0;
     --accent-color2: #0bf;
+
+    --color-error: #faa;
 }
 
 $breakpoint-medium : 1280px;
@@ -23,7 +26,7 @@ body {
     padding: 0;
     margin: 0;
     overflow: hidden;
-    font-family: 'Roboto Condensed', sans-serif !important;
+    font-family: var(--font-primary) !important;
     font-size: 18px;
     line-height: unset;
 }
