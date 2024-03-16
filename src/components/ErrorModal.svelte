@@ -35,12 +35,13 @@
             box-shadow: 0px 0px 40px black;
             background: #666;
             min-width: 35vw;
-            color: white;
+            color: var(--color-error, #fff);
             border: none;
             text-align: center;
             h1 {
                 font-weight: bold;
                 font-size: 1.5em;
+                padding-bottom: 1em;
             }
         }
     }
