@@ -1,7 +1,7 @@
 import { writable, derived } from 'svelte/store';
 
 export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
-export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/_';
+export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/';
 
 export let models = writable([]);
 export let currentModelIndex = writable(0);
