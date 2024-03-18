@@ -151,7 +151,7 @@
     <!-- ---------------------------- -->
     <button
         class="button is-primary bg-green-800 rounded-md"
-        disabled={$responseInProgress}
+        disabled={$responseInProgress || !$chat_state.model_name}
         title="Submit query"
         on:click={submit}
     >
