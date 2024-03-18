@@ -1,5 +1,5 @@
 <script>
-    import { appState } from '$stores/stores_ui';
+    import { appState } from '$stores/stores';
 </script>
 
 <fieldset>
@@ -12,11 +12,20 @@
             Constrain Chat Width
             <input
                 type="checkbox"
-                bind:checked={$appState.constrainChatWidth}
+                bind:checked={$appState.ui.constrainChatWidth}
             />
         </label>
     </div>
 </fieldset>
 
 <style lang="scss">
+    fieldset {
+        color: white;
+        > div {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1em;
+            gap: 1em;
+        }
+    }
 </style>

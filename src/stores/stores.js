@@ -3,46 +3,32 @@ import { writable, derived } from 'svelte/store';
 export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
 export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/';
 
-export let models = writable([]);
-export let currentModelIndex = writable(0);
-export let chatTimeline = writable([]);
-export let inferringInProgress = writable(false);
-export let inputText = writable('');
-export let errorMessage = writable('');
-export let defaultModelName = writable(undefined);
+export const models = writable([]);
+export const currentModelIndex = writable(0);
+export const chatTimeline = writable([]);
+export const responseInProgress_AbortController = writable(null);
+export const inputText = writable('');
+export const errorMessage = writable('');
+export const defaultModelName = writable(undefined);
 
+export const contentEl = writable(null);
+
+/* FIXME: This is absurd having this AND the same-named store in
+  stores_ui. This needs to be fixed ASAP. */
 export const appState = writable({
+    ui: {
+        autoImportDefaults: true,
+
+        selectedTab: 'presets',
+        constrainChatWidth: true
+    },
     apiEndpoint: DEFAULT_OL_ENDPOINT,
     pbEndpoint: DEFAULT_PB_ENDPOINT,
-    // chatTimeline: [],
-    // currentModelIndex: 0,
-    // defaultModelName: undefined,
-    // errorMessage: '',
-    // inferringInProgress: false,
-    // inputText: '',
-    // models: [],
     savedSystemPrompts: []
-    // showSettings: false,
-    // showSystemPrompts: false,
-    // showUserPrompts: false,
-    // systemPrompt: '',
-    // userPrompt: '',
-    // userPrompts: []
 });
 
 /* ------------------------------ */
 
-export let defaultMarkdown = writable(true);
+export const defaultMarkdown = writable(true);
 
-export let model_favorites = writable([]);
-
-/* ------------------------------ */
-
-// derived
-
-export const isInferring = derived(
-    [inferringInProgress],
-    ([$inferringInProgress]) => {
-        return $inferringInProgress !== null && $inferringInProgress !== false;
-    }
-);
+export const model_favorites = writable([]);

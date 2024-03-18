@@ -1,17 +1,18 @@
 <script>
     import { onDestroy, onMount } from 'svelte';
-    import {
-        chatTimeline,
-        inputText,
-        inferringInProgress
-    } from '$stores/stores';
+    import { chatTimeline, inputText } from '$stores/stores';
     import {
         ebk_inputBoxBack,
         ebk_inputBoxFocus
     } from '$lib/events/eventBus__keyboard';
-    import { rerollLastResponse } from '$lib/chat';
+    import {
+        popLastMessage,
+        rerollLastResponse,
+        rewindChatToIndex
+    } from '$lib/chat';
 
     import HelpKeyboard from './Modal_KeyboardHelp.svelte';
+    import { cancelInference } from '$lib/api/api';
 
     let isVisible = false;
 
@@ -33,11 +34,11 @@
 
     async function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
-            cancelInference();
-            $inputText = '';
-            $inferringInProgress = false;
-            ebk_inputBoxFocus();
-            // TODO: This should abort the current inference
+            if (cancelInference()) {
+                $inputText = '';
+                ebk_inputBoxFocus();
+            }
+            return;
         }
 
         // if (ev.key === '2' && ev.ctrlKey) {

@@ -1,64 +1,68 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { errorMessage } from '$stores/stores';
-    import { appState } from '$stores/stores_ui';
+    import { appState, errorMessage } from '$stores/stores';
 
     import { init } from '$lib/init';
 
     import Settings from './components/TabPages/Settings/Settings.svelte';
-    import Conversation from './components/TabPages/Conversation/Conversation.svelte';
+
     import ErrorModal from './components/ErrorModal.svelte';
-    import Modelfiles from './components/TabPages/Modelfiles/Modelfiles.svelte';
-    import Prompts from './components/TabPages/Prompts/Prompts.svelte';
-    import TabBar from './components/Tabs/TabBar.svelte';
     import DebugStatePanel from './components/UI/DebugStatePanel/DebugStatePanel.svelte';
+    import MenuBar from '$components/Tabs/MenuBar.svelte';
+    import Chat from '$components/TabPages/Conversation/Chat/Chat.svelte';
+    import Presets from '$components/TabPages/Presets/Presets.svelte';
+
+    const PAGES = {
+        presets: Presets,
+        settings: Settings
+    };
 
     onMount(async () => {
         console.log('onMount');
         await init();
     });
-
-    const PAGES = {
-        chat: Conversation,
-        modelfiles: Modelfiles,
-        settings: Settings,
-        prompts: Prompts
-    };
 </script>
 
-<div class="tab-container">
-    <div class="tab-bar">
-        <TabBar />
+<div class="flex flex-row w-full h-full bg-[#f0f]">
+    <!-- --------- -->
+    <div class="flex-[0%] flex-grow-0 flex-shrink-0 bg-neutral-500">
+        <MenuBar />
     </div>
-    <div class="tab-content">
-        <svelte:component this={PAGES[$appState.selectedTab]} />
+    <!-- --------- -->
+    <div
+        class="flex-grow-0 flex-shrink-0 w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-neutral-600"
+    >
+        <svelte:component this={PAGES[$appState.ui.selectedTab]} />
     </div>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+    <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
+    <!-- --------- -->
+    <div class="flex-auto bg-neutral-700">
+        <Chat />
+    </div>
+    <!-- --------- -->
 </div>
 <DebugStatePanel />
 
-<div class="error-message"></div>
 {#if $errorMessage}
-    <ErrorModal message={$errorMessage} />
+    <ErrorModal />
 {/if}
 
 <style lang="scss" global>
     .tab-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-
-        .tab-bar {
-            flex: 0;
-        }
+        // display: flex;
+        // flex-direction: column;
+        // width: 100%;
+        // height: 100%;
 
         .tab-content {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            padding: 1em 0.5em;
-            gap: 0.5em;
+            // width: 100%;
+            // height: 100%;
+            // display: grid;
+            // padding: 1em 0.5em;
+            // gap: 0.5em;
         }
     }
 
@@ -71,7 +75,6 @@
         border-bottom-color: #888 !important;
         background-color: #222;
         background-image: linear-gradient(0deg, #000 50%, #1a1a1a 100%);
-        box-shadow: 0 0 10px #fff1;
 
         legend {
             font-size: 1.2em;
@@ -79,6 +82,41 @@
             font-weight: bold;
             padding-left: 0.25em;
             padding-right: 0.25em;
+        }
+    }
+
+    :global(input),
+    :global(select) {
+        background-color: #222;
+        color: white;
+        padding: 0.5em;
+        border-radius: 0.25em;
+    }
+
+    .debug1 {
+        border: 1px solid #f00;
+    }
+    .debug3 {
+        border: 1px solid #0f0;
+    }
+    .debug3 {
+        border: 1px solid #00f;
+    }
+    .debug4 {
+        border: 1px solid #f0f;
+    }
+
+    .debug1,
+    .debug2,
+    .debug3,
+    .debug4 {
+        box-shadow: 0 0 8px #000;
+        animation: debug-throb 800ms ease-in-out infinite;
+
+        @keyframes debug-throb {
+            50% {
+                border-color: white;
+            }
         }
     }
 </style>

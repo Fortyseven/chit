@@ -1,21 +1,22 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { chatTimeline, isInferring } from '$stores/stores';
+    import { appState, contentEl, chatTimeline } from '$stores/stores';
+    import { responseInProgress } from '$lib/api/api';
 
-    import ChatLog from '../ChatLog/ChatLog.svelte';
-    import ChatSettings from '../ChatSettings/ChatSettings.svelte';
-    import ConversationTimeline from './ConversationTimeline.svelte';
+    import Timeline from './Timeline.svelte';
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
-    import { appState, contentEl } from '$stores/stores_ui';
+    import StatusBar from '../StatusBar/StatusBar.svelte';
 
     function scrollToBottom() {
         if ($contentEl) {
             setTimeout(() => {
                 $contentEl.scrollTop = $contentEl.scrollHeight;
-            }, 50);
+            }, 250);
             // await tick();
+        } else {
+            console.log('scrollToBottom: $contentEl is not defined');
         }
     }
 
@@ -23,49 +24,55 @@
         scrollToBottom();
     });
 
-    isInferring.subscribe(async (value) => {
+    responseInProgress.subscribe(async (value) => {
         scrollToBottom();
     });
 
     onMount(() => {
-        scrollToBottom();
+        console.log('Timeline onMount');
+        setTimeout(() => {
+            console.log('Timeline onMount setTimeout =================');
+            scrollToBottom();
+        }, 250);
+        // scrollToBottom();
     });
 </script>
 
-<div class="timeline-container">
-    <div class="left">
-        <ChatLog />
-    </div>
-
-    <div class="center" class:constrain-width={$appState.constrainChatWidth}>
-        <div class="conversation-timeline" bind:this={$contentEl}>
-            <ConversationTimeline />
+<div
+    id="TimelineContainer"
+    class="flex flex-row w-full h-full m-h-[calc(100vh-5em)] m-auto"
+>
+    <div
+        class="flex flex-col w-full h-full"
+        class:constrain-width={$appState.constrainChatWidth}
+    >
+        <div
+            class="w-full h-full overflow-y-scroll conversation-timeline px-12 pb-4"
+            bind:this={$contentEl}
+        >
+            <Timeline />
         </div>
-        <div class="loading-stripe">
+        <div class="w-full loading-stripe">
             <LoadingStripe />
         </div>
-        <div class="input-box">
+        <div class="w-full input-box">
             <InputBox />
         </div>
-    </div>
-    <div class="right">
-        <div class="content">
-            <ChatSettings />
+        <div>
+            <StatusBar />
         </div>
     </div>
 </div>
 
 <style lang="scss">
-    .timeline-container {
+    .ztimeline-container {
         display: flex;
         flex-direction: row;
         height: 100%;
         max-height: calc(100vh - 5em);
         gap: 0.5em;
-        // border: 1px dashed greenyellow; //1344px
         max-width: unset;
         margin: auto;
-        // padding: 1em;
 
         .left,
         .right {
@@ -101,9 +108,7 @@
             }
 
             .conversation-timeline {
-                // background-color: #161920;
                 flex: 1 1 0;
-                // padding: 1em;
                 overflow-y: auto;
             }
 

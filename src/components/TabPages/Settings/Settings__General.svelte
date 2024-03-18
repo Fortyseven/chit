@@ -6,7 +6,15 @@
     } from '$stores/stores';
     import SettingControl from './UI/SettingControl.svelte';
 
-    $: pbAdminLink = new URL('_/', $appState.pbEndpoint);
+    let pbAdminLink = '';
+
+    $: {
+        try {
+            pbAdminLink = new URL(`_/`, $appState?.pbEndpoint);
+        } catch (e) {
+            pbAdminLink = '';
+        }
+    }
 </script>
 
 <fieldset>
@@ -23,7 +31,7 @@
             bind:value={$appState.pbEndpoint}
             label="PocketBase Endpoint"
             placeholder="API Endpoint..."
-            supplementalUrl={pbAdminLink}
+            supplementalUrl={pbAdminLink || ''}
             supplementalUrlName="Admin"
         />
     </div>
@@ -31,11 +39,11 @@
 
 <style lang="scss">
     fieldset {
+        color: white;
         > div {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-bottom: 1em;
+            display: flex;
             flex-wrap: wrap;
+            margin-bottom: 1em;
             gap: 1em;
         }
     }

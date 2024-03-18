@@ -7,7 +7,7 @@
     export let placeholder;
 </script>
 
-<div>
+<div class="text-white">
     <label
         for="pb-endpoint"
         on:dblclick={() => {
@@ -38,10 +38,10 @@
 
         input {
             flex: auto;
-            display: block;
-            padding: 0.5em;
-            border-radius: 5px;
-            border: 1px solid var(--color-primary);
+            // display: block;
+            // padding: 0.5em;
+            // border-radius: 5px;
+            // border: 1px solid var(--color-primary);
             font-family: monospace;
         }
 

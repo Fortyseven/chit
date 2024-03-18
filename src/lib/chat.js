@@ -1,9 +1,8 @@
-import { chatTimeline, inputText } from '../stores/stores';
+import { contentEl, chatTimeline, inputText } from '../stores/stores';
 import { OL_chat } from '$lib/api/api';
 import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
 import { chat_state } from '../stores/chat_state';
-import { contentEl } from '../stores/stores_ui';
 
 export function scrollToBottom() {
     if (get(contentEl)) {

@@ -1,8 +1,8 @@
 <script>
-    import { isInferring } from '$stores/stores';
+    import { responseInProgress } from '$lib/api/api';
 </script>
 
-<div class="loading-stripe" class:isLoading={$isInferring}></div>
+<div class="loading-stripe" class:isLoading={$responseInProgress}></div>
 
 <style lang="scss">
     .loading-stripe {
@@ -16,7 +16,6 @@
         &.isLoading {
             animation: cycle 2000s infinite linear;
             background: linear-gradient(25deg, #300 0%, #f00 50%, #300 100%);
-            box-shadow: 0 0 25px red;
         }
 
         @keyframes cycle {

@@ -2,7 +2,6 @@
     import { onDestroy, onMount } from 'svelte';
 
     import * as stores from '$stores/stores';
-    import * as stores_ui from '$stores/stores_ui';
     import * as stores_chat_state from '$stores/chat_state';
 
     import DebugStatePanelValue from './DebugStatePanelValue.svelte';
@@ -31,7 +30,6 @@
 
     $: total_stores = {
         ...stores,
-        ...stores_ui,
         ...stores_chat_state
     };
 
@@ -91,7 +89,7 @@
         height: 100%;
         color: black;
         font-size: 0.9em;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+
         border-top: 1px solid #888;
         flex-direction: column;
         overflow-y: auto;

@@ -1,0 +1,17 @@
+<script>
+    import MenuBarButton from './UI/MenuBar__Button.svelte';
+</script>
+
+<div id="MenuBar" class="w-full h-full bg-neutral-500">
+    <!-- <TabBar /> -->
+    <div class="flex flex-col w-12 h-full gap-4 m-4">
+        <MenuBarButton icon="message" label="Presets" menuId="presets" />
+        <MenuBarButton icon="settings" label="Settings" menuId="settings" />
+    </div>
+</div>
+
+<style lang="scss">
+    #MenuBar {
+        display: inline-block;
+    }
+</style>

@@ -3,8 +3,8 @@ import { get, writable } from 'svelte/store';
 import {
     models,
     chatTimeline,
-    inferringInProgress,
-    appState
+    appState,
+    responseInProgress_AbortController
 } from '../../stores/stores';
 
 import { chatState_resetToDefaults, chat_state } from '../../stores/chat_state';
@@ -18,7 +18,6 @@ export const responseInProgress = writable(false);
 const utf8Decoder = new TextDecoder('utf-8');
 
 function _updatePendingResponse(response) {
-    console.log('updatePendingRepsonse  ', response);
     pendingResponse.update((pr) => {
         pr.content += response;
         return pr;
@@ -33,8 +32,17 @@ function _clearPendingResponse() {
 }
 
 /* ------------------------------------------------ */
+
 export const cancelInference = () => {
-    inferringInProgress.set(null);
+    const ac = get(responseInProgress_AbortController);
+
+    if (ac) {
+        console.log('🛑 Cancelling inference: ', ac);
+        get(responseInProgress_AbortController).abort();
+
+        responseInProgress_AbortController.set(null);
+        _clearPendingResponse();
+    }
 };
 
 /* ------------------------------------------------ */
@@ -94,8 +102,9 @@ export async function OL_chat(user_message = null) {
     }
 
     try {
+        const ac = new AbortController();
+
         // sets the pending message index to expect for the response
-        inferringInProgress.set(get(chatTimeline).length - 1);
 
         const body = {
             model: get(chat_state).model_name,
@@ -107,13 +116,7 @@ export async function OL_chat(user_message = null) {
             }
         };
 
-        console.log('OL_chat REQUEST body: ', body);
-
         const sys_prompt = get(chat_state).system_prompt.trim();
-
-        // TODO: only prepend the system prompt if it's not empty, otherwise
-        // you'll override the default model prompt. Then again, this may
-        // be desired behavior, so we can add a setting for it?
 
         if (sys_prompt) {
             body.messages = [
@@ -125,7 +128,13 @@ export async function OL_chat(user_message = null) {
             ];
         }
 
+        responseInProgress.set(true);
+        responseInProgress_AbortController.set(ac);
+
+        console.log('OL_chat REQUEST body: ', body);
+
         const stream = await fetch(`${get(appState).apiEndpoint}/api/chat`, {
+            signal: ac.signal,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -133,7 +142,6 @@ export async function OL_chat(user_message = null) {
             body: JSON.stringify(body)
         });
 
-        responseInProgress.set(true);
         _clearPendingResponse();
 
         for await (const chunk of stream.body) {
@@ -154,17 +162,21 @@ export async function OL_chat(user_message = null) {
 
         return get(pendingResponse);
     } catch (err) {
-        console.error('OL_chat error: ', err);
-        throw Error('Error connecting to server: ' + err.message);
+        if (err.name !== 'AbortError') {
+            console.error('OL_chat error: ', err);
+            throw Error('Error connecting to server: ' + err.message);
+        }
     } finally {
-        inferringInProgress.set(null);
+        responseInProgress_AbortController.set(null);
+        responseInProgress.set(false);
+        _clearPendingResponse();
     }
 }
 
-/*
-curl http://localhost:11434/api/show -d '{
-  "name": "llama2"
-}'
+/**
+ * Get the details of a model from the server.
+ * @param {*} model_name
+ * @returns {Promise} A promise that resolves to the model details.
  */
 export async function OL_model_details(model_name) {
     try {

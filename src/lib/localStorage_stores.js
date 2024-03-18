@@ -1,15 +1,14 @@
 import * as Storages from '../stores/stores';
 import * as Storages_ChatState from '../stores/chat_state';
-import * as Storages_UI from '../stores/stores_ui';
 
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
 
 const STORE_BLACKLIST = [
     'model_settings',
-    'DEFAULT_API_ENDPOINT',
-    'inferringInProgress',
-    'isInferring',
+    'DEFAULT_OL_ENDPOINT',
+    'DEFAULT_PB_ENDPOINT',
+    'responseInProgress',
     'chat_state_type',
     'chat_state_defaults'
 ];
@@ -54,9 +53,9 @@ function _setLocalStoreSubscriptionsGroup(group) {
  * @returns {void}
  */
 export function setLocalStorageSubscriptions() {
+    console.debug('💾 Setting up local storage subscriptions...');
     _setLocalStoreSubscriptionsGroup(Storages);
     _setLocalStoreSubscriptionsGroup(Storages_ChatState);
-    _setLocalStoreSubscriptionsGroup(Storages_UI);
 }
 
 function _syncLocalStorageStores_Group(group) {
@@ -85,9 +84,8 @@ function _syncLocalStorageStores_Group(group) {
  */
 
 export function restoreLocalStorageStores() {
-    console.debug('Attempting to restore local storage stores...');
+    console.debug('💾 Attempting to restore local storage stores...');
 
     _syncLocalStorageStores_Group(Storages);
     _syncLocalStorageStores_Group(Storages_ChatState);
-    _syncLocalStorageStores_Group(Storages_UI);
 }

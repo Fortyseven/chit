@@ -1,5 +1,5 @@
 <script>
-    import { isInferring } from '$stores/stores';
+    import { responseInProgress } from '$lib/api/api';
     import ChatButton from '../../../UI/ChatButton.svelte';
 
     export let line;
@@ -8,7 +8,7 @@
     $: processedLine = line.content.replace(/\n/g, '<br>');
 </script>
 
-<div class="user" class:loading={$isInferring}>
+<div class="user text-white" class:loading={$responseInProgress}>
     <div class="text">
         {@html processedLine}
     </div>

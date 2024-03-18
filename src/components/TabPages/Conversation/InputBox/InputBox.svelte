@@ -5,10 +5,12 @@
 
     import {
         chatTimeline,
-        isInferring,
         inputText,
-        errorMessage
+        errorMessage,
+        appState
     } from '$stores/stores';
+
+    import { responseInProgress } from '$lib/api/api';
 
     import { OL_chat } from '$lib/api/api';
     import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
@@ -55,6 +57,15 @@
                 return;
             } else if (msg === '/save') {
                 saveChatStateToLog();
+                $inputText = '';
+                return;
+            } else if (msg === '/debug') {
+                console.group('Stores');
+                console.log('chatTimeline:', $chatTimeline);
+                console.log('chat_state:', $chat_state);
+                console.log('appState:', $appState);
+                console.groupEnd();
+
                 $inputText = '';
                 return;
             }
@@ -111,7 +122,7 @@
         inputEl?.focus();
     }
 
-    isInferring.subscribe(async (value) => {
+    responseInProgress.subscribe(async (value) => {
         if (!value) {
             inputEl?.focus();
         }
@@ -119,15 +130,17 @@
 </script>
 
 <GlobalInputs />
+<!-- ---------------------------------------------------------------------->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    class="input-container"
+    id="InputBox"
+    class="grid grid-cols-[1fr,7rem,6rem] gap-4 text-white h-[150px] p-2 bg-gray-800"
     on:keypress={onInputKeypress}
     on:inputbox-focus={() => inputEl?.focus()}
     on:inputbox-back={() => onBack()}
 >
     <textarea
-        disabled={$isInferring}
+        disabled={$responseInProgress}
         placeholder="Type a message..."
         bind:this={inputEl}
         bind:value={$inputText}
@@ -137,43 +150,44 @@
 
     <!-- ---------------------------- -->
     <button
-        class="button is-primary"
-        disabled={$isInferring}
+        class="button is-primary bg-green-800 rounded-md"
+        disabled={$responseInProgress}
         title="Submit query"
         on:click={submit}
     >
         <i class="mi-send with-text">Send</i>
     </button>
     <!-- ---------------------------------------------------------------------->
-    <div class="input-buttons-extra">
+    <div class="flex flex-col h-full gap-2">
         <!-- ---------------------------- -->
         <button
-            class="button is-primary"
+            class="button"
             on:click={async () => {
-                if (!$isInferring) await rerollLastResponse();
+                if (!$responseInProgress) await rerollLastResponse();
             }}
             title="Retry the last response"
-            disabled={$isInferring || $chatTimeline.length === 0}
+            disabled={$responseInProgress || $chatTimeline.length === 0}
         >
             <i class="mi-refresh with-text">Reroll</i>
         </button>
         <!-- ---------------------------- -->
         <button
-            class="button is-primary"
+            class="button"
             on:click={async () => {
-                if (!$isInferring) await onBack();
+                if (!$responseInProgress) await onBack();
             }}
             title="Step back one response"
-            disabled={$isInferring ||
+            disabled={$responseInProgress ||
                 ($inputText.length === 0 && $chatTimeline.length === 0)}
             ><i class="mi-arrow-left with-text">Back</i>
         </button>
         <!-- ---------------------------- -->
         <button
-            class="button is-primary"
+            id="BtnClear"
+            class="button"
             on:click={() => onClear()}
             title="Clear the current chat"
-            disabled={$isInferring ||
+            disabled={$responseInProgress ||
                 ($inputText.length === 0 && $chatTimeline.length === 0)}
         >
             <i class="mi-delete with-text">Clear</i>
@@ -182,36 +196,55 @@
 </div>
 
 <style lang="scss">
-    .input-container {
+    button {
+        @apply transition-all;
+        @apply duration-300;
+        @apply rounded-md;
+        @apply bg-gray-600;
+
+        flex: auto;
+        &:disabled {
+            opacity: 0.5;
+        }
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+
+    #BtnClear {
+        @apply bg-red-900;
+    }
+
+    textarea {
+        flex: auto;
+        width: 100%;
+        padding: 0.5em;
+        border: none;
+        outline-style: none;
+        border-radius: 4px;
+        border-top: 1px solid #0004;
+        border-bottom: 1px solid #fff4;
+        font-size: 1.2em;
+        background-color: lighten(#161920, 3%);
+        color: white;
+        font-family: inherit;
+        &:focus {
+            outline-color: #ffaa0033;
+            outline-style: solid;
+        }
+        &:disabled {
+            opacity: 0.5;
+        }
+
+        &.overflow {
+            color: #f44;
+        }
+    }
+
+    .xinput-container {
         display: grid;
         grid-template-columns: 1fr 7rem 6rem;
         gap: 0.45em;
-
-        textarea {
-            flex: auto;
-            width: 100%;
-            padding: 0.5em;
-            border: none;
-            outline-style: none;
-            border-radius: 4px;
-            border-top: 1px solid #0004;
-            border-bottom: 1px solid #fff4;
-            font-size: 1.2em;
-            background-color: lighten(#161920, 3%);
-            color: white;
-            font-family: inherit;
-            &:focus {
-                outline-color: #ffaa0033;
-                outline-style: solid;
-            }
-            &:disabled {
-                opacity: 0.5;
-            }
-
-            &.overflow {
-                color: #f44;
-            }
-        }
 
         button {
             flex: none;

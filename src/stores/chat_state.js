@@ -21,6 +21,8 @@ export const chat_state_defaults = {
 export const chat_log = writable([]);
 
 export const chat_state = writable({
+    preset_id: '',
+    title: '',
     model_name: '',
     system_prompt:
         'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.',
