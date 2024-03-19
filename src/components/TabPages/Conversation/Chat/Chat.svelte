@@ -40,15 +40,17 @@
 
 <div
     id="TimelineContainer"
-    class="flex flex-row w-full h-full m-h-[calc(100vh-5em)] m-auto"
+    class="flex flex-row w-full h-full m-h-[calc(100vh-5em)] m-auto {$appState
+        .ui.constrainChatWidth && 'max-w-7xl'}"
+    class:max-w-7xl={$appState.ui.constrainChatWidth}
 >
     <div
         class="flex flex-col w-full h-full"
         class:constrain-width={$appState.constrainChatWidth}
     >
         <div
-            class="w-full h-full overflow-y-scroll conversation-timeline px-12 pb-4"
-            bind:this={$contentEl}
+            class="w-full h-full overflow-y-scroll conversation-timeline px-12 pb-4 transition-all"
+            bind:this={chatContentEl}
         >
             <Timeline />
         </div>
