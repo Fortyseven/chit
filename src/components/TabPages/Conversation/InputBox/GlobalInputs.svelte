@@ -35,7 +35,6 @@
     async function onGlobalKeypress(ev) {
         if (ev.key === 'Escape') {
             if (cancelInference()) {
-                $inputText = '';
                 ebk_inputBoxFocus();
             }
             return;

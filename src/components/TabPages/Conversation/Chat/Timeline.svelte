@@ -39,7 +39,9 @@
         {/if}
     {/each}
     {#if $responseInProgress}
-        <TimelineResponseAssistant line={$pendingResponse} index={-1} />
+        <div>
+            <TimelineResponseAssistant line={$pendingResponse} index={-1} />
+        </div>
     {/if}
 </div>
 

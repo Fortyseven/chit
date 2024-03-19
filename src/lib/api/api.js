@@ -9,11 +9,15 @@ import {
 
 import { chatState_resetToDefaults, chat_state } from '../../stores/chat_state';
 
+import { ebk_inputBoxBack } from '../../lib/events/eventBus__keyboard';
+
 export const pendingResponse = writable({
     role: 'assistant',
     content: ''
 });
 export const responseInProgress = writable(false);
+
+export const wasAborted = writable(false);
 
 const utf8Decoder = new TextDecoder('utf-8');
 
@@ -41,7 +45,11 @@ export const cancelInference = () => {
         get(responseInProgress_AbortController).abort();
 
         responseInProgress_AbortController.set(null);
+        responseInProgress.set(false);
+        wasAborted.set(true);
         _clearPendingResponse();
+
+        ebk_inputBoxBack();
     }
 };
 
@@ -128,6 +136,8 @@ export async function OL_chat(user_message = null) {
             ];
         }
 
+        _clearPendingResponse();
+        wasAborted.set(false);
         responseInProgress.set(true);
         responseInProgress_AbortController.set(ac);
 
@@ -141,8 +151,6 @@ export async function OL_chat(user_message = null) {
             },
             body: JSON.stringify(body)
         });
-
-        _clearPendingResponse();
 
         for await (const chunk of stream.body) {
             const objects = utf8Decoder
@@ -165,11 +173,12 @@ export async function OL_chat(user_message = null) {
         if (err.name !== 'AbortError') {
             console.error('OL_chat error: ', err);
             throw Error('Error connecting to server: ' + err.message);
+        } else {
+            return null;
         }
     } finally {
         responseInProgress_AbortController.set(null);
         responseInProgress.set(false);
-        _clearPendingResponse();
     }
 }
 

@@ -10,7 +10,7 @@
         appState
     } from '$stores/stores';
 
-    import { responseInProgress } from '$lib/api/api';
+    import { responseInProgress, wasAborted } from '$lib/api/api';
 
     import { OL_chat } from '$lib/api/api';
     import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
@@ -74,18 +74,22 @@
 
             try {
                 var result = await OL_chat(msg);
-                if (result) {
+
+                if (result && !$wasAborted) {
                     chatTimeline.update((timeline) => {
+                        console.log('Updating timeline:', result);
                         timeline.push(result);
                         return timeline;
                     });
                     inputEl?.focus();
                 }
+                if ($wasAborted) {
+                    $wasAborted = false;
+                    $inputText = msg;
+                }
                 console.log('New timeline:', $chatTimeline);
             } catch (e) {
-                console.error(e);
                 errorMessage.set(e.message);
-                popLastMessage();
                 $inputText = msg;
             }
         }
@@ -113,9 +117,13 @@
         let last_user_message = '';
 
         chatTimeline.update((timeline) => {
-            timeline.pop();
-            last_user_message = timeline[timeline.length - 1].content;
-            timeline.pop();
+            if (timeline.length % 2 === 0) {
+                timeline.pop();
+                last_user_message = timeline.pop().content;
+            } else {
+                timeline.pop();
+            }
+
             return timeline;
         });
         $inputText = last_user_message;
