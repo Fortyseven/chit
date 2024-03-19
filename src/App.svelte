@@ -96,7 +96,7 @@
     .debug1 {
         border: 1px solid #f00;
     }
-    .debug3 {
+    .debug2 {
         border: 1px solid #0f0;
     }
     .debug3 {
