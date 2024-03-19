@@ -22,7 +22,7 @@
     });
 </script>
 
-<div class="timeline">
+<div class="timeline py-4">
     {#each $chatTimeline as line, index}
         {#if line}
             {#if line.role === 'user'}
