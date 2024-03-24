@@ -20,7 +20,7 @@
     } from '$lib/api/api';
     import { fade, fly, slide } from 'svelte/transition';
 
-    let visible = true;
+    let visible = false;
 
     function getTextRep(value) {
         return value;
