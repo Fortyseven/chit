@@ -24,14 +24,14 @@
     });
 </script>
 
-<div class="flex flex-row w-full h-full bg-[#f0f]">
+<div class="flex flex-row w-full h-full bg-black">
     <!-- --------- -->
     <div class="flex-[0%] flex-grow-0 flex-shrink-0 bg-neutral-500">
         <MenuBar />
     </div>
     <!-- --------- -->
     <div
-        class="flex-grow-0 flex-shrink-0 w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-neutral-600"
+        class="flex-grow-0 flex-shrink-0 w-full max-w-[400px] xxx2xl:max-w-[640px] p-4 bg-neutral-600"
     >
         <svelte:component this={PAGES[$appState.ui.selectedTab]} />
     </div>

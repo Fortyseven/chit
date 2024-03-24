@@ -1,92 +1,170 @@
 <script>
     import { onDestroy, onMount } from 'svelte';
 
-    import * as stores from '$stores/stores';
-    import * as stores_chat_state from '$stores/chat_state';
+    import {
+        appState,
+        chatTimeline,
+        contentEl,
+        defaultModelName,
+        inputText,
+        models,
+        responseInProgress_AbortController
+    } from '$stores/stores';
+    import { chatState } from '$stores/chatState';
 
     import DebugStatePanelValue from './DebugStatePanelValue.svelte';
+    import {
+        responseInProgress,
+        pendingResponse,
+        wasAborted
+    } from '$lib/api/api';
+    import { fade, fly, slide } from 'svelte/transition';
 
-    /* Make these stand out in the panel. For now we're just sticking
-       a highlight class on them. */
-    /* TODO: Make this configurable from the component prop side. */
-    const highlightStores = [];
-
-    /* Do not show these stores on the panel. */
-    /* TODO: Make this configurable from the component prop side. */
-    const hideStores = [];
-
-    /* Always expand these stores by default. */
-    /* TODO: Make this configurable from the component prop side. */
-    const alwaysExpand = [];
-
-    let store_subs = {};
-    let visible = false;
-
-    const kbHandler = (e) => {
-        if (e.key === '`' && e.ctrlKey) {
-            visible = !visible;
-        }
-    };
-
-    $: total_stores = {
-        ...stores,
-        ...stores_chat_state
-    };
-
-    onMount(() => {
-        Object.keys(total_stores)
-            .filter((store) => !hideStores.includes(store))
-            .forEach((store) => {
-                if (!total_stores[store].subscribe) {
-                    // delete stores[store];
-                } else {
-                    total_stores[store].subscribe((value) => {
-                        store_subs[store] = getTextRep(value);
-                    });
-                }
-            });
-
-        window.addEventListener('keydown', kbHandler);
-    });
-    onDestroy(() => {
-        Object.keys(stores).forEach((store) => {
-            if (typeof total_stores[store].unsubscribe === 'function') {
-                total_stores[store].unsubscribe();
-            }
-        });
-
-        window.removeEventListener('keydown', kbHandler);
-    });
+    let visible = true;
 
     function getTextRep(value) {
         return value;
     }
+
+    function toggleVisibility() {
+        visible = !visible;
+    }
+
+    function onKeyDown(e) {
+        if (e.key === '`' && e.ctrlKey) {
+            toggleVisibility();
+        }
+    }
+
+    onMount(() => {
+        window.addEventListener('keydown', onKeyDown);
+    });
+
+    onDestroy(() => {
+        window.removeEventListener('keydown', onKeyDown);
+    });
 </script>
 
 {#if visible}
-    <div id="DebugStatePanel">
-        {#each Object.keys(store_subs) as store}
+    <div transition:fade id="DebugStatePanel">
+        <!-- misc ---------------------------------------------------------- -->
+
+        <DebugStatePanelValue key="apiEndpoint" value={$appState.apiEndpoint} />
+
+        <DebugStatePanelValue key="pbEndpoint" value={$appState.pbEndpoint} />
+
+        <hr />
+
+        <!-- ui crap ------------------------------------------------------- -->
+
+        <DebugStatePanelValue key="contentEl" value={$contentEl} />
+
+        <DebugStatePanelValue key="inputText" value={$inputText} />
+
+        <DebugStatePanelValue
+            key="ui.constrainChatWidth"
+            value={$appState.ui.constrainChatWidth}
+        />
+
+        <DebugStatePanelValue
+            key="ui.selectedTab"
+            value={$appState.ui.selectedTab}
+        />
+        <!-- <DebugStatePanelValue
+            key="ui.autoImportDefaults"
+            value={$appState.ui.autoImportDefaults}
+        /> -->
+
+        <hr />
+
+        <!-- models -------------------------------------------------------- -->
+
+        <DebugStatePanelValue key="models" value={$models} />
+
+        <DebugStatePanelValue
+            key="defaultModelName"
+            value={$defaultModelName}
+        />
+
+        <hr />
+
+        <!-- chat state ---------------------------------------------------- -->
+
+        <DebugStatePanelValue
+            key="chatState.preset_id"
+            value={$chatState.preset_id}
+        />
+
+        <DebugStatePanelValue key="chatState.guid" value={$chatState.guid} />
+
+        <DebugStatePanelValue
+            key="chatState.system_prompt"
+            value={$chatState.system_prompt}
+        />
+
+        <DebugStatePanelValue
+            key="chatState.template"
+            value={$chatState.template}
+        />
+
+        <DebugStatePanelValue
+            key="chatState.model_name"
+            value={$chatState.model_name}
+        />
+
+        <DebugStatePanelValue
+            key="chatState.values"
+            value={$chatState.values}
+        />
+
+        <DebugStatePanelValue key="chatState.title" value={$chatState.title} />
+
+        <hr />
+
+        <!-- chat pending -------------------------------------------------- -->
+
+        <DebugStatePanelValue
+            key={`responseInProgress`}
+            value={$responseInProgress}
+            forceExpand
+            condenseLabel
+        />
+
+        <DebugStatePanelValue
+            key={`PndResp`}
+            value={$pendingResponse}
+            forceExpand
+            condenseLabel
+        />
+
+        <DebugStatePanelValue key={`wasAborted`} value={$wasAborted} />
+
+        <DebugStatePanelValue
+            key="responseInProgress_AbortController"
+            value={$responseInProgress_AbortController}
+        />
+
+        <hr />
+
+        <!-- chat timeline ------------------------------------------------- -->
+
+        {#each $chatTimeline as entry, index}
             <DebugStatePanelValue
-                key={store}
-                value={store_subs[store]}
-                forceExpand={alwaysExpand.includes(store)}
-                highlight={highlightStores.includes(store)}
+                key={`Line ${index}`}
+                value={entry}
+                forceExpand
+                condenseLabel
             />
         {/each}
     </div>
 {/if}
 
 <style lang="scss">
-    /* slide in from bottom animation for debug-state-panel */
-
     #DebugStatePanel {
-        // animation: slide-in 0.25s ease-in-out;
         position: fixed;
-        z-index: 99999;
-        left: 0;
         top: 0;
-        width: 600px;
-        height: 100%;
+        right: 0;
+        width: 500px;
         color: black;
         font-size: 0.9em;
 
@@ -94,15 +172,9 @@
         flex-direction: column;
         overflow-y: auto;
 
-        /* dynamic grid from 1 to 6 columns */
+        hr {
+            padding: 0.15em 0;
+            background: #333;
+        }
     }
-
-    // @keyframes slide-in {
-    //     0% {
-    //         transform: translateX(0%);
-    //     }
-    //     100% {
-    //         transform: translateX(100%);
-    //     }
-    // }
 </style>
