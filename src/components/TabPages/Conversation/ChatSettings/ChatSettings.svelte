@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
 
-    import { chat_state } from '$stores/chat_state.js';
+    import { chatState } from '$stores/chatState.js';
     import { appState } from '$stores/stores';
 
     import ModelList from '../ModelList/ModelList.svelte';
@@ -14,27 +14,27 @@
     let isManagerOpen = false;
 
     onMount(() => {
-        console.log('chat_state', get(chat_state));
+        console.log('chatState', get(chatState));
     });
 
     function savePrompt() {
         appState.update((state) => {
-            state.savedSystemPrompts.push($chat_state.system_prompt);
+            state.savedSystemPrompts.push($chatState.system_prompt);
             return state;
         });
     }
 </script>
 
-<!-- {@debug chat_state} -->
+<!-- {@debug chatState} -->
 <div class="model-list"><ModelList /></div>
 <hr />
-{#if $chat_state}
+{#if $chatState}
     <ul>
-        {#each Object.keys(get(chat_state).values) as key}
+        {#each Object.keys(get(chatState).values) as key}
             <li>
                 <!-- svelte-ignore a11y-label-has-associated-control -->
                 <label>{key}</label>
-                <input bind:value={$chat_state.values[key]} />
+                <input bind:value={$chatState.values[key]} />
             </li>
         {/each}
     </ul>
@@ -61,12 +61,12 @@
                 <ChatButton
                     label="Clear"
                     iconName="delete"
-                    onClick={() => ($chat_state.system_prompt = '')}
+                    onClick={() => ($chatState.system_prompt = '')}
                 />
             </div>
         </div>
     </label>
-    <textarea bind:value={$chat_state.system_prompt} placeholder="None" />
+    <textarea bind:value={$chatState.system_prompt} placeholder="None" />
     <SystemPromptManager
         isOpen={isManagerOpen}
         onClose={() => {
@@ -78,7 +78,7 @@
 <div class="template-prompt">
     <!-- svelte-ignore a11y-label-has-associated-control -->
     <label>Template Prompt</label>
-    <textarea bind:value={$chat_state.template} />
+    <textarea bind:value={$chatState.template} />
 </div>
 
 <style lang="scss">

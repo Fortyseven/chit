@@ -1,5 +1,5 @@
 <script>
-    import { chat_state } from '$stores/chat_state';
+    import { chatState } from '$stores/chatState';
     import { appState } from '$stores/stores';
 
     export let isOpen = false;
@@ -7,7 +7,7 @@
 
     function useSP(index) {
         console.log('useSP', index);
-        $chat_state.system_prompt = $appState.savedSystemPrompts[index];
+        $chatState.system_prompt = $appState.savedSystemPrompts[index];
         if (onClose) {
             onClose();
         }

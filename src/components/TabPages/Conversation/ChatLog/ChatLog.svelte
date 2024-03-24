@@ -4,17 +4,17 @@
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
 
-    import { chat_log, chat_state } from '$stores/chat_state.js';
+    import { chat_log, chatState } from '$stores/chatState.js';
 
     import ChatButton from '$components/UI/ChatButton.svelte';
     import { restoreChatStateLog, saveChatStateToLog } from '$lib/log';
 
     onMount(() => {
-        console.log('chat_state', get(chat_state));
+        console.log('chatState', get(chatState));
     });
 </script>
 
-<!-- {@debug chat_state} -->
+<!-- {@debug chatState} -->
 <aside id="ChatLog">
     <h1>Chat Log</h1>
     <div class="controls">
@@ -27,13 +27,13 @@
     <hr />
     <div class="chat-log-container">
         <div class="chat-list">
-            {#each $chat_log as { chat_state, chat_timeline }, index}
+            {#each $chat_log as { chatState, chat_timeline }, index}
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <div class="entry-wrapper">
                     <div
                         class="chat-details"
-                        on:click={restoreChatStateLog(chat_state.guid)}
+                        on:click={restoreChatStateLog(chatState.guid)}
                     >
                         {#if chat_timeline[1]}
                             <!-- svelte-ignore a11y-label-has-associated-control -->

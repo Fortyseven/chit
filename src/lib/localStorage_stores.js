@@ -1,5 +1,5 @@
 import * as Storages from '../stores/stores';
-import * as Storages_ChatState from '../stores/chat_state';
+import * as Storages_ChatState from '../stores/chatState';
 
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
@@ -9,8 +9,8 @@ const STORE_BLACKLIST = [
     'DEFAULT_OL_ENDPOINT',
     'DEFAULT_PB_ENDPOINT',
     'responseInProgress',
-    'chat_state_type',
-    'chat_state_defaults'
+    'chatState_type',
+    'chatState_defaults'
 ];
 
 /***

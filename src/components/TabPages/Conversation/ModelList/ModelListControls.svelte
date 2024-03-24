@@ -1,33 +1,34 @@
 <script>
     import { updateModelDetails } from '$lib/api/api';
     import { defaultModelName } from '$stores/stores';
-    import { chat_state } from '$stores/chat_state';
+    import { chatState } from '$stores/chatState';
 
     import Icon from '../../../UI/Icon.svelte';
 
     function onMakeDefault() {
-        $defaultModelName = $chat_state.model_name;
+        $defaultModelName = $chatState.model_name;
     }
 
     async function onModelLoadDefaults() {
         if (confirm('Are you sure you want to load the default values?')) {
-            await updateModelDetails($chat_state.model_name);
+            await updateModelDetails($chatState.model_name);
         }
     }
 </script>
 
 <div class="control-container">
-    <button
+    <!-- <button
         class="button is-primary"
         on:click={onMakeDefault}
         title="Set As Default"
     >
         <Icon icon="favorite" />
-    </button>
+    </button> -->
     <button
         class="button is-primary"
         on:click={onModelLoadDefaults}
         title="Load Modelfile Defaults"
+        disabled={!$chatState.model_name}
     >
         <Icon icon="circle-arrow-down" />
     </button>

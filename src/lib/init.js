@@ -3,13 +3,12 @@ import { get } from 'svelte/store';
 import {
     appState,
     chatTimeline,
-    currentModelIndex,
     defaultModelName,
     errorMessage,
     models
 } from '../stores/stores';
 
-import { chatState_resetToDefaults, chat_state } from '../stores/chat_state';
+import { chatState } from '../stores/chatState';
 
 import { refreshModelList, updateModelDetails } from './api/api';
 
@@ -40,16 +39,13 @@ export async function init() {
             const modelIndex = get(models).findIndex(
                 (model) => model.name === get(defaultModelName)
             );
-            if (modelIndex !== -1) {
-                currentModelIndex.set(modelIndex);
-            }
         }
     }
 
     await refreshModelList();
 
-    if (get(chat_state).model_name) {
-        updateModelDetails(get(chat_state).model_name);
+    if (get(chatState).model_name) {
+        updateModelDetails(get(chatState).model_name);
     }
 
     console.log('🔴 ...init complete.');

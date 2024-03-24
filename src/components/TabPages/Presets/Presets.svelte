@@ -1,59 +1,67 @@
 <script>
     import { onMount } from 'svelte';
-    import { get } from 'svelte/store';
 
-    import { getPresets, pb } from '$lib/pocketbase';
-
-    import { chat_state } from '$stores/chat_state.js';
+    import { chatState } from '$stores/chatState.js';
     import { appState } from '$stores/stores';
+    import { updateModelDetails } from '$lib/api/api';
+    import { getPresets, loadPreset } from '$lib/presets';
 
-    // import ChatButton from '$components/UI/ChatButton.svelte';
     import Presets__SystemPrompt from './Presets__SystemPrompt.svelte';
     import Presets__Template from './Presets__Template.svelte';
     import ModelList from '../Conversation/ModelList/ModelList.svelte';
 
     function savePrompt() {
         appState.update((state) => {
-            state.savedSystemPrompts.push($chat_state.system_prompt);
+            state.savedSystemPrompts.push($chatState.system_prompt);
             return state;
         });
     }
 
-    let presets = undefined;
-    let selected = undefined;
+    let available_presets = undefined;
+    let selected_preset_id = undefined;
 
     let save_model = true;
     let save_template = true;
 
     onMount(async () => {
-        presets = await getPresets();
+        available_presets = await getPresets();
     });
 
     // -------------------------
-    function loadPreset() {
-        let preset = presets.filter((p) => p.id === selected)[0];
+    async function beginLoadPreset() {
+        console.log('Loading preset:', selected_preset_id);
 
-        chat_state.update((state) => {
-            state.preset_id = preset.id;
-            state.title = preset.title;
-            state.system_prompt = preset.system;
+        let preset_data = await loadPreset(selected_preset_id);
 
-            if (preset.model_name) {
-                state.model_name = preset.model_name;
-            }
+        // let preset = available_presets.filter((p) => p.id === selected)[0];
 
-            if (preset.template) {
-                state.template = preset.template;
-            }
+        // if (preset.model_name) {
+        //     console.log('Loading model presets for ', preset.model_name);
+        //     await updateModelDetails(preset.model_name);
+        //     console.log('After loading:', get(chatState));
+        // }
 
-            if (preset.options) {
-                state.values = { ...state.values, ...preset.options };
-            }
+        // chatState.update(async (chat_state) => {
+        //     chat_state.preset_id = preset.id;
+        //     chat_state.title = preset.title;
+        //     chat_state.system_prompt = preset.system;
 
-            console.table({ state });
-            console.log('preset', preset);
-            return state;
-        });
+        //     if (preset.model_name) {
+        //         chat_state.model_name = preset.model_name;
+        //     }
+
+        //     if (preset.template) {
+        //         chat_state.template = preset.template;
+        //     }
+
+        //     if (preset.options) {
+        //         chat_state.values = { ...chat_state.values, ...preset.options };
+        //     }
+
+        //     console.table({ state: chat_state });
+        //     console.log('preset', preset);
+        //     return chat_state;
+        // });
     }
 </script>
 
@@ -62,35 +70,35 @@
 <div id="Presets" class="w-full h-full text-white">
     <div class="pb-4 text-3xl">Presets</div>
 
-    {#if presets}
+    {#if available_presets}
         <!-- dropdown -->
         <div class="flex w-full gap-1">
             <select
-                bind:value={selected}
+                bind:value={selected_preset_id}
                 class="w-full px-4 py-2 mb-2 text-white bg-[#888]"
             >
-                {#each presets as preset}
+                {#each available_presets as preset}
                     <option value={preset.id}>{preset.title}</option>
                 {/each}
             </select>
-            {#if selected == $chat_state.preset_id}
+            <!-- {#if selected == $chatState.preset_id}
                 <button class="update" on:click={loadPreset}>Updt</button>
-            {:else}
-                <button class="load" on:click={loadPreset}>Load</button>
-            {/if}
-            <button class="del" on:click={loadPreset}> Del </button>
+            {:else} -->
+            <button class="load" on:click={beginLoadPreset}>Load</button>
+            <!-- {/if} -->
+            <button class="del" on:click={beginLoadPreset}> Del </button>
         </div>
 
         <hr />
     {/if}
 
     <!-- ---------------------- -->
-    <!-- {@debug chat_state} -->
-    {#if $chat_state}
+    <!-- {@debug chatState} -->
+    {#if $chatState}
         <div class="preset-title">
             <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>Title</label>
-            <input type="text" bind:value={$chat_state.title} />
+            <input type="text" bind:value={$chatState.title} />
         </div>
 
         <hr />
@@ -104,6 +112,7 @@
 
         <!-- --------------- -->
         <Presets__SystemPrompt bind:save={save_model} />
+
         <hr />
 
         <!-- --------------- -->
@@ -113,15 +122,17 @@
 
         <!-- --------------- -->
         <div class="chat-values">
-            <ul>
-                {#each Object.keys($chat_state.values) as key}
-                    <li>
-                        <!-- svelte-ignore a11y-label-has-associated-control -->
-                        <label>{key}</label>
-                        <input bind:value={$chat_state.values[key]} />
-                    </li>
-                {/each}
-            </ul>
+            {#if $chatState.values}
+                <ul>
+                    {#each Object.keys($chatState.values) as key}
+                        <li>
+                            <!-- svelte-ignore a11y-label-has-associated-control -->
+                            <label>{key}</label>
+                            <input bind:value={$chatState.values[key]} />
+                        </li>
+                    {/each}
+                </ul>
+            {/if}
         </div>
     {/if}
 </div>
@@ -133,62 +144,6 @@
         padding: 0;
         margin: 0.75em 0;
         border-color: #888;
-    }
-
-    .ass {
-        .dropdown {
-            // width: 100%;
-            // display: flex;
-            // gap: 0.25em;
-
-            select {
-                width: 100%;
-                font-family: var(--font-primary);
-                background-color: #888;
-                border: none;
-            }
-
-            button {
-                // font-family: var(--font-primary);
-                // cursor: pointer;
-                // &.del {
-                //     background-color: var(--color-error);
-                //     border: none;
-                //     border-radius: 4px;
-                // }
-
-                // &:hover {
-                //     opacity: 0.8;
-                // }
-            }
-        }
-
-        .preset-title {
-            display: flex;
-            flex-direction: column;
-            label {
-                padding-bottom: 0.25em;
-            }
-        }
-
-        .template-prompt {
-            display: flex;
-            flex-direction: column;
-            label {
-                color: white;
-                margin-bottom: 0.5em;
-            }
-            textarea {
-                border: none;
-                border-radius: 10px;
-                height: 6em;
-                padding: 0.5em;
-                font-family: monospace !important;
-                outline: none;
-                background-color: #444;
-                color: white;
-            }
-        }
     }
 
     .preset-title {

@@ -13,12 +13,12 @@
     import { responseInProgress, wasAborted } from '$lib/api/api';
 
     import { OL_chat } from '$lib/api/api';
-    import { clearChat, popLastMessage, rerollLastResponse } from '$lib/chat';
+    import { clearChat, rerollLastResponse } from '$lib/chat';
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     import GlobalInputs from './GlobalInputs.svelte';
     import { saveChatStateToLog } from '$lib/log';
-    import { chat_state } from '$stores/chat_state';
+    import { chatState } from '$stores/chatState';
 
     let inputEl = undefined;
 
@@ -49,6 +49,7 @@
     }
 
     async function submit() {
+        console.log('yep');
         let msg = $inputText.trim();
 
         if (msg !== '') {
@@ -62,7 +63,7 @@
             } else if (msg === '/debug') {
                 console.group('Stores');
                 console.log('chatTimeline:', $chatTimeline);
-                console.log('chat_state:', $chat_state);
+                console.log('chatState:', $chatState);
                 console.log('appState:', $appState);
                 console.groupEnd();
 
@@ -152,14 +153,14 @@
         placeholder="Type a message..."
         bind:this={inputEl}
         bind:value={$inputText}
-        class:overflow={$inputText.length + $chat_state.system_prompt.length >=
-            $chat_state.values.num_ctx}
     />
 
+    <!-- class:overflow={$inputText?.length + $chatState?.system_prompt.length >=
+            $chatState?.values.num_ctx} -->
     <!-- ---------------------------- -->
     <button
         class="button is-primary bg-green-800 rounded-md"
-        disabled={$responseInProgress || !$chat_state.model_name}
+        disabled={$responseInProgress || !$chatState.model_name}
         title="Submit query"
         on:click={submit}
     >

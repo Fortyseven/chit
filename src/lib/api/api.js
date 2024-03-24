@@ -7,7 +7,7 @@ import {
     responseInProgress_AbortController
 } from '../../stores/stores';
 
-import { chatState_resetToDefaults, chat_state } from '../../stores/chat_state';
+import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
 
 import { ebk_inputBoxBack } from '../../lib/events/eventBus__keyboard';
 
@@ -68,7 +68,7 @@ export const refreshModelList = async () => {
 };
 
 function _getChatParamObject() {
-    const chat_parameters = get(chat_state).values;
+    const chat_parameters = get(chatState).values;
 
     //FIXME:
     delete chat_parameters.stop;
@@ -91,7 +91,7 @@ function _getChatParamObject() {
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
 export async function OL_chat(user_message = null) {
-    if (get(chat_state)?.model_name === null) {
+    if (get(chatState)?.model_name === null) {
         throw new Error('No model selected');
     }
 
@@ -115,16 +115,16 @@ export async function OL_chat(user_message = null) {
         // sets the pending message index to expect for the response
 
         const body = {
-            model: get(chat_state).model_name,
+            model: get(chatState).model_name,
             stream: true,
             messages: [...get(chatTimeline)],
-            template: get(chat_state).template,
+            template: get(chatState).template,
             options: {
                 ..._getChatParamObject()
             }
         };
 
-        const sys_prompt = get(chat_state).system_prompt.trim();
+        const sys_prompt = get(chatState).system_prompt.trim();
 
         if (sys_prompt) {
             body.messages = [
@@ -223,10 +223,11 @@ function _parseConfigString(configString) {
 }
 
 export async function updateModelDetails(model_name) {
-    OL_model_details(model_name).then((details) => {
-        chatState_resetToDefaults();
+    chatState_resetToDefaults();
 
-        chat_state.update((state) => {
+    await OL_model_details(model_name).then((details) => {
+        chatState.update((state) => {
+            state.system_prompt = details.system;
             state.template = details.template;
             // iterate state.values properties and replace with values from details.parameters
 

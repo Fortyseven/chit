@@ -1,24 +1,24 @@
 import { get } from 'svelte/store';
-import { chat_log, chat_state } from '../stores/chat_state';
+import { chat_log, chatState } from '../stores/chatState';
 import { chatTimeline } from '../stores/stores';
 
 export function saveChatStateToLog() {
     chat_log.update((log) => {
         // make a deep copy
-        // const chat = JSON.parse(JSON.stringify(get(chat_state)));
+        // const chat = JSON.parse(JSON.stringify(get(chatState)));
         // chat.guid = chat.guid || Date.now();
         // log.push(chat);
         // console.log('chat_log', log);
 
-        const saved_chat_state = JSON.parse(JSON.stringify(get(chat_state)));
+        const saved_chatState = JSON.parse(JSON.stringify(get(chatState)));
         const saved_chat_timeline = JSON.parse(
             JSON.stringify(get(chatTimeline))
         );
 
-        saved_chat_state.guid = Date.now();
+        saved_chatState.guid = Date.now();
 
         log.push({
-            chat_state: saved_chat_state,
+            chatState: saved_chatState,
             chat_timeline: saved_chat_timeline
         });
 
@@ -28,10 +28,10 @@ export function saveChatStateToLog() {
 
 export function restoreChatStateLog(guid) {
     const log = get(chat_log);
-    const chat = log.find((c) => c.chat_state.guid === guid);
+    const chat = log.find((c) => c.chatState.guid === guid);
 
     if (chat) {
-        chat_state.set(chat.chat_state);
+        chatState.set(chat.chatState);
         chatTimeline.set(chat.chat_timeline);
     }
 }

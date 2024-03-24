@@ -5,21 +5,6 @@
     import ConversationTimelineResponse_User from './TimelineResponse_User.svelte';
     import ConversationTimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
     import TimelineResponseAssistant from './TimelineResponse_Assistant.svelte';
-    import { scrollToBottom } from '$lib/chat';
-
-    let responseScrollTimer = null;
-
-    responseInProgress.subscribe(async (value) => {
-        if (value) {
-            if (responseScrollTimer) clearInterval(responseScrollTimer);
-
-            responseScrollTimer = setInterval(() => {
-                scrollToBottom();
-            }, 250);
-        } else {
-            if (responseScrollTimer) clearInterval(responseScrollTimer);
-        }
-    });
 </script>
 
 <div class="timeline py-4">

@@ -4,7 +4,6 @@ export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
 export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/';
 
 export const models = writable([]);
-export const currentModelIndex = writable(0);
 export const chatTimeline = writable([]);
 export const responseInProgress_AbortController = writable(null);
 export const inputText = writable('');
@@ -17,8 +16,7 @@ export const contentEl = writable(null);
   stores_ui. This needs to be fixed ASAP. */
 export const appState = writable({
     ui: {
-        autoImportDefaults: true,
-
+        // autoImportDefaults: true,
         selectedTab: 'presets',
         constrainChatWidth: true
     },

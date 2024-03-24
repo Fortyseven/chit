@@ -5,7 +5,3 @@ import { appState } from '../stores/stores';
 export const pb = new PocketBase(get(appState).pbEndpoint);
 
 export const currentUser = writable(pb.authStore.model);
-
-export const getPresets = async () => {
-    return await pb.collection('presets').getFullList();
-};

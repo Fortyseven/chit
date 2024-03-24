@@ -1,5 +1,5 @@
 <script>
-    import { chat_state } from '$stores/chat_state.js';
+    import { chatState } from '$stores/chatState.js';
 
     export let save = false;
 </script>
@@ -22,7 +22,7 @@
             ></div>
         </div>
     </label>
-    <textarea bind:value={$chat_state.template} placeholder="None" />
+    <textarea bind:value={$chatState.template} placeholder="None" />
 </div>
 
 <style lang="scss">

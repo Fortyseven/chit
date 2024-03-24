@@ -2,17 +2,14 @@ import { contentEl, chatTimeline, inputText } from '../stores/stores';
 import { OL_chat } from '$lib/api/api';
 import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
-import { chat_state } from '../stores/chat_state';
+import { chatState } from '../stores/chatState';
 
 export function scrollToBottom() {
-    if (get(contentEl)) {
-        setTimeout(() => {
-            contentEl.update((el) => {
-                el.scrollTop = el.scrollHeight;
-                return el;
-            });
-        }, 50);
-        // await tick();
+    const el = get(contentEl);
+    if (el) {
+        el.scrollTop = el.scrollHeight;
+    } else {
+        console.error('Failed to scroll to bottom of chat');
     }
 }
 
@@ -21,7 +18,7 @@ export function clearChat() {
     inputText.set('');
 
     // starting from scratch, so no guid yet unless saved
-    chat_state.update((state) => {
+    chatState.update((state) => {
         state.guid = undefined;
         return state;
     });

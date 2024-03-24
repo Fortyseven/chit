@@ -8,33 +8,44 @@
     import InputBox from '../InputBox/InputBox.svelte';
     import LoadingStripe from './LoadingStripe.svelte';
     import StatusBar from '../StatusBar/StatusBar.svelte';
+    import { scrollToBottom } from '$lib/chat';
 
-    function scrollToBottom() {
-        if ($contentEl) {
-            setTimeout(() => {
-                $contentEl.scrollTop = $contentEl.scrollHeight;
-            }, 250);
-            // await tick();
-        } else {
-            console.log('scrollToBottom: $contentEl is not defined');
-        }
-    }
+    let chatContentEl = undefined;
 
     chatTimeline.subscribe(async (value) => {
         scrollToBottom();
     });
 
-    responseInProgress.subscribe(async (value) => {
-        scrollToBottom();
+    let responseScrollTimer = null;
+
+    $: {
+        if (chatContentEl !== undefined) {
+            contentEl.set(chatContentEl);
+        }
+    }
+
+    responseInProgress.subscribe(async (inReceivingResponse) => {
+        if (inReceivingResponse) {
+            console.log('responseInProgress starting scroll');
+            if (responseScrollTimer) clearInterval(responseScrollTimer);
+
+            responseScrollTimer = setInterval(() => {
+                console.log('responseInProgress scrolling');
+                scrollToBottom();
+            }, 250);
+        } else {
+            if (responseScrollTimer) clearInterval(responseScrollTimer);
+            scrollToBottom();
+            console.log('responseInProgress stopping scroll');
+        }
     });
 
     onMount(() => {
         console.log('Timeline onMount');
-        setTimeout(() => {
-            console.log('Timeline onMount setTimeout =================');
-            scrollToBottom();
-        }, 250);
-        // scrollToBottom();
+        // setTimeout(() => {
+        // console.log('Timeline onMount setTimeout =================');
+        scrollToBottom();
+        // }, 250);
     });
 </script>
 
