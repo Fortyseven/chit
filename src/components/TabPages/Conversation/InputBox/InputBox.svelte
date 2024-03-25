@@ -149,6 +149,7 @@
     on:inputbox-back={() => onBack()}
 >
     <textarea
+        class="caret-[--accent-color2]"
         disabled={$responseInProgress}
         placeholder="Type a message..."
         bind:this={inputEl}
