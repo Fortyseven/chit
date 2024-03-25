@@ -7,11 +7,8 @@
 <style lang="scss">
     .loading-stripe {
         width: 100%;
-        height: 100%;
-        max-height: 0.25em !important;
+        height: 0.35rem;
         background-color: #300;
-        border-radius: 10px;
-        max-height: 0.25em !important;
 
         &.isLoading {
             animation: cycle 2000s infinite linear;

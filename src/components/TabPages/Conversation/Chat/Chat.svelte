@@ -56,7 +56,7 @@
     class:max-w-7xl={$appState.ui.constrainChatWidth}
 >
     <div
-        class="flex flex-col w-full h-full"
+        class="flex flex-col w-full h-full scroll-smooth"
         class:constrain-width={$appState.constrainChatWidth}
     >
         <div
@@ -65,10 +65,10 @@
         >
             <Timeline />
         </div>
-        <div class="w-full loading-stripe">
+        <div class="flex-shrink-0 w-full loading-stripe">
             <LoadingStripe />
         </div>
-        <div class="w-full input-box">
+        <div class="flex-shrink-0 w-full input-box">
             <InputBox />
         </div>
         <div>

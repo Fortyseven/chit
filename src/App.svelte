@@ -31,7 +31,7 @@
     </div>
     <!-- --------- -->
     <div
-        class="flex-grow-0 flex-shrink-0 w-full max-w-[400px] xxx2xl:max-w-[640px] p-4 bg-neutral-600"
+        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-neutral-600 resize-x overflow-x"
     >
         <svelte:component this={PAGES[$appState.ui.selectedTab]} />
     </div>
