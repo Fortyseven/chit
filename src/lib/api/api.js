@@ -124,7 +124,7 @@ export async function OL_chat(user_message = null) {
             }
         };
 
-        const sys_prompt = get(chatState).system_prompt.trim();
+        const sys_prompt = get(chatState)?.system_prompt?.trim();
 
         if (sys_prompt) {
             body.messages = [
