@@ -21,8 +21,8 @@ export const chatState_defaults = {
 export const chat_log = writable([]);
 
 export const chatState = writable({
-    preset_id: '',
-    title: '',
+    // preset_id: '',
+    // title: '',
     model_name: '',
     system_prompt:
         'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.',
@@ -42,7 +42,9 @@ export const chatState = writable({
         tfs_z: chatState_defaults.tfs_z,
         top_k: chatState_defaults.top_k,
         top_p: chatState_defaults.top_p
-    }
+    },
+    loadedKoboldState: undefined,
+    stateFilename: 'untitled.json'
 });
 
 export const chatState_resetToDefaults = () => {

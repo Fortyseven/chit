@@ -6,7 +6,9 @@
 </script>
 
 {#if label}
-    <i class="mi-{icon}" style:font-size={size} style:color>{label}</i>
+    <i class="mi-{icon}" style:font-size={size} style:color {...$$restProps}>
+        {label}
+    </i>
 {:else}
-    <i class="mi-{icon}" style:font-size={size} style:color />
+    <i class="mi-{icon}" style:font-size={size} style:color {...$$restProps} />
 {/if}

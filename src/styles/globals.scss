@@ -1,7 +1,62 @@
+$accent-color: #faa000;
+
+$accent-color-lighter4: lighten($accent-color, 40%);
+$accent-color-lighter3: lighten($accent-color, 30%);
+$accent-color-lighter2: lighten($accent-color, 20%);
+$accent-color-lighter1: lighten($accent-color, 10%);
+
+$accent-color-darker1: darken($accent-color, 10%);
+$accent-color-darker2: darken($accent-color, 20%);
+$accent-color-darker3: darken($accent-color, 30%);
+$accent-color-darker4: darken($accent-color, 40%);
+
+
+$core-color: rgb(0, 48, 145);
+
+$core-color-lighter4: lighten($core-color, 40%);
+$core-color-lighter3: lighten($core-color, 30%);
+$core-color-lighter2: lighten($core-color, 20%);
+$core-color-lighter1: lighten($core-color, 10%);
+
+$core-color-darker1: darken($core-color, 10%);
+$core-color-darker2: darken($core-color, 20%);
+$core-color-darker3: darken($core-color, 30%);
+$core-color-darker4: darken($core-color, 40%);
+
+$primary-fg: #ddd;
+
+
+
+
 :root {
     --font-primary: Mulish, 'Roboto Condensed', sans-serif;
-    --accent-color1: #fb0;
-    --accent-color2: #0bf;
+
+    --core-color: #{$core-color};
+    --core-color-lighter1: #{$core-color-lighter1};
+    --core-color-lighter2: #{$core-color-lighter2};
+    --core-color-lighter3: #{$core-color-lighter3};
+    --core-color-lighter4: #{$core-color-lighter4};
+    --core-color-darker1: #{$core-color-darker1};
+    --core-color-darker2: #{$core-color-darker2};
+    --core-color-darker3: #{$core-color-darker3};
+    --core-color-darker4: #{$core-color-darker4};
+
+    --accent-color: #{$accent-color};
+    --accent-color-lighter1: #{$accent-color-lighter1};
+    --accent-color-lighter2: #{$accent-color-lighter2};
+    --accent-color-lighter3: #{$accent-color-lighter3};
+    --accent-color-lighter4: #{$accent-color-lighter4};
+    --accent-color-darker1: #{$accent-color-darker1};
+    --accent-color-darker2: #{$accent-color-darker2};
+    --accent-color-darker3: #{$accent-color-darker3};
+    --accent-color-darker4: #{$accent-color-darker4};
+
+    --primary-fg: #{$primary-fg};
+
+
+    // --ui-primary-bg: #FAA000;
+    --ui-primary-bg: var(--accent-color-darker1);
+    --ui-primary-fg: #000;
 
     --color-error: #faa;
 }
@@ -22,6 +77,7 @@ body {
     margin: 0;
     overflow: hidden;
     font-family: var(--font-primary) !important;
+    color: var(--primary-fg);
     font-size: 18px;
     line-height: unset;
 }

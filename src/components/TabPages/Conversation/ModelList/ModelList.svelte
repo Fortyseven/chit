@@ -12,14 +12,14 @@
     }
 </script>
 
-<div class="model-list-container">
+<div class="model-list-container w-full">
     <div id="ModelsDropdown">
-        <label>Model</label>
         <div class="flex">
             <select
                 bind:value={$chatState.model_name}
                 on:change={(e) => onModelSelect()}
-                class="w-full text-white bg-black mr-4"
+                class="flex-auto mr-4 px-2 bg-core-color-darker3 text-accent-color-lighter3"
+                style="width: 100% !important;"
             >
                 {#each $models as model, index}
                     <!-- svelte-ignore a11y-missing-attribute -->

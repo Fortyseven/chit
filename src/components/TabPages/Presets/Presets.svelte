@@ -6,9 +6,13 @@
     import { updateModelDetails } from '$lib/api/api';
     import { getPresets, loadPreset } from '$lib/presets';
 
-    import Presets__SystemPrompt from './Presets__SystemPrompt.svelte';
-    import Presets__Template from './Presets__Template.svelte';
+    import Presets__TextArea from './Presets__TextArea.svelte';
     import ModelList from '../Conversation/ModelList/ModelList.svelte';
+    import Button from '$components/UI/Button.svelte';
+    import { mergeDeep } from '$lib/utils';
+
+    import { saveAs } from '../../../lib/vendor/FileSaver.min.js';
+    import LockToggle from '$components/UI/LockToggle.svelte';
 
     function savePrompt() {
         appState.update((state) => {
@@ -18,110 +22,236 @@
     }
 
     let available_presets = undefined;
-    let selected_preset_id = undefined;
+
+    let lock_model = false;
+    let lock_system = false;
+    let lock_template = false;
+    let lock_values = false;
 
     let save_model = true;
     let save_template = true;
 
     onMount(async () => {
         available_presets = await getPresets();
+        $chatState.loadedKoboldState = undefined;
     });
 
-    // -------------------------
-    async function beginLoadPreset() {
-        console.log('Loading preset:', selected_preset_id);
+    function _onHaveLoadedKobold(data) {
+        if (lock_model && lock_system && lock_template && lock_values) {
+            console.warn('All settings are locked, aborted by default');
+            return;
+        }
 
-        let preset_data = await loadPreset(selected_preset_id);
+        chatState.update((state) => {
+            if (!lock_model) {
+                if (data.savedsettings?.model_name) {
+                    state.model_name = data.savedsettings.model_name;
+                }
+            }
 
-        // let preset = available_presets.filter((p) => p.id === selected)[0];
+            if (!lock_system) {
+                if (data?.memory) {
+                    state.system_prompt = data.memory;
+                }
+            }
 
-        // if (preset.model_name) {
-        //     console.log('Loading model presets for ', preset.model_name);
-        //     await updateModelDetails(preset.model_name);
-        //     console.log('After loading:', get(chatState));
-        // }
+            if (!lock_values) {
+                //temperature: chatState_defaults.temperature,
+                if (data.savedsettings?.temperature) {
+                    state.values.temperature = data.savedsettings.temperature;
+                }
+                // top_k: chatState_defaults.top_k,
+                if (data.savedsettings?.top_k) {
+                    state.values.top_k = data.savedsettings.top_k;
+                }
+                //top_p: chatState_defaults.top_p
+                if (data.savedsettings?.top_p) {
+                    state.values.top_p = data.savedsettings.top_p;
+                }
+                if (data.savedsettings?.rep_pen) {
+                    state.values.repeat_penalty = data.savedsettings.rep_pen;
+                }
+                if (data.savedsettings?.max_length) {
+                    state.values.max_length = data.savedsettings.max_length;
+                }
+                if (data.savedsettings?.max_context_length) {
+                    state.values.num_ctx =
+                        data.savedsettings.max_context_length;
+                }
+                // end native kobold settings
 
-        // chatState.update(async (chat_state) => {
-        //     chat_state.preset_id = preset.id;
-        //     chat_state.title = preset.title;
-        //     chat_state.system_prompt = preset.system;
+                if (data.savedsettings?.repeat_last_n) {
+                    state.values.repeat_last_n =
+                        data.savedsettings.repeat_last_n;
+                }
 
-        //     if (preset.model_name) {
-        //         chat_state.model_name = preset.model_name;
-        //     }
+                //  mirostat: chatState_defaults.mirostat,
+                if (data.savedsettings?.mirostat) {
+                    state.values.mirostat = data.savedsettings.mirostat;
+                }
+                // mirostat_eta: chatState_defaults.mirostat_eta,
+                if (data.savedsettings?.mirostat_eta) {
+                    state.values.mirostat_eta = data.savedsettings.mirostat_eta;
+                }
+                // mirostat_tau: chatState_defaults.mirostat_tau,
 
-        //     if (preset.template) {
-        //         chat_state.template = preset.template;
-        //     }
+                if (data.savedsettings?.mirostat_tau) {
+                    state.values.mirostat_tau = data.savedsettings.mirostat_tau;
+                }
 
-        //     if (preset.options) {
-        //         chat_state.values = { ...chat_state.values, ...preset.options };
-        //     }
+                // num_predict: chatState_defaults.num_predict,
+                if (data.savedsettings?.num_predict) {
+                    state.values.num_predict = data.savedsettings.num_predict;
+                }
 
-        //     console.table({ state: chat_state });
-        //     console.log('preset', preset);
-        //     return chat_state;
-        // });
+                // repeat_last_n: chatState_defaults.repeat_last_n,
+                if (data.savedsettings?.repeat_last_n) {
+                    state.values.repeat_last_n =
+                        data.savedsettings.repeat_last_n;
+                }
+
+                //repeat_penalty: chatState_defaults.repeat_penalty,
+                if (data.savedsettings?.repeat_penalty) {
+                    state.values.repeat_penalty =
+                        data.savedsettings.repeat_penalty;
+                }
+
+                // seed: chatState_defaults.seed,
+                if (data.savedsettings?.seed) {
+                    state.values.seed = data.savedsettings.seed;
+                }
+
+                //tfs_z: chatState_defaults.tfs_z,
+                if (data.savedsettings?.tfs_z) {
+                    state.values.tfs_z = data.savedsettings.tfs_z;
+                }
+            }
+
+            // so we preserve the loaded state if we try to save it, even
+            // if we don't support all the settings
+            state.loadedKoboldState = data;
+
+            return state;
+        });
+    }
+
+    function loadPresetFromFile() {
+        console.log('Loading preset from file');
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = JSON.parse(e.target.result);
+                console.log('Loaded preset:', data);
+                $chatState.stateFilename = file.name;
+                _onHaveLoadedKobold(data);
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function savePresetToFile() {
+        console.log('Saving preset to file');
+        const data = {
+            savedsettings: {
+                model_name: $chatState.model_name,
+                temperature: $chatState.values.temperature,
+                top_k: $chatState.values.top_k,
+                top_p: $chatState.values.top_p,
+                rep_pen: $chatState.values.repeat_penalty,
+                max_length: $chatState.values.max_length,
+                max_context_length: $chatState.values.num_ctx,
+                repeat_last_n: $chatState.values.repeat_last_n,
+                mirostat: $chatState.values.mirostat,
+                mirostat_eta: $chatState.values.mirostat_eta,
+                mirostat_tau: $chatState.values.mirostat_tau,
+                num_predict: $chatState.values.num_predict,
+                repeat_last_n: $chatState.values.repeat_last_n,
+                repeat_penalty: $chatState.values.repeat_penalty,
+                seed: $chatState.values.seed,
+                tfs_z: $chatState.values.tfs_z
+            },
+            memory: $chatState.system_prompt
+        };
+
+        // deep merge $chatState.loadedKoboldState with this data object
+
+        const merged_data = mergeDeep(
+            $chatState?.loadedKoboldState || {},
+            data
+        );
+
+        console.debug('Merged data:', merged_data);
+
+        // use a "Save As" dialogue to allow user to save the file to a filename
+        // of their choosing
+
+        const blob = new Blob([JSON.stringify(merged_data)], {
+            type: 'application/json'
+        });
+
+        saveAs(blob, $chatState.stateFilename || 'untitled.json');
+
+        // const url = URL.createObjectURL(blob);
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = $chatState.stateFilename || 'kobold_state.json';
+        // a.click();
+        // URL.revokeObjectURL(url);
     }
 </script>
 
 <!-- ----------------------------------------------------------------------- -->
 
-<div id="Presets" class="w-full h-full text-white">
+<div id="Presets" class="w-full h-full text-primary">
     <div class="pb-4 text-3xl">Presets</div>
 
-    {#if available_presets}
-        <!-- dropdown -->
-        <div class="flex w-full gap-1">
-            <select
-                bind:value={selected_preset_id}
-                class="w-full px-4 py-2 mb-2 text-white bg-[#888]"
-            >
-                {#each available_presets as preset}
-                    <option value={preset.id}>{preset.title}</option>
-                {/each}
-            </select>
-            <!-- {#if selected == $chatState.preset_id}
-                <button class="update" on:click={loadPreset}>Updt</button>
-            {:else} -->
-            <button class="load" on:click={beginLoadPreset}>Load</button>
-            <!-- {/if} -->
-            <button class="del" on:click={beginLoadPreset}> Del </button>
-        </div>
-
-        <hr />
-    {/if}
+    <div class="flex">
+        <Button onClick={loadPresetFromFile} title="Load preset from file">
+            Load
+        </Button>
+        <Button onClick={savePresetToFile} title="Save preset to file">
+            Save
+        </Button>
+    </div>
 
     <!-- ---------------------- -->
     <!-- {@debug chatState} -->
     {#if $chatState}
-        <div class="preset-title">
-            <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label>Title</label>
-            <input type="text" bind:value={$chatState.title} />
+        <!-- --------------- -->
+        <div class="model-list flex flex-col">
+            <div class="title flex flex-row">
+                <LockToggle bind:locked={lock_model} />
+                <div class="grid place-content-center">Model</div>
+            </div>
+            <div class="row flex">
+                <ModelList />
+            </div>
         </div>
 
         <hr />
 
         <!-- --------------- -->
-        <div class="model-list">
-            <ModelList />
-        </div>
+        <LockToggle bind:locked={lock_system}>System Prompt</LockToggle>
+
+        <Presets__TextArea bind:value={$chatState.system_prompt} />
 
         <hr />
 
         <!-- --------------- -->
-        <Presets__SystemPrompt bind:save={save_model} />
-
-        <hr />
-
-        <!-- --------------- -->
-        <Presets__Template bind:save={save_template} />
+        <LockToggle bind:locked={lock_system}>Template</LockToggle>
+        <Presets__TextArea bind:value={$chatState.template} />
 
         <hr />
 
         <!-- --------------- -->
         <div class="chat-values">
+            <input type="checkbox" bind:checked={lock_values} />
             {#if $chatState.values}
                 <ul>
                     {#each Object.keys($chatState.values) as key}

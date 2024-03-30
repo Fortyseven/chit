@@ -4,6 +4,8 @@
 </script>
 
 <div class="settings">
+    <h1 class="text-primary pb-4 text-3xl">Settings</h1>
+
     <Settings__General />
     <!-- <Settings__ImportExport /> -->
     <Settings__Appearance />

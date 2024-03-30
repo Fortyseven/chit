@@ -10,7 +10,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
     on:click={() => ($appState.ui.selectedTab = menuId)}
-    class="grid p-2 text-4xl transition-colors duration-300 rounded-lg cursor-pointer bg-neutral-500 place-content-center hover:bg-neutral-400"
+    class="grid p-2 text-4xl transition-colors duration-300 rounded-lg cursor-pointer bg-core-color place-content-center hover:bg-core-color-lighter1"
     class:bg-white={menuId === $appState.ui.selectedTab ? 'is-active' : ''}
     title={label}
     alt={label}

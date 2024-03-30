@@ -26,12 +26,12 @@
 
 <div class="flex flex-row w-full h-full bg-black">
     <!-- --------- -->
-    <div class="flex-[0%] flex-grow-0 flex-shrink-0 bg-neutral-500">
+    <div class="flex-[0%] flex-grow-0 flex-shrink-0">
         <MenuBar />
     </div>
     <!-- --------- -->
     <div
-        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-neutral-600 resize-x overflow-x"
+        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-core-color-darker1 resize-x overflow-x"
     >
         <svelte:component this={PAGES[$appState.ui.selectedTab]} />
     </div>
@@ -91,6 +91,13 @@
         color: white;
         padding: 0.5em;
         border-radius: 0.25em;
+    }
+
+    :global(input[type='checkbox']) {
+        width: 1em;
+        height: 1em;
+        background-color: #faa000;
+        accent-color: #ffaa00;
     }
 
     .debug1 {
