@@ -45,6 +45,8 @@
             if (!$appState.ui.lock_system) {
                 if (data?.memory) {
                     state.system_prompt = data.memory;
+
+                    $appState.ui.lock_system = true;
                 }
             }
 
@@ -237,12 +239,16 @@
             System Prompt
         </LockLabelToggle>
 
-        <Presets__TextArea bind:value={$chatState.system_prompt} />
+        <Presets__TextArea
+            bind:value={$chatState.system_prompt}
+            style="height:30em"
+        />
 
         <!-- --------------- -->
         <LockLabelToggle bind:locked={$appState.ui.lock_template}>
             Template
         </LockLabelToggle>
+
         <Presets__TextArea bind:value={$chatState.template} />
 
         <!-- --------------- -->

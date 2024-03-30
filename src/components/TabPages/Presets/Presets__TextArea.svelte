@@ -9,6 +9,7 @@
         bind:value
         placeholder="None"
         class="bg-core-color-darker2 text-accent-color-lighter3"
+        {...$$restProps}
     />
 </div>
 
