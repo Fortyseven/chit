@@ -20,35 +20,35 @@
         });
     }
 
-    let lock_model = false;
-    let lock_system = false;
-    let lock_template = false;
-    let lock_values = false;
-
     onMount(async () => {
         $chatState.loadedKoboldState = undefined;
     });
 
     function _onHaveLoadedKobold(data) {
-        if (lock_model && lock_system && lock_template && lock_values) {
+        if (
+            $appState.ui.lock_template &&
+            $appState.ui.lock_system &&
+            $appState.ui.lock_model &&
+            $appState.ui.lock_values
+        ) {
             console.warn('All settings are locked, aborted by default');
             return;
         }
 
         chatState.update((state) => {
-            if (!lock_model) {
+            if (!$appState.ui.lock_model) {
                 if (data.savedsettings?.model_name) {
                     state.model_name = data.savedsettings.model_name;
                 }
             }
 
-            if (!lock_system) {
+            if (!$appState.ui.lock_system) {
                 if (data?.memory) {
                     state.system_prompt = data.memory;
                 }
             }
 
-            if (!lock_values) {
+            if (!$appState.ui.lock_values) {
                 //temperature: chatState_defaults.temperature,
                 if (data.savedsettings?.temperature) {
                     state.values.temperature = data.savedsettings.temperature;
@@ -218,26 +218,32 @@
     {#if $chatState}
         <!-- --------------- -->
         <div class="model-list flex flex-col">
-            <LockLabelToggle bind:locked={lock_model}>Model</LockLabelToggle>
+            <LockLabelToggle bind:locked={$appState.ui.lock_model}>
+                Model
+            </LockLabelToggle>
             <div class="row flex">
                 <ModelList />
             </div>
         </div>
 
         <!-- --------------- -->
-        <LockLabelToggle bind:locked={lock_system}
-            >System Prompt</LockLabelToggle
-        >
+        <LockLabelToggle bind:locked={$appState.ui.system_prompt}>
+            System Prompt
+        </LockLabelToggle>
 
         <Presets__TextArea bind:value={$chatState.system_prompt} />
 
         <!-- --------------- -->
-        <LockLabelToggle bind:locked={lock_template}>Template</LockLabelToggle>
+        <LockLabelToggle bind:locked={$appState.ui.lock_template}>
+            Template
+        </LockLabelToggle>
         <Presets__TextArea bind:value={$chatState.template} />
 
         <!-- --------------- -->
         <div class="chat-values">
-            <LockLabelToggle bind:locked={lock_values}>Values</LockLabelToggle>
+            <LockLabelToggle bind:locked={$appState.ui.lock_values}>
+                Values
+            </LockLabelToggle>
             {#if $chatState.values}
                 <ul>
                     {#each Object.keys($chatState.values) as key}

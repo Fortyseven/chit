@@ -77,8 +77,7 @@
     :global(input[type='checkbox']) {
         width: 1em;
         height: 1em;
-        background-color: #faa000;
-        accent-color: #ffaa00;
+        accent-color: var(--accent-color);
     }
 
     .debug1 {

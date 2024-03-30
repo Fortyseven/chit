@@ -13,7 +13,7 @@
     let chatContentEl = undefined;
 
     chatTimeline.subscribe(async (value) => {
-        scrollToBottom();
+        // scrollToBottom();
     });
 
     let responseScrollTimer = null;
@@ -35,7 +35,9 @@
             }, 250);
         } else {
             if (responseScrollTimer) clearInterval(responseScrollTimer);
-            scrollToBottom();
+            setTimeout(() => {
+                scrollToBottom();
+            }, 500);
             console.log('responseInProgress stopping scroll');
         }
     });
