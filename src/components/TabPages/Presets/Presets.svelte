@@ -4,7 +4,6 @@
     import { chatState } from '$stores/chatState.js';
     import { appState } from '$stores/stores';
     import { updateModelDetails } from '$lib/api/api';
-    import { getPresets, loadPreset } from '$lib/presets';
 
     import Presets__TextArea from './Presets__TextArea.svelte';
     import ModelList from '../Conversation/ModelList/ModelList.svelte';
@@ -12,7 +11,7 @@
     import { mergeDeep } from '$lib/utils';
 
     import { saveAs } from '../../../lib/vendor/FileSaver.min.js';
-    import LockToggle from '$components/UI/LockToggle.svelte';
+    import LockLabelToggle from '$components/UI/LockLabelToggle.svelte';
 
     function savePrompt() {
         appState.update((state) => {
@@ -21,18 +20,12 @@
         });
     }
 
-    let available_presets = undefined;
-
     let lock_model = false;
     let lock_system = false;
     let lock_template = false;
     let lock_values = false;
 
-    let save_model = true;
-    let save_template = true;
-
     onMount(async () => {
-        available_presets = await getPresets();
         $chatState.loadedKoboldState = undefined;
     });
 
@@ -225,33 +218,26 @@
     {#if $chatState}
         <!-- --------------- -->
         <div class="model-list flex flex-col">
-            <div class="title flex flex-row">
-                <LockToggle bind:locked={lock_model} />
-                <div class="grid place-content-center">Model</div>
-            </div>
+            <LockLabelToggle bind:locked={lock_model}>Model</LockLabelToggle>
             <div class="row flex">
                 <ModelList />
             </div>
         </div>
 
-        <hr />
-
         <!-- --------------- -->
-        <LockToggle bind:locked={lock_system}>System Prompt</LockToggle>
+        <LockLabelToggle bind:locked={lock_system}
+            >System Prompt</LockLabelToggle
+        >
 
         <Presets__TextArea bind:value={$chatState.system_prompt} />
 
-        <hr />
-
         <!-- --------------- -->
-        <LockToggle bind:locked={lock_system}>Template</LockToggle>
+        <LockLabelToggle bind:locked={lock_template}>Template</LockLabelToggle>
         <Presets__TextArea bind:value={$chatState.template} />
-
-        <hr />
 
         <!-- --------------- -->
         <div class="chat-values">
-            <input type="checkbox" bind:checked={lock_values} />
+            <LockLabelToggle bind:locked={lock_values}>Values</LockLabelToggle>
             {#if $chatState.values}
                 <ul>
                     {#each Object.keys($chatState.values) as key}
@@ -270,17 +256,6 @@
 <!-- ----------------------------------------------------------------------- -->
 
 <style lang="scss">
-    hr {
-        padding: 0;
-        margin: 0.75em 0;
-        border-color: #888;
-    }
-
-    .preset-title {
-        display: flex;
-        flex-direction: column;
-    }
-
     .chat-values {
         ul {
             list-style: none;
@@ -312,8 +287,8 @@
         }
 
         input {
-            background-color: #000;
-            color: white;
+            background-color: var(--core-color-darker2);
+            color: var(--accent-color);
             border: none;
             padding: 0.5em;
         }
