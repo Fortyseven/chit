@@ -227,11 +227,18 @@ export async function updateModelDetails(model_name) {
 
     await OL_model_details(model_name).then((details) => {
         chatState.update((state) => {
-            state.system_prompt = details.system;
-            state.template = details.template;
-            // iterate state.values properties and replace with values from details.parameters
+            if (!get(appState).ui.lock_system) {
+                state.system_prompt = details.system;
+            }
 
-            if (details.parameters) {
+            if (!get(appState).ui.lock_template) {
+                state.template = details.template;
+            }
+
+            // iterate state.values properties and replace
+            // with values from details.parameters
+
+            if (!get(appState).ui.lock_values && details.parameters) {
                 const params = _parseConfigString(details.parameters);
                 for (const key of Object.keys(state.values)) {
                     if (params[key]) {

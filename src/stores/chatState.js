@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
+import { appState } from './stores';
 
 /* these are just out of nowhere sane defaults; actual defaults will
 come from the modelfile refresh */
@@ -21,8 +22,6 @@ export const chatState_defaults = {
 export const chat_log = writable([]);
 
 export const chatState = writable({
-    // preset_id: '',
-    // title: '',
     model_name: '',
     system_prompt:
         'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.',
@@ -49,27 +48,34 @@ export const chatState = writable({
 
 export const chatState_resetToDefaults = () => {
     chatState.update((state) => {
-        state.preset_id = '';
-        state.title = '';
-        state.system_prompt =
-            'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.';
-        state.template = '';
         state.guid = undefined;
-        state.values = {
-            mirostat: chatState_defaults.mirostat,
-            mirostat_eta: chatState_defaults.mirostat_eta,
-            mirostat_tau: chatState_defaults.mirostat_tau,
-            num_ctx: chatState_defaults.num_ctx,
-            num_predict: chatState_defaults.num_predict,
-            repeat_last_n: chatState_defaults.repeat_last_n,
-            repeat_penalty: chatState_defaults.repeat_penalty,
-            seed: chatState_defaults.seed,
-            // stop: chatState_defaults.stop,
-            temperature: chatState_defaults.temperature,
-            tfs_z: chatState_defaults.tfs_z,
-            top_k: chatState_defaults.top_k,
-            top_p: chatState_defaults.top_p
-        };
+
+        if (!get(appState).ui.lock_system) {
+            state.system_prompt =
+                'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.';
+        }
+
+        if (!get(appState).ui.lock_template) {
+            state.template = '';
+        }
+
+        if (!get(appState).ui.lock_values) {
+            state.values = {
+                mirostat: chatState_defaults.mirostat,
+                mirostat_eta: chatState_defaults.mirostat_eta,
+                mirostat_tau: chatState_defaults.mirostat_tau,
+                num_ctx: chatState_defaults.num_ctx,
+                num_predict: chatState_defaults.num_predict,
+                repeat_last_n: chatState_defaults.repeat_last_n,
+                repeat_penalty: chatState_defaults.repeat_penalty,
+                seed: chatState_defaults.seed,
+                // stop: chatState_defaults.stop,
+                temperature: chatState_defaults.temperature,
+                tfs_z: chatState_defaults.tfs_z,
+                top_k: chatState_defaults.top_k,
+                top_p: chatState_defaults.top_p
+            };
+        }
         return state;
     });
 };

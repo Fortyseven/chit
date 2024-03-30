@@ -64,10 +64,16 @@
                 if (data.savedsettings?.rep_pen) {
                     state.values.repeat_penalty = data.savedsettings.rep_pen;
                 }
-                if (data.savedsettings?.max_length) {
-                    state.values.max_length = data.savedsettings.max_length;
+
+                if (data.savedsettings?.num_predict) {
+                    state.values.num_predict = data.savedsettings.num_predict;
+                } else if (data.savedsettings?.max_length) {
+                    state.values.num_predict = data.savedsettings.max_length;
                 }
-                if (data.savedsettings?.max_context_length) {
+
+                if (data.savedsettings?.num_ctx) {
+                    state.values.num_ctx = data.savedsettings.num_ctx;
+                } else if (data.savedsettings?.max_context_length) {
                     state.values.num_ctx =
                         data.savedsettings.max_context_length;
                 }
@@ -157,7 +163,7 @@
                 top_k: $chatState.values.top_k,
                 top_p: $chatState.values.top_p,
                 rep_pen: $chatState.values.repeat_penalty,
-                max_length: $chatState.values.max_length,
+                num_predict: $chatState.values.num_predict,
                 max_context_length: $chatState.values.num_ctx,
                 repeat_last_n: $chatState.values.repeat_last_n,
                 mirostat: $chatState.values.mirostat,
@@ -227,7 +233,7 @@
         </div>
 
         <!-- --------------- -->
-        <LockLabelToggle bind:locked={$appState.ui.system_prompt}>
+        <LockLabelToggle bind:locked={$appState.ui.lock_system}>
             System Prompt
         </LockLabelToggle>
 
