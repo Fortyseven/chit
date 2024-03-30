@@ -51,21 +51,6 @@
 {/if}
 
 <style lang="scss" global>
-    .tab-container {
-        // display: flex;
-        // flex-direction: column;
-        // width: 100%;
-        // height: 100%;
-
-        .tab-content {
-            // width: 100%;
-            // height: 100%;
-            // display: grid;
-            // padding: 1em 0.5em;
-            // gap: 0.5em;
-        }
-    }
-
     :global(input),
     :global(select) {
         background-color: #222;
