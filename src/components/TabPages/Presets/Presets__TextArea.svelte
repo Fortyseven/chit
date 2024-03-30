@@ -8,7 +8,7 @@
     <textarea
         bind:value
         placeholder="None"
-        class="bg-core-color-darker2 text-accent-color-lighter3"
+        class="bg-core-color-darker2 text-accent-color-lighter2"
         {...$$restProps}
     />
 </div>
@@ -17,10 +17,7 @@
     .template {
         display: flex;
         flex-direction: column;
-        label {
-            color: white;
-            margin-bottom: 0.5em;
-        }
+
         textarea {
             border: none;
             border-radius: 10px;
@@ -29,11 +26,5 @@
             // font-family: monospace !important;
             outline: none;
         }
-    }
-
-    input[type='text'] {
-        width: 4em;
-        height: 2em;
-        font-family: monospace !important;
     }
 </style>
