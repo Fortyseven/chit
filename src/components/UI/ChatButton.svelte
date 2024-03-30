@@ -26,20 +26,21 @@
     div {
         display: flex;
         button {
-            background: #333;
+            background: var(--core-color-darker1);
             border-radius: 4px;
             border: none;
-            color: white;
+            color: var(--accent-color);
             font-size: 10pt;
             width: 100%;
 
             &:hover {
-                background: #444;
+                background: var(--core-color);
+                color: var(--accent-color-lighter2);
                 cursor: pointer;
             }
             &.on {
                 animation: fadein 0.5s;
-                background-color: #777;
+                background: var(--core-color);
                 color: black;
                 @keyframes fadein {
                     from {

@@ -8,11 +8,17 @@
     .loading-stripe {
         width: 100%;
         height: 0.35rem;
-        background-color: #300;
+        background-color: var(--accent-color-darker5);
 
         &.isLoading {
             animation: cycle 2000s infinite linear;
-            background: linear-gradient(25deg, #300 0%, #f00 50%, #300 100%);
+            // background: linear-gradient(25deg, #300 0%, #f00 50%, #300 100%);
+            background: linear-gradient(
+                25deg,
+                var(--accent-color-darker5) 0%,
+                var(--accent-color-darker2) 50%,
+                var(--accent-color-darker5) 100%
+            );
         }
 
         @keyframes cycle {

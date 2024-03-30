@@ -206,11 +206,17 @@
 </div>
 
 <style lang="scss">
+    #InputBox {
+        background-color: var(--core-color-darker1);
+        padding-left: 0;
+    }
+
     button {
         @apply transition-all;
         @apply duration-300;
         @apply rounded-md;
-        @apply bg-gray-600;
+
+        background-color: var(--accent-color-darker3);
 
         flex: auto;
         &:disabled {
@@ -233,15 +239,17 @@
         outline-style: none;
         border-radius: 4px;
         border-top: 1px solid #0004;
-        border-bottom: 1px solid #fff4;
+        border-bottom: 1px solid var(--core-color-lighter1);
         font-size: 1.2em;
-        background-color: lighten(#161920, 3%);
-        color: white;
+        background-color: var(--core-color-darker2);
+        color: var(--primary-fg);
         font-family: inherit;
-        &:focus {
-            outline-color: #ffaa0033;
-            outline-style: solid;
-        }
+
+        // &:focus {
+        //     outline-color: var(--accent-color-darker5);
+        //     outline-style: solid;
+        // }
+
         &:disabled {
             opacity: 0.5;
         }
@@ -251,25 +259,25 @@
         }
     }
 
-    .xinput-container {
-        display: grid;
-        grid-template-columns: 1fr 7rem 6rem;
-        gap: 0.45em;
+    // .xinput-container {
+    //     display: grid;
+    //     grid-template-columns: 1fr 7rem 6rem;
+    //     gap: 0.45em;
 
-        button {
-            flex: none;
-            display: block;
-            height: 100% !important;
-        }
+    //     button {
+    //         flex: none;
+    //         display: block;
+    //         height: 100% !important;
+    //     }
 
-        .input-buttons-extra {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-            button {
-                height: 2em !important;
-                line-height: 0;
-            }
-        }
-    }
+    //     .input-buttons-extra {
+    //         display: flex;
+    //         flex-direction: column;
+    //         gap: 0.5em;
+    //         button {
+    //             height: 2em !important;
+    //             line-height: 0;
+    //         }
+    //     }
+    // }
 </style>
