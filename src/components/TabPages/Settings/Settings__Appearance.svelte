@@ -1,31 +1,16 @@
 <script>
     import { appState } from '$stores/stores';
+    import SettingCheckbox from './UI/SettingCheckbox.svelte';
+    import SettingGroup from './UI/SettingGroup.svelte';
 </script>
 
-<fieldset>
-    <legend>Appearance</legend>
+<SettingGroup name="Appearance">
     <div>
-        <label
-            for="api-endpoint"
-            title="Makes the chat timeline more readable at wider widths"
-        >
+        <SettingCheckbox bind:value={$appState.ui.constrainChatWidth}>
             Constrain Chat Width
-            <input
-                type="checkbox"
-                bind:checked={$appState.ui.constrainChatWidth}
-            />
-        </label>
+        </SettingCheckbox>
     </div>
-</fieldset>
+</SettingGroup>
 
 <style lang="scss">
-    fieldset {
-        color: white;
-        > div {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 1em;
-            gap: 1em;
-        }
-    }
 </style>

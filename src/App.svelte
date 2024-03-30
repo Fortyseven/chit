@@ -39,7 +39,7 @@
     <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
     <!-- --------- -->
-    <div class="flex-auto bg-neutral-700">
+    <div class="flex-auto bg-core-color-darker2">
         <Chat />
     </div>
     <!-- --------- -->
@@ -63,25 +63,6 @@
             // display: grid;
             // padding: 1em 0.5em;
             // gap: 0.5em;
-        }
-    }
-
-    :global(fieldset) {
-        padding: 1em;
-        border: 1px solid #333;
-        border-radius: 14px;
-        border-left-color: #444 !important;
-        border-right-color: #444 !important;
-        border-bottom-color: #888 !important;
-        background-color: #222;
-        background-image: linear-gradient(0deg, #000 50%, #1a1a1a 100%);
-
-        legend {
-            font-size: 1.2em;
-            color: #fff;
-            font-weight: bold;
-            padding-left: 0.25em;
-            padding-right: 0.25em;
         }
     }
 

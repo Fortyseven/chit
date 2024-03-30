@@ -1,27 +1,35 @@
 $accent-color: #faa000;
 
-$accent-color-lighter4: lighten($accent-color, 40%);
-$accent-color-lighter3: lighten($accent-color, 30%);
-$accent-color-lighter2: lighten($accent-color, 20%);
+$accent-color-lighter6: lighten($accent-color, 60%);
+$accent-color-lighter5: lighten($accent-color, 40%);
+$accent-color-lighter4: lighten($accent-color, 25%);
+$accent-color-lighter3: lighten($accent-color, 20%);
+$accent-color-lighter2: lighten($accent-color, 15%);
 $accent-color-lighter1: lighten($accent-color, 10%);
 
 $accent-color-darker1: darken($accent-color, 10%);
-$accent-color-darker2: darken($accent-color, 20%);
-$accent-color-darker3: darken($accent-color, 30%);
-$accent-color-darker4: darken($accent-color, 40%);
+$accent-color-darker2: darken($accent-color, 15%);
+$accent-color-darker3: darken($accent-color, 20%);
+$accent-color-darker4: darken($accent-color, 25%);
+$accent-color-darker5: darken($accent-color, 40%);
+$accent-color-darker6: darken($accent-color, 60%);
 
 
-$core-color: rgb(0, 48, 145);
+$core-color: rgb(1, 40, 118);
 
-$core-color-lighter4: lighten($core-color, 40%);
-$core-color-lighter3: lighten($core-color, 30%);
-$core-color-lighter2: lighten($core-color, 20%);
+$core-color-lighter6: lighten($core-color, 60%);
+$core-color-lighter5: lighten($core-color, 40%);
+$core-color-lighter4: lighten($core-color, 25%);
+$core-color-lighter3: lighten($core-color, 20%);
+$core-color-lighter2: lighten($core-color, 15%);
 $core-color-lighter1: lighten($core-color, 10%);
 
 $core-color-darker1: darken($core-color, 10%);
-$core-color-darker2: darken($core-color, 20%);
-$core-color-darker3: darken($core-color, 30%);
-$core-color-darker4: darken($core-color, 40%);
+$core-color-darker2: darken($core-color, 15%);
+$core-color-darker3: darken($core-color, 20%);
+$core-color-darker4: darken($core-color, 25%);
+$core-color-darker5: darken($core-color, 40%);
+$core-color-darker6: darken($core-color, 60%);
 
 $primary-fg: #ddd;
 
@@ -36,20 +44,28 @@ $primary-fg: #ddd;
     --core-color-lighter2: #{$core-color-lighter2};
     --core-color-lighter3: #{$core-color-lighter3};
     --core-color-lighter4: #{$core-color-lighter4};
+    --core-color-lighter5: #{$core-color-lighter5};
+    --core-color-lighter6: #{$core-color-lighter6};
     --core-color-darker1: #{$core-color-darker1};
     --core-color-darker2: #{$core-color-darker2};
     --core-color-darker3: #{$core-color-darker3};
     --core-color-darker4: #{$core-color-darker4};
+    --core-color-darker5: #{$core-color-darker5};
+    --core-color-darker6: #{$core-color-darker6};
 
     --accent-color: #{$accent-color};
     --accent-color-lighter1: #{$accent-color-lighter1};
     --accent-color-lighter2: #{$accent-color-lighter2};
     --accent-color-lighter3: #{$accent-color-lighter3};
     --accent-color-lighter4: #{$accent-color-lighter4};
+    --accent-color-lighter5: #{$accent-color-lighter5};
+    --accent-color-lighter6: #{$accent-color-lighter6};
     --accent-color-darker1: #{$accent-color-darker1};
     --accent-color-darker2: #{$accent-color-darker2};
     --accent-color-darker3: #{$accent-color-darker3};
     --accent-color-darker4: #{$accent-color-darker4};
+    --accent-color-darker5: #{$accent-color-darker5};
+    --accent-color-darker6: #{$accent-color-darker6};
 
     --primary-fg: #{$primary-fg};
 
