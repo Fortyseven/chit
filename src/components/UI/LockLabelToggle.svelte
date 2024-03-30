@@ -36,7 +36,7 @@
         }
         hr {
             border: none;
-            border-bottom: 1px solid var(--accent-color-darker2);
+            border-bottom: 1px solid var(--accent-color-darker3);
             &.locked {
                 border-bottom-color: var(--accent-color);
             }
