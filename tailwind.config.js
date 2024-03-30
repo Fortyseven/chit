@@ -30,8 +30,8 @@ export default {
                 'accent-color-darker1': 'var(--accent-color-darker1)',
                 'accent-color-darker2': 'var(--accent-color-darker2)',
                 'accent-color-darker3': 'var(--accent-color-darker3)',
-                'accent-color-darker4': 'var(--accent-color-darker4)'
-                'accent-color-darker5': 'var(--accent-color-darker5)'
+                'accent-color-darker4': 'var(--accent-color-darker4)',
+                'accent-color-darker5': 'var(--accent-color-darker5)',
                 'accent-color-darker6': 'var(--accent-color-darker6)'
             }
         }
