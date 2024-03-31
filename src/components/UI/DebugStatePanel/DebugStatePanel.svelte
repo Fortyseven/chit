@@ -103,11 +103,6 @@
         />
 
         <DebugStatePanelValue
-            key="chatState.template"
-            value={$chatState.template}
-        />
-
-        <DebugStatePanelValue
             key="chatState.model_name"
             value={$chatState.model_name}
         />

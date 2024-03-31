@@ -8,7 +8,6 @@ const PRESET_TEMPLATE = {
     system: '',
     prompt: '',
     model_name: '',
-    template: '',
     options: {
         //
     },

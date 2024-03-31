@@ -4,7 +4,7 @@
     export let value;
 </script>
 
-<div class="template">
+<div class="textarea-wrapper">
     <textarea
         bind:value
         placeholder="None"
@@ -14,7 +14,7 @@
 </div>
 
 <style lang="scss">
-    .template {
+    .textarea-wrapper {
         display: flex;
         flex-direction: column;
 

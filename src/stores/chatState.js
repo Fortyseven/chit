@@ -25,7 +25,6 @@ export const chatState = writable({
     model_name: '',
     system_prompt:
         'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.',
-    template: '',
     guid: undefined,
     values: {
         mirostat: chatState_defaults.mirostat,
@@ -53,10 +52,6 @@ export const chatState_resetToDefaults = () => {
         if (!get(appState).ui.lock_system) {
             state.system_prompt =
                 'The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.';
-        }
-
-        if (!get(appState).ui.lock_template) {
-            state.template = '';
         }
 
         if (!get(appState).ui.lock_values) {

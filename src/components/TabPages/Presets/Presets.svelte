@@ -245,13 +245,6 @@
         />
 
         <!-- --------------- -->
-        <LockLabelToggle bind:locked={$appState.ui.lock_template}>
-            Template
-        </LockLabelToggle>
-
-        <Presets__TextArea bind:value={$chatState.template} />
-
-        <!-- --------------- -->
         <div class="chat-values">
             <LockLabelToggle bind:locked={$appState.ui.lock_values}>
                 Values

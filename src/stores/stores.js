@@ -21,7 +21,7 @@ export const appState = writable({
         constrainChatWidth: true,
         lock_model: false,
         lock_system: false,
-        lock_template: false,
+        // lock_template: false,
         lock_values: false
     },
     apiEndpoint: DEFAULT_OL_ENDPOINT,

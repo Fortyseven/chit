@@ -118,9 +118,10 @@ export async function OL_chat(user_message = null) {
             model: get(chatState).model_name,
             stream: true,
             messages: [...get(chatTimeline)],
-            template: get(chatState).template,
             options: {
                 ..._getChatParamObject()
+                // stop: ['[INST]', '[/INST]', '<<SYS>>', '<</SYS>>']
+                // TODO: let's get this into the preset manager
             }
         };
 
@@ -229,10 +230,6 @@ export async function updateModelDetails(model_name) {
         chatState.update((state) => {
             if (!get(appState).ui.lock_system) {
                 state.system_prompt = details.system;
-            }
-
-            if (!get(appState).ui.lock_template) {
-                state.template = details.template;
             }
 
             // iterate state.values properties and replace
