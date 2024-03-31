@@ -39,7 +39,9 @@
         bind:value={$chatState.stateFilename}
     />
 {:else}
-    <span on:dblclick={startEdit} alt="CUM">{$chatState.stateFilename}</span>
+    <span on:dblclick={startEdit} title="Double-click to edit prompt filename">
+        {$chatState.stateFilename}
+    </span>
 {/if}
 
 <style lang="scss">
