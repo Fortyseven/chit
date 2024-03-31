@@ -12,6 +12,7 @@
 
     import { saveAs } from '../../../lib/vendor/FileSaver.min.js';
     import LockLabelToggle from '$components/UI/LockLabelToggle.svelte';
+    import PresetFilename from './PresetFilename.svelte';
 
     function savePrompt() {
         appState.update((state) => {
@@ -197,20 +198,13 @@
         });
 
         saveAs(blob, $chatState.stateFilename || 'untitled.json');
-
-        // const url = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = $chatState.stateFilename || 'kobold_state.json';
-        // a.click();
-        // URL.revokeObjectURL(url);
     }
 </script>
 
 <!-- ----------------------------------------------------------------------- -->
 
 <div id="Presets" class="w-full h-full text-primary">
-    <div class="pb-4 text-3xl">Presets</div>
+    <div class="pb-4 text-3xl">Preset: <PresetFilename /></div>
 
     <div class="flex">
         <Button onClick={loadPresetFromFile} title="Load preset from file">
