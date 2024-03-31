@@ -274,6 +274,8 @@
             display: flex;
             flex-wrap: wrap;
             margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
 
         li {
@@ -288,6 +290,7 @@
                 margin-bottom: 0.5em;
 
                 width: 6.5em;
+                text-transform: capitalize;
             }
 
             input {
