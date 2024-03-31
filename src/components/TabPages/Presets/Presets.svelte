@@ -14,13 +14,6 @@
     import LockLabelToggle from '$components/UI/LockLabelToggle.svelte';
     import PresetFilename from './PresetFilename.svelte';
 
-    function savePrompt() {
-        appState.update((state) => {
-            state.savedSystemPrompts.push($chatState.system_prompt);
-            return state;
-        });
-    }
-
     onMount(async () => {
         $chatState.loadedKoboldState = undefined;
     });
@@ -52,15 +45,14 @@
             }
 
             if (!$appState.ui.lock_values) {
-                //temperature: chatState_defaults.temperature,
                 if (data.savedsettings?.temperature) {
                     state.values.temperature = data.savedsettings.temperature;
                 }
-                // top_k: chatState_defaults.top_k,
+
                 if (data.savedsettings?.top_k) {
                     state.values.top_k = data.savedsettings.top_k;
                 }
-                //top_p: chatState_defaults.top_p
+
                 if (data.savedsettings?.top_p) {
                     state.values.top_p = data.savedsettings.top_p;
                 }
@@ -80,6 +72,7 @@
                     state.values.num_ctx =
                         data.savedsettings.max_context_length;
                 }
+
                 // end native kobold settings
 
                 if (data.savedsettings?.repeat_last_n) {
@@ -87,43 +80,36 @@
                         data.savedsettings.repeat_last_n;
                 }
 
-                //  mirostat: chatState_defaults.mirostat,
                 if (data.savedsettings?.mirostat) {
                     state.values.mirostat = data.savedsettings.mirostat;
                 }
-                // mirostat_eta: chatState_defaults.mirostat_eta,
+
                 if (data.savedsettings?.mirostat_eta) {
                     state.values.mirostat_eta = data.savedsettings.mirostat_eta;
                 }
-                // mirostat_tau: chatState_defaults.mirostat_tau,
 
                 if (data.savedsettings?.mirostat_tau) {
                     state.values.mirostat_tau = data.savedsettings.mirostat_tau;
                 }
 
-                // num_predict: chatState_defaults.num_predict,
                 if (data.savedsettings?.num_predict) {
                     state.values.num_predict = data.savedsettings.num_predict;
                 }
 
-                // repeat_last_n: chatState_defaults.repeat_last_n,
                 if (data.savedsettings?.repeat_last_n) {
                     state.values.repeat_last_n =
                         data.savedsettings.repeat_last_n;
                 }
 
-                //repeat_penalty: chatState_defaults.repeat_penalty,
                 if (data.savedsettings?.repeat_penalty) {
                     state.values.repeat_penalty =
                         data.savedsettings.repeat_penalty;
                 }
 
-                // seed: chatState_defaults.seed,
                 if (data.savedsettings?.seed) {
                     state.values.seed = data.savedsettings.seed;
                 }
 
-                //tfs_z: chatState_defaults.tfs_z,
                 if (data.savedsettings?.tfs_z) {
                     state.values.tfs_z = data.savedsettings.tfs_z;
                 }
@@ -138,8 +124,6 @@
     }
 
     function loadPresetFromFile() {
-        console.log('Loading preset from file');
-
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.json';
@@ -148,7 +132,6 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 const data = JSON.parse(e.target.result);
-                console.log('Loaded preset:', data);
                 $chatState.stateFilename = file.name;
                 _onHaveLoadedKobold(data);
             };
@@ -158,7 +141,6 @@
     }
 
     function savePresetToFile() {
-        console.log('Saving preset to file');
         const data = {
             savedsettings: {
                 model_name: $chatState.model_name,
@@ -187,8 +169,6 @@
             $chatState?.loadedKoboldState || {},
             data
         );
-
-        console.debug('Merged data:', merged_data);
 
         // use a "Save As" dialogue to allow user to save the file to a filename
         // of their choosing
