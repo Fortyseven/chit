@@ -12,6 +12,7 @@
 
     let textEl;
     let isBeingEdited = false;
+    let areControlsVisible = false;
 
     let viewMode = 'markdown';
 
@@ -64,7 +65,13 @@
             : line.content.trim();
 </script>
 
-<div class="bot">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+<div
+    class="bot"
+    on:mouseover={() => (areControlsVisible = true)}
+    on:mouseleave={() => (areControlsVisible = false)}
+>
     <div class="text" bind:this={textEl}>
         {#if viewMode == 'source'}
             <pre>{line.content}</pre>
@@ -72,7 +79,7 @@
             {@html processedContent}
         {/if}
     </div>
-    <div class="controls">
+    <div class="controls" class:visible={areControlsVisible || isBeingEdited}>
         <!-- -------------- -->
         <ChatButton
             tooltip="Copy to clipboard"
@@ -139,6 +146,14 @@
             display: flex;
             flex-direction: column;
             gap: 0.25em;
+            opacity: 0;
+
+            transition: opacity 0.25s;
+
+            &.visible {
+                opacity: 1;
+            }
+
             button {
                 background: #333;
                 border-radius: 4px;
