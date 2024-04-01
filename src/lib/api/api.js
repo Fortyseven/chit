@@ -228,7 +228,7 @@ export async function updateModelDetails(model_name) {
 
     await OL_model_details(model_name).then((details) => {
         chatState.update((state) => {
-            if (!get(appState).ui.lock_system) {
+            if (!get(appState).ui.lock_system && details.system) {
                 state.system_prompt = details.system;
             }
 
