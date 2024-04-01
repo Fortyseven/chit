@@ -40,7 +40,7 @@
                 if (data?.memory) {
                     state.system_prompt = data.memory;
 
-                    $appState.ui.lock_system = true;
+                    // $appState.ui.lock_system = true;
                 }
             }
 
