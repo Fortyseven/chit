@@ -1,6 +1,6 @@
 <script>
     import { updateModelDetails } from '$lib/api/api';
-    import { defaultModelName } from '$stores/stores';
+    import { appState, defaultModelName } from '$stores/stores';
     import { chatState } from '$stores/chatState';
 
     import Icon from '../../../UI/Icon.svelte';
@@ -11,6 +11,15 @@
 
     async function onModelLoadDefaults() {
         if (confirm('Are you sure you want to load the default values?')) {
+            if (!$appState.ui.lock_system && $chatState.system_prompt) {
+                if (
+                    !confirm(
+                        'This will likely overwrite the unlocked system prompt -- ARE YOU SURE?'
+                    )
+                ) {
+                    return;
+                }
+            }
             await updateModelDetails($chatState.model_name);
         }
     }
