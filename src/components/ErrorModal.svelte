@@ -1,7 +1,5 @@
-<script>
+<script lang="ts">
     import { errorMessage } from '$stores/stores';
-
-    export let message = '';
 
     function dismiss() {
         $errorMessage = '';
