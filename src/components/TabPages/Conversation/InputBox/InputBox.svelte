@@ -55,10 +55,10 @@
             if (msg === '/clear') {
                 onClear(true);
                 return;
-            } else if (msg === '/save') {
-                saveChatStateToLog();
-                $inputText = '';
-                return;
+                // } else if (msg === '/save') {
+                //     saveChatStateToLog();
+                //     $inputText = '';
+                //     return;
             } else if (msg === '/debug') {
                 console.group('Stores');
                 console.log('chatTimeline:', $chatTimeline);
