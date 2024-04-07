@@ -49,7 +49,6 @@
     }
 
     async function submit() {
-        console.log('yep');
         let msg = $inputText.trim();
 
         if (msg !== '') {
