@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { chatState } from '$stores/chatState.js';
+    import { chatState } from '$stores/chatState';
     import { appState } from '$stores/stores';
     import { updateModelDetails } from '$lib/api/api';
 

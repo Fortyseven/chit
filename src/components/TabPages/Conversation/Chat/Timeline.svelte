@@ -1,5 +1,5 @@
 <script>
-    import { chatTimeline } from '$stores/stores.js';
+    import { chatTimeline } from '$stores/stores';
     import { pendingResponse, responseInProgress } from '$lib/api/api';
 
     import ConversationTimelineResponse_User from './TimelineResponse_User.svelte';

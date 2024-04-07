@@ -1,5 +1,5 @@
 <script>
-    import { chatState } from '$stores/chatState.js';
+    import { chatState } from '$stores/chatState';
 
     export let value;
 </script>
