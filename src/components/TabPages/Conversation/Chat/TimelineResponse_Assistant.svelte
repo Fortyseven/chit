@@ -136,7 +136,8 @@
 
         .text {
             flex: auto;
-            color: #ddd;
+            color: var(--accent-color-lighter4);
+            line-height: 1.35em;
             overflow: none;
         }
         .controls {

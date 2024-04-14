@@ -1,4 +1,11 @@
-$accent-color: #faa000;
+$primary-fg: #ddd;
+// $accent-color: rgb(76, 151, 255);
+$accent-color: #ffa519;
+// $core-color: rgb(64, 64, 64);
+$core-color: #424242;
+// $core-color: rgb(1, 40, 118);
+// $core-color: rgb(31, 0, 132);
+// $core-color: rgb(92, 82, 82);
 
 $accent-color-lighter6: lighten($accent-color, 60%);
 $accent-color-lighter5: lighten($accent-color, 40%);
@@ -15,9 +22,6 @@ $accent-color-darker5: darken($accent-color, 40%);
 $accent-color-darker6: darken($accent-color, 60%);
 
 
-// $core-color: rgb(1, 40, 118);
-// $core-color: rgb(31, 0, 132);
-$core-color: rgb(92, 82, 82);
 
 $core-color-lighter6: lighten($core-color, 60%);
 $core-color-lighter5: lighten($core-color, 40%);
@@ -33,13 +37,13 @@ $core-color-darker4: darken($core-color, 25%);
 $core-color-darker5: darken($core-color, 40%);
 $core-color-darker6: darken($core-color, 60%);
 
-$primary-fg: #ddd;
 
 
 
 
 :root {
-    --font-primary: Mulish, 'Roboto Condensed', sans-serif;
+    // --font-primary: Mulish, 'Roboto Condensed', sans-serif;
+    --font-primary: 'Roboto Condensed', sans-serif;
 
     --core-color: #{$core-color};
     --core-color-lighter1: #{$core-color-lighter1};

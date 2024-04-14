@@ -30,6 +30,8 @@
 
         .text {
             flex: auto;
+            color: var(--primary-fg);
+            line-height: 1.35em;
             &::before {
                 content: '> ';
                 font-weight: bold;
