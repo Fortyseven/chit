@@ -1,20 +1,36 @@
-import { writable, derived } from 'svelte/store';
+import { Writable, writable } from 'svelte/store';
 
 export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
 export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/';
 
 export const models = writable([]);
 export const chatTimeline = writable([]);
-export const responseInProgress_AbortController = writable(null);
+export const responseInProgress_AbortController: Writable<AbortController | null> =
+    writable(null);
 export const inputText = writable('');
 export const errorMessage = writable('');
 export const defaultModelName = writable(undefined);
 
 export const contentEl = writable(null);
 
+type AppStateUI = {
+    selectedTab: string;
+    constrainChatWidth: boolean;
+    lock_model: boolean;
+    lock_system: boolean;
+    lock_values: boolean;
+};
+
+export type AppState = {
+    ui: AppStateUI;
+    apiEndpoint: string;
+    pbEndpoint: string;
+    savedSystemPrompts: string[];
+};
+
 /* FIXME: This is absurd having this AND the same-named store in
   stores_ui. This needs to be fixed ASAP. */
-export const appState = writable({
+export const appState: Writable<AppState> = writable({
     ui: {
         // autoImportDefaults: true,
         selectedTab: 'presets',

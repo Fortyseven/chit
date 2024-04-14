@@ -9,7 +9,7 @@ import {
 
 import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
 
-import { ebk_inputBoxBack } from '../../lib/events/eventBus__keyboard';
+import { ebk_inputBoxBack } from '../events/eventBus__keyboard';
 
 export const pendingResponse = writable({
     role: 'assistant',
@@ -21,13 +21,20 @@ export const wasAborted = writable(false);
 
 const utf8Decoder = new TextDecoder('utf-8');
 
-function _updatePendingResponse(response) {
+/**
+ * Append the response fragment to the pending response.
+ * @param response_fragment
+ */
+function _updatePendingResponse(response_fragment: string) {
     pendingResponse.update((pr) => {
-        pr.content += response;
+        pr.content += response_fragment;
         return pr;
     });
 }
 
+/**
+ * Clear the pending response.
+ */
 function _clearPendingResponse() {
     pendingResponse.set({
         role: 'assistant',
@@ -42,7 +49,7 @@ export const cancelInference = () => {
 
     if (ac) {
         console.log('🛑 Cancelling inference: ', ac);
-        get(responseInProgress_AbortController).abort();
+        ac.abort();
 
         responseInProgress_AbortController.set(null);
         responseInProgress.set(false);
