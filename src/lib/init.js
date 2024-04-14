@@ -17,8 +17,6 @@ import {
     restoreLocalStorageStores
 } from './localStorage_stores';
 
-import { pb } from '$lib/pocketbase';
-
 export async function init() {
     console.log('🟢 Initializing app...');
 
