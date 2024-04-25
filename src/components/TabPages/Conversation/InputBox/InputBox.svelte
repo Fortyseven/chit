@@ -207,7 +207,6 @@
 <style lang="scss">
     #InputBox {
         background-color: var(--core-color-darker1);
-        padding-left: 0;
     }
 
     button {
