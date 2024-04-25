@@ -74,15 +74,33 @@
 
             em,
             strong {
-                color: rgb(193, 166, 91) !important;
+                // color: rgb(193, 166, 91) !important;
+                color: var(--accent-color-lighter1, #f0f) !important;
                 font-weight: bold;
 
                 &::before {
                     content: '*';
+                    font-weight: normal;
+                    opacity: 0.65;
                 }
 
                 &::after {
                     content: '*';
+                    font-weight: normal;
+                    opacity: 0.65;
+                }
+            }
+            em {
+                &::before {
+                    content: '_';
+                    font-weight: normal;
+                    opacity: 0.65;
+                }
+
+                &::after {
+                    content: '_';
+                    font-weight: normal;
+                    opacity: 0.65;
                 }
             }
 
