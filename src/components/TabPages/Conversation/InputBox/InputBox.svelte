@@ -10,7 +10,11 @@
         appState
     } from '$stores/stores';
 
-    import { responseInProgress, wasAborted } from '$lib/api/api';
+    import {
+        pendingContinuedAssistantChat,
+        responseInProgress,
+        wasAborted
+    } from '$lib/api/api';
 
     import { OL_chat } from '$lib/api/api';
     import { clearChat, rerollLastResponse } from '$lib/chat';
@@ -70,6 +74,7 @@
                 return;
             }
 
+            // "accept" the input
             $inputText = '';
 
             try {
@@ -80,6 +85,34 @@
                         console.log('Updating timeline:', result);
                         timeline.push(result);
                         return timeline;
+                    });
+                    inputEl?.focus();
+                }
+                if ($wasAborted) {
+                    $wasAborted = false;
+                    $inputText = msg;
+                }
+                console.log('New timeline:', $chatTimeline);
+            } catch (e) {
+                errorMessage.set(e.message);
+                $inputText = msg;
+            }
+        } else {
+            // let the model add to it's last conversation
+
+            try {
+                let result = await OL_chat(msg, true);
+
+                if (result && !$wasAborted) {
+                    chatTimeline.update((timeline) => {
+                        if ($pendingContinuedAssistantChat) {
+                            timeline[timeline.length - 1].content += result;
+                            return timeline;
+                        } else {
+                            console.log('Updating timeline:', result);
+                            timeline.push(result);
+                            return timeline;
+                        }
                     });
                     inputEl?.focus();
                 }
@@ -117,11 +150,17 @@
         let last_user_message = '';
 
         chatTimeline.update((timeline) => {
-            if (timeline.length % 2 === 0) {
-                timeline.pop();
-                last_user_message = timeline.pop().content;
+            let last_message = timeline.pop();
+
+            if (last_message.role === 'user') {
+                last_user_message = last_message.content;
             } else {
-                timeline.pop();
+                let next_last = timeline.pop();
+                if (next_last && next_last.role === 'user') {
+                    last_user_message = next_last.content;
+                } else {
+                    timeline.push(next_last);
+                }
             }
 
             return timeline;
@@ -164,7 +203,13 @@
         title="Submit query"
         on:click={submit}
     >
-        <i class="mi-send with-text">Send</i>
+        <i class="mi-send with-text">
+            {#if $inputText === ''}
+                Continue
+            {:else}
+                Send
+            {/if}
+        </i>
     </button>
     <!-- ---------------------------------------------------------------------->
     <div class="flex flex-col h-full gap-2">

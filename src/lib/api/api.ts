@@ -16,6 +16,7 @@ export const pendingResponse = writable({
     content: ''
 });
 export const responseInProgress = writable(false);
+export const pendingContinuedAssistantChat = writable(false);
 
 export const wasAborted = writable(false);
 
@@ -97,14 +98,32 @@ function _getChatParamObject() {
 
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
-export async function OL_chat(user_message = null) {
+export async function OL_chat(user_message = null, continue_chat = false) {
     if (get(chatState)?.model_name === null) {
         throw new Error('No model selected');
     }
 
+    let should_continue_assistant_chat = false;
+
+    if (continue_chat) {
+        // was last chat message's role an 'assistant' type?
+        const last_message_role =
+            get(chatTimeline)[get(chatTimeline).length - 1].role;
+
+        if (last_message_role === 'assistant') {
+            should_continue_assistant_chat = true;
+            pendingContinuedAssistantChat.set(true);
+        } else {
+            // throw new Error(
+            //     "Can't continue chat: last message was not from assistant."
+            // );
+            // return;
+        }
+    }
+
     // if we don't have a message, it's for use when there's already
     // a user message in the timeline, so skip adding it again
-    if (user_message !== null) {
+    if (user_message !== null && !should_continue_assistant_chat) {
         const msg_packet = {
             role: 'user',
             content: user_message
@@ -187,6 +206,7 @@ export async function OL_chat(user_message = null) {
     } finally {
         responseInProgress_AbortController.set(null);
         responseInProgress.set(false);
+        pendingContinuedAssistantChat.set(false);
     }
 }
 
