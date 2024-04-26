@@ -142,6 +142,8 @@
     }
 
     function onBack() {
+        if ($responseInProgress) return;
+
         console.log('onBack');
         if ($chatTimeline.length === 0) {
             $inputText = '';
