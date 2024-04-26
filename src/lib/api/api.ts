@@ -4,7 +4,8 @@ import {
     models,
     chatTimeline,
     appState,
-    responseInProgress_AbortController
+    responseInProgress_AbortController,
+    errorMessage
 } from '../../stores/stores';
 
 import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
@@ -144,6 +145,7 @@ export async function OL_chat(user_message = null, continue_chat = false) {
             model: get(chatState).model_name,
             stream: true,
             messages: [...get(chatTimeline)],
+            //format: 'json',
             options: {
                 ..._getChatParamObject()
                 // stop: ['[INST]', '[/INST]', '<<SYS>>', '<</SYS>>']
@@ -178,6 +180,13 @@ export async function OL_chat(user_message = null, continue_chat = false) {
             },
             body: JSON.stringify(body)
         });
+
+        console.log('OL_chat RESPONSE stream: ', stream);
+        if (stream.status >= 300) {
+            console.error('Error connecting to server: ' + stream.body);
+            errorMessage.set(stream.statusText);
+            return null;
+        }
 
         for await (const chunk of stream.body) {
             const objects = utf8Decoder
