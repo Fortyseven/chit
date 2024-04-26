@@ -125,7 +125,9 @@
                 console.log('New timeline:', $chatTimeline);
             } catch (e) {
                 errorMessage.set(e.message);
-                $inputText = msg;
+                if (msg) {
+                    $inputText = msg;
+                }
             }
         }
     }
@@ -256,6 +258,7 @@
 <style lang="scss">
     #InputBox {
         background-color: var(--core-color-darker1);
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
     }
 
     button {

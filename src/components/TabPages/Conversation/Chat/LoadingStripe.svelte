@@ -9,6 +9,8 @@
         width: 100%;
         height: 0.35rem;
         background-color: var(--accent-color-darker5);
+        z-index: 99;
+        position: relative;
 
         &.isLoading {
             animation: cycle 2000s infinite linear;
