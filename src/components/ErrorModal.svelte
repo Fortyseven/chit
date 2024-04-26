@@ -1,9 +1,15 @@
 <script lang="ts">
+    import { playSndFail } from '$lib/audio';
     import { errorMessage } from '$stores/stores';
+    import { onMount } from 'svelte';
 
     function dismiss() {
         $errorMessage = '';
     }
+
+    onMount(() => {
+        playSndFail();
+    });
 
     $: console.log('ErrorModal', $errorMessage);
 </script>
