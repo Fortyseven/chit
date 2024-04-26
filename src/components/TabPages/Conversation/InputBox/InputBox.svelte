@@ -103,10 +103,12 @@
             try {
                 let result = await OL_chat(msg, true);
 
-                if (result && !$wasAborted) {
+                if (result && result.content.trim() && !$wasAborted) {
                     chatTimeline.update((timeline) => {
                         if ($pendingContinuedAssistantChat) {
-                            timeline[timeline.length - 1].content += result;
+                            timeline[timeline.length - 1].content +=
+                                result.content;
+                            $pendingContinuedAssistantChat = false;
                             return timeline;
                         } else {
                             console.log('Updating timeline:', result);
