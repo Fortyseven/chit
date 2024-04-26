@@ -5,9 +5,12 @@
 </script>
 
 <SettingGroup name="Appearance">
-    <div>
+    <div class="flex flex-row flex-wrap gap-4">
         <SettingCheckbox bind:value={$appState.ui.constrainChatWidth}>
             Constrain Chat Width
+        </SettingCheckbox>
+        <SettingCheckbox bind:value={$appState.ui.play_sounds}>
+            Audio Notifications
         </SettingCheckbox>
     </div>
 </SettingGroup>

@@ -13,8 +13,8 @@
         }}
     >
         <slot />
-        <input type="checkbox" bind:checked={value} />
     </label>
+    <input type="checkbox" bind:checked={value} />
 
     {#if supplementalUrl}
         <a href={supplementalUrl} target="_blank">{supplementalUrlName}</a>
@@ -23,21 +23,24 @@
 
 <style lang="scss">
     div {
-        width: 100%;
         align-items: center;
+        display: flex;
+        flex-direction: row;
 
         label {
+            text-wrap: nowrap;
+            display: block;
             padding: 0;
             padding-right: 1em;
             text-align: right;
             color: var(--accent-color);
-
-            input {
-                font-family: monospace;
-                background-color: var(--core-color-darker3);
-                accent-color: var(--accent-color);
-                margin-left: 0.5em;
-            }
+        }
+        input {
+            display: block;
+            font-family: monospace;
+            background-color: var(--core-color-darker3);
+            accent-color: var(--accent-color);
+            margin-left: 0.5em;
         }
     }
 </style>

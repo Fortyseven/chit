@@ -25,12 +25,4 @@
         label="API Endpoint"
         placeholder="API Endpoint..."
     />
-    <!-- <SettingControl
-            defaultValue={DEFAULT_PB_ENDPOINT}
-            bind:value={$appState.pbEndpoint}
-            label="PocketBase Endpoint"
-            placeholder="API Endpoint..."
-            supplementalUrl={pbAdminLink || ''}
-            supplementalUrlName="Admin"
-        /> -->
 </SettingGroup>

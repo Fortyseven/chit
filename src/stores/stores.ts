@@ -19,6 +19,7 @@ type AppStateUI = {
     lock_model: boolean;
     lock_system: boolean;
     lock_values: boolean;
+    play_sounds: boolean;
 };
 
 export type AppState = {
@@ -38,7 +39,8 @@ export const appState: Writable<AppState> = writable({
         lock_model: false,
         lock_system: false,
         // lock_template: false,
-        lock_values: false
+        lock_values: false,
+        play_sounds: true
     },
     apiEndpoint: DEFAULT_OL_ENDPOINT,
     pbEndpoint: DEFAULT_PB_ENDPOINT,

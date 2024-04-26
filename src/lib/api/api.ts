@@ -206,7 +206,6 @@ export async function OL_chat(user_message = null, continue_chat = false) {
     } finally {
         responseInProgress_AbortController.set(null);
         responseInProgress.set(false);
-        pendingContinuedAssistantChat.set(false);
     }
 }
 

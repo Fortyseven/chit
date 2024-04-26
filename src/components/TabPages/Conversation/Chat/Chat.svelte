@@ -9,6 +9,7 @@
     import LoadingStripe from './LoadingStripe.svelte';
     import StatusBar from '../StatusBar/StatusBar.svelte';
     import { scrollToBottom } from '$lib/chat';
+    import { playSndResponse } from '$lib/audio';
 
     let chatContentEl = undefined;
 
@@ -34,6 +35,8 @@
                 scrollToBottom();
             }, 250);
         } else {
+            playSndResponse();
+
             if (responseScrollTimer) clearInterval(responseScrollTimer);
             setTimeout(() => {
                 scrollToBottom();
@@ -43,11 +46,7 @@
     });
 
     onMount(() => {
-        console.log('Timeline onMount');
-        // setTimeout(() => {
-        // console.log('Timeline onMount setTimeout =================');
         scrollToBottom();
-        // }, 250);
     });
 </script>
 

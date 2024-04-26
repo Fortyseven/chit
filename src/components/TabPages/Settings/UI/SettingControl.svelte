@@ -27,9 +27,12 @@
     div {
         width: 100%;
         display: flex;
+        flex-direction: row;
         align-items: center;
 
         label {
+            text-wrap: nowrap;
+            display: block;
             flex: 0 0 auto;
             padding: 0;
             padding-right: 1em;
@@ -38,7 +41,8 @@
         }
 
         :global(input) {
-            flex: auto;
+            display: block;
+            width: 100%;
             font-family: monospace;
             background-color: var(--core-color-darker3);
             color: var(--accent-color-lighter4);
