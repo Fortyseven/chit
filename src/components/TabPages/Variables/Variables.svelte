@@ -75,7 +75,7 @@
         {/each}
     </div>
 
-    <hr class="my-6" />
+    <div class="my-4"></div>
 
     <div class="flex">
         <input
@@ -111,6 +111,13 @@
             </button>
         </button>
     </div>
+
+    <hr class="mt-6 opacity-25" />
+
+    <h3 class="py-4 text-xl">
+        <Icon color="var(--accent-color)" icon="eye" /> Preview
+    </h3>
+
     <div>{$systemPromptTemplated}</div>
 </div>
 
