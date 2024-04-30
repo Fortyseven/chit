@@ -8,7 +8,11 @@ import {
     errorMessage
 } from '../../stores/stores';
 
-import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
+import {
+    chatState_resetToDefaults,
+    chatState,
+    systemPromptTemplated
+} from '../../stores/chatState';
 
 import { ebk_inputBoxBack } from '../events/eventBus__keyboard';
 
@@ -153,7 +157,8 @@ export async function OL_chat(user_message = null, continue_chat = false) {
             }
         };
 
-        const sys_prompt = get(chatState)?.system_prompt?.trim();
+        const sys_prompt =
+            get(chatState)?.system_prompt && get(systemPromptTemplated);
 
         if (sys_prompt) {
             body.messages = [

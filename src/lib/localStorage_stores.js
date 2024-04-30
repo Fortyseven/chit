@@ -11,7 +11,8 @@ const STORE_BLACKLIST = [
     'responseInProgress',
     'chatState_type',
     'chatState_defaults',
-    'sysVariables'
+    'sysVariables',
+    'systemPromptTemplated'
 ];
 
 /***

@@ -1,5 +1,6 @@
 <script>
     import Icon from '$components/UI/Icon.svelte';
+    import { systemPromptTemplated } from '$stores/chatState';
     import { userVariables, sysVariables } from '$stores/stores';
 
     let new_key = '';
@@ -110,6 +111,7 @@
             </button>
         </button>
     </div>
+    <div>{$systemPromptTemplated}</div>
 </div>
 
 <style lang="scss">
