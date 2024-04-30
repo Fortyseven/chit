@@ -104,7 +104,7 @@ export const systemPromptTemplated = derived(
         let system_prompt = $chatState.system_prompt;
 
         for (const uvar of $userVariables) {
-            system_prompt = system_prompt.replace(
+            system_prompt = system_prompt.replaceAll(
                 '{{' + uvar.key + '}}',
                 uvar.value
             );
@@ -114,7 +114,7 @@ export const systemPromptTemplated = derived(
             // if svar.value is a function, get the value
             let value =
                 svar.value instanceof Function ? svar.value() : svar.value;
-            system_prompt = system_prompt.replace(
+            system_prompt = system_prompt.replaceAll(
                 '{{' + svar.key + '}}',
                 value
             );
