@@ -10,7 +10,8 @@ const STORE_BLACKLIST = [
     'DEFAULT_PB_ENDPOINT',
     'responseInProgress',
     'chatState_type',
-    'chatState_defaults'
+    'chatState_defaults',
+    'sysVariables'
 ];
 
 /***

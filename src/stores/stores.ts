@@ -51,4 +51,26 @@ export const appState: Writable<AppState> = writable({
 
 export const defaultMarkdown = writable(true);
 
-export const model_favorites = writable([]);
+/* ------------------------------ */
+
+// key value pairs
+export const userVariables = writable([
+    {
+        key: 'user',
+        value: 'Human'
+    },
+    {
+        key: 'char',
+        value: 'Assistant'
+    }
+]);
+
+export const sysVariables = writable([
+    {
+        key: 'date',
+        desc: 'The current date.',
+        value: () => {
+            return new Date().toLocaleDateString();
+        }
+    }
+]);

@@ -12,9 +12,11 @@
     import MenuBar from '$components/Tabs/MenuBar.svelte';
     import Chat from '$components/TabPages/Conversation/Chat/Chat.svelte';
     import Presets from '$components/TabPages/Presets/Presets.svelte';
+    import Variables from '$components/TabPages/Variables/Variables.svelte';
 
     const PAGES = {
         presets: Presets,
+        variables: Variables,
         settings: Settings
     };
 
