@@ -24,7 +24,9 @@
 
     <hr class="opacity-25" />
 
-    <h2 class="py-4 text-2xl">System Variables</h2>
+    <h2 class="py-4 text-2xl">
+        <Icon color="var(--accent-color)" icon="database" /> System Variables
+    </h2>
 
     {#each $sysVariables as { key, desc }}
         <div class="flex">
@@ -35,7 +37,11 @@
         </div>
     {/each}
 
-    <h2 class="py-4 text-2xl">User Variables</h2>
+    <hr class="opacity-25 mt-5" />
+
+    <h2 class="py-4 text-2xl">
+        <Icon color="var(--accent-color)" icon="user" /> User Variables
+    </h2>
 
     <div class="flex flex-col gap-y-4 w-full">
         {#each $userVariables as uvar}
