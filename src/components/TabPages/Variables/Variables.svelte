@@ -118,7 +118,11 @@
         <Icon color="var(--accent-color)" icon="eye" /> Preview
     </h3>
 
-    <div>{$systemPromptTemplated}</div>
+    <div
+        class="overflow-scroll max-h-[500px] bg-core-color-darker5 p-2 resize- text-accent-color-lighter3"
+    >
+        {$systemPromptTemplated}
+    </div>
 </div>
 
 <style lang="scss">
