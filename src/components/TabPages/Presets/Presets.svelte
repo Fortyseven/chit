@@ -179,6 +179,14 @@
 
         saveAs(blob, $chatState.stateFilename || 'untitled.json');
     }
+
+    function onBlurValue(key) {
+        if (key == 'num_ctx') {
+            if ($chatState.values.num_ctx <= 1024) {
+                $chatState.values.num_ctx *= 1024;
+            }
+        }
+    }
 </script>
 
 <!-- ----------------------------------------------------------------------- -->
@@ -229,7 +237,10 @@
                         <li>
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label>{key}</label>
-                            <input bind:value={$chatState.values[key]} />
+                            <input
+                                bind:value={$chatState.values[key]}
+                                on:blur={() => onBlurValue(key)}
+                            />
                         </li>
                     {/each}
                 </ul>
