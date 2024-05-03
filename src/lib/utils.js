@@ -31,7 +31,6 @@ export async function convertBlobUrlToBase64(blobUrl) {
         xhr.onload = function () {
             var reader = new FileReader();
             reader.onloadend = function () {
-                debugger;
                 let strip = reader.result.split(',')[1];
                 resolve(strip);
             };
