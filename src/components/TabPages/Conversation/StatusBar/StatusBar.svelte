@@ -8,7 +8,6 @@
 </script>
 
 <div class="bg-core-color-darker1 text-accent-color text-center">
-    <!-- svelte-ignore a11y-label-has-associated-control -->
     <label>User:</label>
     {$inputText.length} | <label>System:</label>
     {$chatState.system_prompt?.length} | <label>Total:</label>

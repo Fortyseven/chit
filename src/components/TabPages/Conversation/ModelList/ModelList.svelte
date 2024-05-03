@@ -1,8 +1,7 @@
 <script>
-    import { appState, models } from '$stores/stores';
+    import { models } from '$stores/stores';
     import { chatState } from '$stores/chatState';
 
-    import { updateModelDetails } from '$lib/api/api';
     import ModelListControls from './ModelListControls.svelte';
 
     // let isOpen = false;
@@ -22,9 +21,6 @@
                 style="width: 100% !important;"
             >
                 {#each $models as model, index}
-                    <!-- svelte-ignore a11y-missing-attribute -->
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <!-- svelte-ignore a11y-no-static-element-interactions -->
                     <option value={model.name}>
                         {model.name} - ({model.details.parameter_size}, {model
                             .details.quantization_level})
@@ -36,12 +32,4 @@
             </div>
         </div>
     </div>
-    <!-- <div class="bottom-row">
-        <label>
-            Auto import defaults: <input
-                type="checkbox"
-                bind:checked={$appState.ui.autoImportDefaults}
-            />
-        </label>
-    </div> -->
 </div>

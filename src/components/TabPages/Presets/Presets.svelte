@@ -3,7 +3,6 @@
 
     import { chatState } from '$stores/chatState';
     import { appState } from '$stores/stores';
-    import { updateModelDetails } from '$lib/api/api';
 
     import Presets__TextArea from './Presets__TextArea.svelte';
     import ModelList from '../Conversation/ModelList/ModelList.svelte';
@@ -204,9 +203,10 @@
     </div>
 
     <!-- ---------------------- -->
-    <!-- {@debug chatState} -->
+
     {#if $chatState}
         <!-- --------------- -->
+
         <div class="model-list flex flex-col">
             <LockLabelToggle bind:locked={$appState.ui.lock_model}>
                 Model
@@ -235,7 +235,6 @@
                 <ul>
                     {#each Object.keys($chatState.values) as key}
                         <li>
-                            <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label>{key}</label>
                             <input
                                 bind:value={$chatState.values[key]}

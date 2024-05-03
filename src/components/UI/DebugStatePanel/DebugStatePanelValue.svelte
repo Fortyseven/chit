@@ -31,9 +31,6 @@
         {key}
     </div>
 
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
         class="dsp-value-content cursor-pointer"
         class:italic={value === undefined}
@@ -103,7 +100,6 @@
         }
 
         .dsp-value-content {
-            // flex: 0 0 100%;
             font-family: monospace;
             padding-right: 1em;
             font-size: 0.9em;
@@ -132,8 +128,6 @@
     }
 
     details {
-        summary {
-        }
         pre {
             font-size: 0.9em;
             overflow: scroll;

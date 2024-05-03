@@ -4,7 +4,6 @@
 
     export let line;
 
-    // replace \n with <br>
     $: processedLine = line.content.replace(/\n/g, '<br>');
 </script>
 

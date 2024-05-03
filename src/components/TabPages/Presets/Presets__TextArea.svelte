@@ -23,7 +23,6 @@
             border-radius: 10px;
             height: 6em;
             padding: 0.5em;
-            // font-family: monospace !important;
             outline: none;
         }
     }

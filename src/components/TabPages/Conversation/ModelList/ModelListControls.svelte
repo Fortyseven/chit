@@ -26,13 +26,6 @@
 </script>
 
 <div class="control-container">
-    <!-- <button
-        class="button is-primary"
-        on:click={onMakeDefault}
-        title="Set As Default"
-    >
-        <Icon icon="favorite" />
-    </button> -->
     <button
         class="button is-primary"
         on:click={onModelLoadDefaults}

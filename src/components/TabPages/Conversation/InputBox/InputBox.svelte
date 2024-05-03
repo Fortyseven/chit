@@ -21,7 +21,6 @@
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     import GlobalInputs from './GlobalInputs.svelte';
-    import { saveChatStateToLog } from '$lib/log';
     import { chatState } from '$stores/chatState';
 
     let inputEl = undefined;
@@ -184,7 +183,6 @@
 
 <GlobalInputs />
 <!-- ---------------------------------------------------------------------->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
     id="InputBox"
     class="grid grid-cols-[1fr,7rem,6rem] gap-4 text-white h-[150px] p-2 bg-gray-800"
@@ -200,9 +198,8 @@
         bind:value={$inputText}
     />
 
-    <!-- class:overflow={$inputText?.length + $chatState?.system_prompt.length >=
-            $chatState?.values.num_ctx} -->
     <!-- ---------------------------- -->
+
     <button
         class="button is-primary bg-green-800 rounded-md"
         disabled={$responseInProgress || !$chatState.model_name}
@@ -295,11 +292,6 @@
         color: var(--primary-fg);
         font-family: inherit;
 
-        // &:focus {
-        //     outline-color: var(--accent-color-darker5);
-        //     outline-style: solid;
-        // }
-
         &:disabled {
             opacity: 0.5;
         }
@@ -308,26 +300,4 @@
             color: #f44;
         }
     }
-
-    // .xinput-container {
-    //     display: grid;
-    //     grid-template-columns: 1fr 7rem 6rem;
-    //     gap: 0.45em;
-
-    //     button {
-    //         flex: none;
-    //         display: block;
-    //         height: 100% !important;
-    //     }
-
-    //     .input-buttons-extra {
-    //         display: flex;
-    //         flex-direction: column;
-    //         gap: 0.5em;
-    //         button {
-    //             height: 2em !important;
-    //             line-height: 0;
-    //         }
-    //     }
-    // }
 </style>

@@ -2,8 +2,6 @@
     export let locked = false;
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="flex flex-row pb-2" on:click={() => (locked = !locked)}>
     <button class="flex-auto block flex-shrink-0 flex-grow-0" {...$$restProps}>
         {locked ? '🔒' : '🔓'}

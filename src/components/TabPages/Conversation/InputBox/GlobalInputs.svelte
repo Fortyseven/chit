@@ -5,14 +5,11 @@
         ebk_inputBoxBack,
         ebk_inputBoxFocus
     } from '$lib/events/eventBus__keyboard';
-    import {
-        popLastMessage,
-        rerollLastResponse,
-        rewindChatToIndex
-    } from '$lib/chat';
+
+    import { rerollLastResponse } from '$lib/chat';
+    import { cancelInference } from '$lib/api/api';
 
     import HelpKeyboard from './Modal_KeyboardHelp.svelte';
-    import { cancelInference } from '$lib/api/api';
 
     let isVisible = false;
 

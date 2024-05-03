@@ -18,7 +18,7 @@
         pendingResponse,
         wasAborted
     } from '$lib/api/api';
-    import { fade, fly, slide } from 'svelte/transition';
+    import { fade } from 'svelte/transition';
 
     let visible = false;
 
