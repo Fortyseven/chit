@@ -22,6 +22,8 @@
 
     import GlobalInputs from './GlobalInputs.svelte';
     import { chatState } from '$stores/chatState';
+    import InputBox__ImagePasteListener from './InputBox__ImagePasteListener.svelte';
+    import { pastedImage } from '$stores/imageState';
 
     let inputEl = undefined;
 
@@ -52,7 +54,8 @@
     }
 
     async function submit() {
-        let msg = $inputText.trim();
+        const msg = $inputText.trim();
+        const pasted_image = $pastedImage || undefined;
 
         if (msg !== '') {
             if (msg === '/clear') {
@@ -75,9 +78,10 @@
 
             // "accept" the input
             $inputText = '';
+            $pastedImage = undefined;
 
             try {
-                var result = await OL_chat(msg);
+                var result = await OL_chat(msg, false, pasted_image);
 
                 if (result && !$wasAborted) {
                     chatTimeline.update((timeline) => {
@@ -103,7 +107,7 @@
                 let result = await OL_chat(msg, true);
 
                 if (result && result.content.trim() && !$wasAborted) {
-                    chatTimeline.update((timeline) => {
+                    chatTimeline.update(async (timeline) => {
                         if ($pendingContinuedAssistantChat) {
                             timeline[timeline.length - 1].content +=
                                 result.content;
@@ -124,6 +128,7 @@
                 console.log('New timeline:', $chatTimeline);
             } catch (e) {
                 errorMessage.set(e.message);
+
                 if (msg) {
                     $inputText = msg;
                 }
@@ -182,6 +187,7 @@
 </script>
 
 <GlobalInputs />
+<InputBox__ImagePasteListener />
 <!-- ---------------------------------------------------------------------->
 <div
     id="InputBox"

@@ -19,3 +19,26 @@ export function mergeDeep(...objects) {
         return prev;
     }, {});
 }
+/**
+ *
+ * @param {*} blobUrl
+ * @returns
+ */
+export async function convertBlobUrlToBase64(blobUrl) {
+    // eslint-disable-next-line no-unused-vars
+    return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                debugger;
+                let strip = reader.result.split(',')[1];
+                resolve(strip);
+            };
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', blobUrl);
+        xhr.responseType = 'blob';
+        xhr.send();
+    });
+}

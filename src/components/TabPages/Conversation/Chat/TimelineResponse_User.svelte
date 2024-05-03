@@ -10,6 +10,12 @@
 <div class="user text-white" class:loading={$responseInProgress}>
     <div class="text">
         {@html processedLine}
+        {#if line.images[0]}
+            <img
+                class="pasted-image"
+                src={'data:image/png;base64,' + line.images[0]}
+            />
+        {/if}
     </div>
     <div class="controls">
         <ChatButton
@@ -43,6 +49,11 @@
             display: flex;
             flex-direction: column;
             gap: 0.25em;
+        }
+        .pasted-image {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            max-width: 512px;
+            max-height: 512px;
         }
     }
 </style>

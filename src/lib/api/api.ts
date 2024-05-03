@@ -1,5 +1,7 @@
 import { get, writable } from 'svelte/store';
 
+import { convertBlobUrlToBase64 } from '$lib/utils';
+
 import {
     models,
     chatTimeline,
@@ -103,7 +105,11 @@ function _getChatParamObject() {
 
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
-export async function OL_chat(user_message = null, continue_chat = false) {
+export async function OL_chat(
+    user_message = null,
+    continue_chat = false,
+    pasted_image = undefined
+) {
     if (get(chatState)?.model_name === null) {
         throw new Error('No model selected');
     }
@@ -131,8 +137,14 @@ export async function OL_chat(user_message = null, continue_chat = false) {
     if (user_message !== null && !should_continue_assistant_chat) {
         const msg_packet = {
             role: 'user',
-            content: user_message
+            content: user_message,
+            images: []
         };
+
+        if (pasted_image) {
+            let img64 = await convertBlobUrlToBase64(pasted_image);
+            msg_packet.images.push(img64);
+        }
 
         chatTimeline.update((timeline) => {
             timeline.push(JSON.parse(JSON.stringify(msg_packet)));
