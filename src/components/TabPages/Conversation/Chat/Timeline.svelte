@@ -79,26 +79,26 @@
                 font-weight: bold;
 
                 &::before {
-                    content: '*';
+                    content: '**';
                     font-weight: normal;
                     opacity: 0.65;
                 }
 
                 &::after {
-                    content: '*';
+                    content: '**';
                     font-weight: normal;
                     opacity: 0.65;
                 }
             }
             em {
                 &::before {
-                    content: '_';
+                    content: '*';
                     font-weight: normal;
                     opacity: 0.65;
                 }
 
                 &::after {
-                    content: '_';
+                    content: '*';
                     font-weight: normal;
                     opacity: 0.65;
                 }
