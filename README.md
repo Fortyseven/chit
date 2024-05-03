@@ -22,6 +22,8 @@ Chit is a light, serverless chat front-end for Ollama that doesn't rely on a ser
 
 -   Reroll responses, copy responses to clipboard, etc.
 
+-   Implements image pasting from the clipboard for inference against multimodal models.
+
 -   Optional audio response when inference is complete.
 
 -   Responses are streamed in real time.
