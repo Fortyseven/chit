@@ -126,12 +126,10 @@
     .bot {
         flex: auto;
         display: flex;
-        background-color: #0006;
         padding: 1em;
         border-radius: 10px;
-        // background-image: linear-gradient(180deg, #1d1d1d 0%, #000 100%);
-        border-top: 1px solid black;
-        border-bottom: 1px solid #fff3;
+        background-image: linear-gradient(140deg, #ffffff09 0%, #000c 100%);
+        border-bottom: 1px solid #fff2;
         color: white;
 
         .text {
