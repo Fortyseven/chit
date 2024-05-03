@@ -40,8 +40,6 @@ Chit is a personal project that is constantly being worked on; while code contri
 
 -   Save and reload conversations.
 
--   Upload images for inference (depending on the model).
-
 -   Mobile view
 
 -   More?
