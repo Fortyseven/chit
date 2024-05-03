@@ -128,8 +128,12 @@
         display: flex;
         padding: 1em;
         border-radius: 10px;
-        background-image: linear-gradient(140deg, #ffffff09 0%, #000c 100%);
-        border-bottom: 1px solid #fff2;
+        background-image: linear-gradient(
+            140deg,
+            #ffffff0e 0%,
+            rgba(0, 0, 0, 0.73) 100%
+        );
+        border-bottom: 1px solid #fff1;
         color: white;
 
         .text {
