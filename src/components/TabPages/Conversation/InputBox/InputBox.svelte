@@ -9,6 +9,8 @@
         errorMessage,
         appState
     } from '$stores/stores';
+    import { pastedImage } from '$stores/imageState';
+    import { chatState } from '$stores/chatState';
 
     import {
         pendingContinuedAssistantChat,
@@ -21,9 +23,7 @@
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
     import GlobalInputs from './GlobalInputs.svelte';
-    import { chatState } from '$stores/chatState';
     import InputBox__ImagePasteListener from './InputBox__ImagePasteListener.svelte';
-    import { pastedImage } from '$stores/imageState';
 
     let inputEl = undefined;
 
