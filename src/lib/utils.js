@@ -41,3 +41,25 @@ export async function convertBlobUrlToBase64(blobUrl) {
         xhr.send();
     });
 }
+
+export function stripIncompleteSentence(text) {
+    const reSentences = /[\w\n\r\*\?\.\!\"].*/gm;
+
+    let sentences = [];
+    let m;
+
+    while ((m = reSentences.exec(text)) !== null) {
+        if (m.index === reSentences.lastIndex) {
+            reSentences.lastIndex++;
+        }
+
+        m.forEach((m, gr) => {
+            console.log('m', m, 'gr', gr);
+            sentences.push(m);
+        });
+    }
+
+    sentences = sentences.filter((sent) => '!?.*"\'\n'.includes(sent.at(-1)));
+
+    return sentences.join(' ');
+}

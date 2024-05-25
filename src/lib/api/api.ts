@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 
-import { convertBlobUrlToBase64 } from '$lib/utils';
+import { convertBlobUrlToBase64, stripIncompleteSentence } from '$lib/utils';
 
 import {
     models,
@@ -223,7 +223,15 @@ export async function OL_chat(
 
         responseInProgress.set(false);
 
-        return get(pendingResponse);
+        let pending = get(pendingResponse);
+
+        if (get(chatState).values.num_predict > -1) {
+            // strip incomplete sentence from end of last message if we're restricting
+            // the number of tokens returned
+            pending.content = stripIncompleteSentence(pending.content);
+        }
+
+        return pending;
     } catch (err) {
         if (err.name !== 'AbortError') {
             console.error('OL_chat error: ', err);
