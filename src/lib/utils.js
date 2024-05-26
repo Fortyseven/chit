@@ -19,11 +19,13 @@ export function mergeDeep(...objects) {
         return prev;
     }, {});
 }
-/**
+
+/******************************************************************************
+ * Converts a Blob URL to a base64 string.
  *
- * @param {*} blobUrl
- * @returns
- */
+ * @param {string} blobUrl - The Blob URL to convert to a base64 string.
+ * @return {Promise<string>} A Promise that resolves to the base64 string.
+ ******************************************************************************/
 export async function convertBlobUrlToBase64(blobUrl) {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
@@ -42,6 +44,13 @@ export async function convertBlobUrlToBase64(blobUrl) {
     });
 }
 
+/******************************************************************************
+ * Removes the last, potentially incomplete, sentence from a given text
+ * if present.
+ *
+ * @param {string} text - The text from which to remove the incomplete sentence.
+ * @return {string} The text with any unfinished sentences removed.
+ ******************************************************************************/
 export function stripIncompleteSentence(text) {
     const reSentences = /[\w\n\r\*\?\.\!\"].*/gm;
 
