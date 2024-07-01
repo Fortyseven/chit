@@ -61,7 +61,7 @@
         class:constrain-width={$appState.constrainChatWidth}
     >
         <div
-            class="w-full h-full overflow-y-scroll conversation-timeline px-12 pb-4 transition-all"
+            class="w-full h-full overflow-y-scroll conversation-timeline px-4 pb-4 transition-all"
             bind:this={chatContentEl}
         >
             <Timeline />
