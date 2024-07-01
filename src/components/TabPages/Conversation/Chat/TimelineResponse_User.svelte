@@ -49,6 +49,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.25em;
+            place-content: center;
         }
         .pasted-image {
             box-shadow: 0 0 10px rgba(0, 0, 0, 1);
