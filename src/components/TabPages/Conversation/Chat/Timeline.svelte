@@ -9,19 +9,31 @@
 
 <div class="timeline py-4">
     {#each $chatTimeline as line, index}
-        {#if line}
-            {#if line.role === 'user'}
-                <ConversationTimelineResponse_User {line} {index} />
-            {:else if line.role === 'assistant'}
-                <ConversationTimelineResponse_Assistant {line} {index} />
-            {:else if line.role === 'error'}
-                <div class="bot error">
-                    {line.content}
-                </div>
-            {/if}
-        {:else}
-            <div class="bot">💀</div>
-        {/if}
+        <div class="flex gap-2">
+            <div class="flex-auto">
+                {#if line}
+                    {#if line.role === 'user'}
+                        <ConversationTimelineResponse_User {line} {index} />
+                    {:else if line.role === 'assistant'}
+                        <ConversationTimelineResponse_Assistant
+                            {line}
+                            {index}
+                        />
+                    {:else if line.role === 'error'}
+                        <div class="bot error">
+                            {line.content}
+                        </div>
+                    {/if}
+                {:else}
+                    <div class="bot">💀</div>
+                {/if}
+            </div>
+            <div
+                class="place-content-center flex-shrink w-3 opacity-15 text-base"
+            >
+                {index + 1}
+            </div>
+        </div>
     {/each}
     {#if $responseInProgress}
         <div>
