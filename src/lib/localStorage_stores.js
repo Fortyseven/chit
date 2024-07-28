@@ -7,7 +7,6 @@ const unSubscriptions = [];
 const STORE_BLACKLIST = [
     'model_settings',
     'DEFAULT_OL_ENDPOINT',
-    'DEFAULT_PB_ENDPOINT',
     'responseInProgress',
     'chatState_type',
     'chatState_defaults',

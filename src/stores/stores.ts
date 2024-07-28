@@ -1,7 +1,6 @@
 import { Writable, writable } from 'svelte/store';
 
 export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
-export const DEFAULT_PB_ENDPOINT = 'http://localhost:8090/';
 
 export const models = writable([]);
 export const chatTimeline = writable([]);
@@ -43,7 +42,6 @@ export const appState: Writable<AppState> = writable({
         play_sounds: true
     },
     apiEndpoint: DEFAULT_OL_ENDPOINT,
-    pbEndpoint: DEFAULT_PB_ENDPOINT,
     savedSystemPrompts: []
 });
 
