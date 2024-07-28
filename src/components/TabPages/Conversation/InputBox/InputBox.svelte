@@ -269,6 +269,7 @@
 <style lang="scss">
     .wrapper {
         background: linear-gradient(0deg, rgb(60, 0, 60), rgb(69, 36, 0));
+
         #InputBox {
             // background-color: var(--core-color-darker1);
             background-color: transparent;

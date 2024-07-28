@@ -24,14 +24,15 @@
     }
 </script>
 
-<div class="p-2 flex place-content-end gap-4">
-    <button
-        class="button rounded-md disabled:opacity-0.25"
-        on:click={copyChatToClipboard}
-        disabled={$responseInProgress}
-    >
-        <Copy /> Copy Chat
-    </button>
+<div class="h-12 p-2 flex place-content-end gap-4">
+    {#if !$responseInProgress && $chatTimeline.length > 0}
+        <button
+            class="button rounded-md disabled:opacity-0.25"
+            on:click={copyChatToClipboard}
+        >
+            <Copy /> Copy Chat
+        </button>
+    {/if}
 </div>
 
 <style lang="scss">
