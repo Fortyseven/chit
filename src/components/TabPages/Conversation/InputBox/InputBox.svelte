@@ -24,6 +24,7 @@
 
     import GlobalInputs from './GlobalInputs.svelte';
     import InputBox__ImagePasteListener from './InputBox__ImagePasteListener.svelte';
+    import ConvoTools from './ConvoTools.svelte';
 
     let inputEl = undefined;
 
@@ -189,121 +190,132 @@
 <GlobalInputs />
 <InputBox__ImagePasteListener />
 <!-- ---------------------------------------------------------------------->
-<div
-    id="InputBox"
-    class="grid grid-cols-[1fr,7rem,6rem] gap-4 text-white h-[150px] p-2 bg-gray-800"
-    on:keypress={onInputKeypress}
-    on:inputbox-focus={() => inputEl?.focus()}
-    on:inputbox-back={() => onBack()}
->
-    <textarea
-        class="caret-[--accent-color2]"
-        disabled={$responseInProgress}
-        placeholder="Type a message..."
-        bind:this={inputEl}
-        bind:value={$inputText}
-    />
-
-    <!-- ---------------------------- -->
-
-    <button
-        class="button is-primary bg-green-800 rounded-md"
-        disabled={$responseInProgress || !$chatState.model_name}
-        title="Submit query"
-        on:click={submit}
-    >
-        <i class="mi-send with-text">
-            {#if $inputText === ''}
-                Continue
-            {:else}
-                Send
-            {/if}
-        </i>
-    </button>
-    <!-- ---------------------------------------------------------------------->
-    <div class="flex flex-col h-full gap-2">
-        <!-- ---------------------------- -->
-        <button
-            class="button"
-            on:click={async () => {
-                if (!$responseInProgress) await rerollLastResponse();
-            }}
-            title="Retry the last response"
-            disabled={$responseInProgress || $chatTimeline.length === 0}
+<div class="wrapper flex flex-col">
+    <div class="flex flex-col">
+        <div
+            id="InputBox"
+            class="grid grid-cols-[1fr,7rem,6rem] gap-4 text-white h-auto p-2 bg-gray-800"
+            on:keypress={onInputKeypress}
+            on:inputbox-focus={() => inputEl?.focus()}
+            on:inputbox-back={() => onBack()}
         >
-            <i class="mi-refresh with-text">Reroll</i>
-        </button>
-        <!-- ---------------------------- -->
-        <button
-            class="button"
-            on:click={async () => {
-                if (!$responseInProgress) await onBack();
-            }}
-            title="Step back one response"
-            disabled={$responseInProgress ||
-                ($inputText.length === 0 && $chatTimeline.length === 0)}
-            ><i class="mi-arrow-left with-text">Back</i>
-        </button>
-        <!-- ---------------------------- -->
-        <button
-            id="BtnClear"
-            class="button"
-            on:click={() => onClear()}
-            title="Clear the current chat"
-            disabled={$responseInProgress ||
-                ($inputText.length === 0 && $chatTimeline.length === 0)}
-        >
-            <i class="mi-delete with-text">Clear</i>
-        </button>
+            <textarea
+                class="caret-[--accent-color2]"
+                disabled={$responseInProgress}
+                placeholder="Type a message..."
+                bind:this={inputEl}
+                bind:value={$inputText}
+            />
+
+            <!-- ---------------------------- -->
+
+            <button
+                class="button is-primary bg-green-800 rounded-md"
+                disabled={$responseInProgress || !$chatState.model_name}
+                title="Submit query"
+                on:click={submit}
+            >
+                <i class="mi-send with-text">
+                    {#if $inputText === ''}
+                        Continue
+                    {:else}
+                        Send
+                    {/if}
+                </i>
+            </button>
+            <!-- ---------------------------------------------------------------------->
+            <div class="flex flex-col h-full gap-2">
+                <!-- ---------------------------- -->
+                <button
+                    class="button"
+                    on:click={async () => {
+                        if (!$responseInProgress) await rerollLastResponse();
+                    }}
+                    title="Retry the last response"
+                    disabled={$responseInProgress || $chatTimeline.length === 0}
+                >
+                    <i class="mi-refresh with-text">Reroll</i>
+                </button>
+                <!-- ---------------------------- -->
+                <button
+                    class="button"
+                    on:click={async () => {
+                        if (!$responseInProgress) await onBack();
+                    }}
+                    title="Step back one response"
+                    disabled={$responseInProgress ||
+                        ($inputText.length === 0 && $chatTimeline.length === 0)}
+                    ><i class="mi-arrow-left with-text">Back</i>
+                </button>
+                <!-- ---------------------------- -->
+                <button
+                    id="BtnClear"
+                    class="button"
+                    on:click={() => onClear()}
+                    title="Clear the current chat"
+                    disabled={$responseInProgress ||
+                        ($inputText.length === 0 && $chatTimeline.length === 0)}
+                >
+                    <i class="mi-delete with-text">Clear</i>
+                </button>
+            </div>
+        </div>
+        <div>
+            <ConvoTools />
+        </div>
     </div>
 </div>
 
 <style lang="scss">
-    #InputBox {
-        background-color: var(--core-color-darker1);
-        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    button {
-        @apply transition-all;
-        @apply duration-300;
-        @apply rounded-md;
-
-        background-color: var(--accent-color-darker3);
-
-        flex: auto;
-        &:disabled {
-            opacity: 0.5;
-        }
-        &:hover {
-            opacity: 0.5;
-        }
-    }
-
-    #BtnClear {
-        @apply bg-red-900;
-    }
-
-    textarea {
-        flex: auto;
-        width: 100%;
-        padding: 0.5em;
-        border: none;
-        outline-style: none;
-        border-radius: 4px;
-        border-top: 1px solid #0004;
-        border-bottom: 1px solid var(--core-color-lighter1);
-        font-size: 1.2em;
-        background-color: var(--core-color-darker2);
-        color: var(--primary-fg);
-        font-family: inherit;
-
-        &:disabled {
-            opacity: 0.5;
+    .wrapper {
+        background: linear-gradient(0deg, rgb(60, 0, 60), rgb(69, 36, 0));
+        #InputBox {
+            // background-color: var(--core-color-darker1);
+            background-color: transparent;
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
         }
 
-        &.overflow {
-            color: #f44;
+        button {
+            @apply transition-all;
+            @apply duration-300;
+            @apply rounded-md;
+
+            background-color: var(--accent-color-darker3);
+
+            flex: auto;
+            &:disabled {
+                opacity: 0.5;
+            }
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+
+        #BtnClear {
+            @apply bg-red-900;
+        }
+
+        textarea {
+            flex: auto;
+            width: 100%;
+            padding: 0.5em;
+            border: none;
+            outline-style: none;
+            border-radius: 4px;
+            border-top: 1px solid #0004;
+            border-bottom: 1px solid var(--core-color-lighter1);
+            font-size: 1.2em;
+            background-color: var(--core-color-darker2);
+            color: var(--primary-fg);
+            font-family: inherit;
+
+            &:disabled {
+                opacity: 0.5;
+            }
+
+            &.overflow {
+                color: #f44;
+            }
         }
     }
 </style>
