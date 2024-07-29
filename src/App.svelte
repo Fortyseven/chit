@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { appState, errorMessage } from '$stores/stores';
+    import { appState, chatTimeline, errorMessage } from '$stores/stores';
 
     import { init } from '$lib/init';
 
@@ -46,7 +46,7 @@
     </div>
     <!-- --------- -->
 </div>
-<DebugStatePanel />
+<!-- <DebugStatePanel /> -->
 
 {#if $errorMessage}
     <ErrorModal />

@@ -5,6 +5,14 @@
     import ConversationTimelineResponse_User from './TimelineResponse_User.svelte';
     import ConversationTimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
     import TimelineResponseAssistant from './TimelineResponse_Assistant.svelte';
+
+    chatTimeline.subscribe((value) => {
+        if (!Array.isArray($chatTimeline)) {
+            console.error('chatTimeline is not an array; resetting');
+            return [];
+        }
+        return value;
+    });
 </script>
 
 <div class="timeline py-4">
@@ -12,16 +20,16 @@
         <div class="flex gap-2">
             <div class="flex-auto">
                 {#if line}
-                    {#if line.role === 'user'}
+                    {#if line?.role === 'user'}
                         <ConversationTimelineResponse_User {line} {index} />
-                    {:else if line.role === 'assistant'}
+                    {:else if line?.role === 'assistant'}
                         <ConversationTimelineResponse_Assistant
                             {line}
                             {index}
                         />
-                    {:else if line.role === 'error'}
+                    {:else if line?.role === 'error'}
                         <div class="bot error">
-                            {line.content}
+                            {line?.content}
                         </div>
                     {/if}
                 {:else}

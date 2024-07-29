@@ -10,8 +10,10 @@ const STORE_BLACKLIST = [
     'responseInProgress',
     'chatState_type',
     'chatState_defaults',
+    'chatState_resetToDefaults',
     'sysVariables',
-    'systemPromptTemplated'
+    'systemPromptTemplated',
+    'contentEl'
 ];
 
 /***
@@ -64,7 +66,14 @@ function _syncLocalStorageStores_Group(group) {
         .filter((key) => !STORE_BLACKLIST.includes(key))
         .forEach((key) => {
             // try to get the saved value from browser localstorage
-            const value = getLocalStore(key);
+            let value = getLocalStore(key);
+
+            // console.debug(`💾 Syncing ${key} from local storage...`, value);
+
+            if (key === 'chatTimeline' && !Array.isArray(value)) {
+                console.error('💾 chatTimeline is not an array; ignoring');
+                return;
+            }
 
             // if we have a value and the store has a set method
             if (value && group[key]?.set) {

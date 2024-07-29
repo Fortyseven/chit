@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { appState, contentEl, chatTimeline } from '$stores/stores';
+    import { appState, contentEl } from '$stores/stores';
     import { responseInProgress } from '$lib/api/api';
 
     import Timeline from './Timeline.svelte';
@@ -13,9 +13,9 @@
 
     let chatContentEl = undefined;
 
-    chatTimeline.subscribe(async (value) => {
-        // scrollToBottom();
-    });
+    // chatTimeline.subscribe(async (value) => {
+    //     // scrollToBottom();
+    // });
 
     let responseScrollTimer = null;
 
