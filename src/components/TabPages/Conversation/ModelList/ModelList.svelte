@@ -18,7 +18,7 @@
                 bind:value={$chatState.model_name}
                 on:change={(e) => onModelSelect()}
                 class="flex-auto mr-4 px-2 bg-core-color-darker3 text-accent-color-lighter3"
-                style="width: 100% !important;"
+                style="width: 100% !important; font-family:var(--font-primary-condensed)"
             >
                 {#each $models as model, index}
                     <option value={model.name}>

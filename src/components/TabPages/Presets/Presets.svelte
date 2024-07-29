@@ -223,7 +223,7 @@
 
         <Presets__TextArea
             bind:value={$chatState.system_prompt}
-            style="height:30em"
+            style="height:30em; font-family:var(--font-primary-condensed)"
         />
 
         <!-- --------------- -->
