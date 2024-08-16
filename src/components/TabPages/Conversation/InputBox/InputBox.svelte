@@ -25,6 +25,16 @@
     import GlobalInputs from './GlobalInputs.svelte';
     import InputBox__ImagePasteListener from './InputBox__ImagePasteListener.svelte';
     import ConvoTools from './ConvoTools.svelte';
+    import {
+        AddComment,
+        ChatBot,
+        Continue,
+        NextFilled,
+        SendAlt,
+        Chat,
+        Add,
+        AddAlt
+    } from 'carbon-icons-svelte';
 
     let inputEl = undefined;
 
@@ -211,17 +221,21 @@
 
             <button
                 class="button is-primary bg-green-800 rounded-md"
-                disabled={$responseInProgress || !$chatState.model_name}
+                disabled={$responseInProgress ||
+                    !$chatState.model_name ||
+                    (!$inputText && $chatTimeline.length == 0)}
                 title="Submit query"
                 on:click={submit}
             >
-                <i class="mi-send with-text">
-                    {#if $inputText === ''}
-                        Continue
+                <div
+                    class="grid grid-flow-col place-content-center items-center gap-2"
+                >
+                    {#if $inputText || $chatTimeline.length == 0}
+                        <SendAlt /> Submit
                     {:else}
-                        Send
+                        <AddAlt /> Continue
                     {/if}
-                </i>
+                </div>
             </button>
             <!-- ---------------------------------------------------------------------->
             <div class="flex flex-col h-full gap-2">
