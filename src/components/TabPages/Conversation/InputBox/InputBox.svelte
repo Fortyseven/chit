@@ -39,6 +39,9 @@
 
     import { Readability } from '@mozilla/readability';
 
+    const QUICK_ART_PROMPT =
+        '[Write a paragraph visually describing the current scenario for an AI art generator. Describe the scene, the mood, etc.]';
+
     let inputEl = undefined;
 
     onMount(() => {
@@ -93,6 +96,9 @@
                 console.groupEnd();
 
                 $inputText = '';
+                return;
+            } else if (msg === '/art') {
+                $inputText = QUICK_ART_PROMPT;
                 return;
             } else if (isUrl(msg?.trim())) {
                 // if we have a solo URL in the input, fetch it and use the text body as the input
