@@ -18,6 +18,12 @@
             return;
         }
 
+        if (!$chatState.system_prompt) {
+            $chatState.system_prompt =
+                SYSTEM_PROMPTS[selected_prompt_key].prompt;
+            return;
+        }
+
         if (
             !previous_prompt_key ||
             previous_prompt_key != selected_prompt_key
