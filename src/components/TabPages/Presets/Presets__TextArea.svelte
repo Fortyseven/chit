@@ -1,4 +1,6 @@
 <script>
+    import PresetMemory from './PresetMemory.svelte';
+
     import { chatState } from '$stores/chatState';
     import SYSTEM_PROMPTS from '../../../preset-prompts';
 
@@ -45,13 +47,17 @@
         class="bg-core-color-darker2 text-accent-color-lighter2"
         {...$$restProps}
     />
-
-    <select on:change={usePrompt} bind:this={selectEl} class="mt-4">
-        <option value="">Custom</option>
-        {#each Object.keys(SYSTEM_PROMPTS) as key}
-            <option value={key}>{SYSTEM_PROMPTS[key].name}</option>
-        {/each}
-    </select>
+    <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
+        <select on:change={usePrompt} bind:this={selectEl} class="col-span-5">
+            <option value="">Custom</option>
+            {#each Object.keys(SYSTEM_PROMPTS) as key}
+                <option value={key}>{SYSTEM_PROMPTS[key].name}</option>
+            {/each}
+        </select>
+        <div class="col-span-1">
+            <PresetMemory />
+        </div>
+    </div>
 </div>
 
 <style lang="scss">
@@ -67,4 +73,20 @@
             outline: none;
         }
     }
+    // button {
+    //     @apply transition-all;
+    //     @apply duration-300;
+    //     @apply rounded-md;
+
+    //     background-color: var(--accent-color-darker3);
+
+    //     flex: auto;
+
+    //     &:disabled {
+    //         opacity: 0.5;
+    //     }
+    //     &:hover {
+    //         opacity: 0.5;
+    //     }
+    // }
 </style>
