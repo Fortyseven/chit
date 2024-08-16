@@ -45,6 +45,8 @@
         $isBeingEditedIndex = undefined;
     }
 
+    /* ----------------- */
+
     function editEntry(index) {
         if ($isBeingEditedIndex) {
             // save
@@ -56,6 +58,8 @@
             setTimeout(() => {
                 textEl.addEventListener('blur', endEditing);
                 textEl.focus();
+                textEl.style.height = '';
+                textEl.style.height = textEl.scrollHeight + 'px';
                 textEl.setSelectionRange(0, textEl.value.length);
             }, 150);
         }
