@@ -2,7 +2,11 @@
     import { onMount } from 'svelte';
     import markdownit from 'markdown-it';
 
-    import { chatTimeline, defaultMarkdown } from '$stores/stores';
+    import {
+        chatTimeline,
+        defaultMarkdown,
+        isBeingEditedIndex
+    } from '$stores/stores';
     import { rerollLastResponse } from '$lib/chat';
 
     import ChatButton from '../../../UI/ChatButton.svelte';
@@ -11,7 +15,7 @@
     export let index;
 
     let textEl;
-    let isBeingEdited = false;
+
     let areControlsVisible = false;
 
     let viewMode = 'markdown';
@@ -29,31 +33,31 @@
     /* ----------------- */
 
     function endEditing() {
-        isBeingEdited = false;
-        viewMode = 'markdown';
-
         chatTimeline.update((t) => {
-            t[index].content = textEl.textContent.trim();
+            t[$isBeingEditedIndex] = {
+                role: 'assistant',
+                content: textEl.value.trim()
+            };
             return t;
         });
 
-        textEl.contentEditable = false;
-        textEl.blur();
-
         textEl.removeEventListener('blur', endEditing);
+        $isBeingEditedIndex = undefined;
     }
 
     function editEntry(index) {
-        if (isBeingEdited) {
+        if ($isBeingEditedIndex) {
             // save
             endEditing();
         } else {
-            isBeingEdited = true;
-            viewMode = 'source';
-            textEl.contentEditable = true;
-            textEl.focus();
-            // hook on blur
-            textEl.addEventListener('blur', endEditing);
+            $isBeingEditedIndex = index;
+
+            // hook on blur but give time for the component to swap out; this is a hack
+            setTimeout(() => {
+                textEl.addEventListener('blur', endEditing);
+                textEl.focus();
+                textEl.setSelectionRange(0, textEl.value.length);
+            }, 150);
         }
     }
 
@@ -72,14 +76,24 @@
     on:mouseover={() => (areControlsVisible = true)}
     on:mouseleave={() => (areControlsVisible = false)}
 >
-    <div class="text" bind:this={textEl}>
-        {#if viewMode == 'source'}
-            <pre>{line.content}</pre>
-        {:else}
-            {@html processedContent}
-        {/if}
-    </div>
-    <div class="controls" class:visible={areControlsVisible || isBeingEdited}>
+    {#if $isBeingEditedIndex === index}
+        <textarea
+            class="w-full font-mono bg-black text-white text-sm"
+            bind:this={textEl}>{line.content.trim()}</textarea
+        >
+    {:else}
+        <div class="text" bind:this={textEl}>
+            {#if viewMode == 'source'}
+                <pre>{line.content}</pre>
+            {:else}
+                {@html processedContent}
+            {/if}
+        </div>
+    {/if}
+    <div
+        class="controls"
+        class:visible={areControlsVisible || $isBeingEditedIndex}
+    >
         <!-- -------------- -->
         <ChatButton
             tooltip="Copy to clipboard"

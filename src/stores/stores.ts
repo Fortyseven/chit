@@ -12,6 +12,8 @@ export const defaultModelName = writable(undefined);
 
 export const contentEl = writable(null);
 
+export const isBeingEditedIndex = writable(undefined); // index of the chat item being edited, if any
+
 type AppStateUI = {
     selectedTab: string;
     constrainChatWidth: boolean;

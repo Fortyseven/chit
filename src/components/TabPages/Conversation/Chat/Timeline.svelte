@@ -5,14 +5,6 @@
     import ConversationTimelineResponse_User from './TimelineResponse_User.svelte';
     import ConversationTimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
     import TimelineResponseAssistant from './TimelineResponse_Assistant.svelte';
-
-    chatTimeline.subscribe((value) => {
-        if (!Array.isArray($chatTimeline)) {
-            console.error('chatTimeline is not an array; resetting');
-            return [];
-        }
-        return value;
-    });
 </script>
 
 <div class="timeline py-4">

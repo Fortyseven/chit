@@ -7,7 +7,8 @@
         chatTimeline,
         inputText,
         errorMessage,
-        appState
+        appState,
+        isBeingEditedIndex
     } from '$stores/stores';
     import { pastedImage } from '$stores/imageState';
     import { chatState } from '$stores/chatState';
@@ -212,7 +213,7 @@
         >
             <textarea
                 class="caret-[--accent-color2]"
-                disabled={$responseInProgress}
+                disabled={$responseInProgress || $isBeingEditedIndex}
                 placeholder="Type a message..."
                 bind:this={inputEl}
                 bind:value={$inputText}
@@ -224,6 +225,7 @@
                 class="button is-primary bg-green-800 rounded-md"
                 disabled={$responseInProgress ||
                     !$chatState.model_name ||
+                    $isBeingEditedIndex ||
                     (!$inputText && $chatTimeline.length == 0)}
                 title="Submit query"
                 on:click={submit}
