@@ -94,7 +94,7 @@
 
                 $inputText = '';
                 return;
-            } else if (isUrl(msg.trim())) {
+            } else if (isUrl(msg?.trim())) {
                 // if we have a solo URL in the input, fetch it and use the text body as the input
                 try {
                     let response = await fetch(msg);
