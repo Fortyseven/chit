@@ -37,6 +37,8 @@
         AddAlt
     } from 'carbon-icons-svelte';
 
+    import { Readability } from '@mozilla/readability';
+
     let inputEl = undefined;
 
     onMount(() => {
@@ -65,6 +67,15 @@
         }
     }
 
+    function isUrl(str) {
+        try {
+            new URL(str);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
     async function submit() {
         const cont_mode = !$inputText.trim() && $chatTimeline.length > 0;
         const msg = cont_mode ? null : $inputText.trim();
@@ -86,6 +97,29 @@
                 console.groupEnd();
 
                 $inputText = '';
+                return;
+            } else if (isUrl(msg.trim())) {
+                // if we have a solo URL in the input, fetch it and use the text body as the input
+                try {
+                    let response = await fetch(msg);
+                    let data = await response.text();
+
+                    // strip html and css, just return text
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(data, 'text/html');
+
+                    const reader = new Readability(doc);
+                    const article = reader.parse();
+
+                    $inputText = article.textContent;
+
+                    submit();
+                } catch (err) {
+                    errorMessage.set(
+                        `There was an error fetching ${msg}. (CORS?)`
+                    );
+                }
+
                 return;
             }
 

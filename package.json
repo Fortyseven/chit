@@ -34,7 +34,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@mozilla/readability": "^0.5.0",
 		"markdown-it": "^14.0.0",
+		"npm": "^10.8.2",
 		"pocketbase": "^0.21.1"
 	}
 }
