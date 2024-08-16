@@ -9,12 +9,22 @@
 
     onMount(() => {
         playSndFail();
+        document.body.onkeydown = (ev) => {
+            if (ev.key === 'Escape') {
+                document.body.onkeydown = null;
+                dismiss();
+            }
+        };
     });
 
-    $: console.log('ErrorModal', $errorMessage);
+    $: console.error('ErrorModal:', $errorMessage);
 </script>
 
-<span class="error-modal" on:click={dismiss}>
+<span
+    class="error-modal"
+    on:click={dismiss}
+    on:keypress={(ev) => console.log(ev.key)}
+>
     <dialog open on:keypress={dismiss}>
         <h1>Error</h1>
         <p>{$errorMessage}</p>
