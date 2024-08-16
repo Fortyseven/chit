@@ -107,6 +107,9 @@ function _getChatParamObject() {
 
 /* ------------------------------------------------ */
 /* Returns null or the response from the server.    */
+/* ------------------------------------------------ */
+/* if user_message === null, we're continuing a chat */
+/* ------------------------------------------------ */
 export async function OL_chat(
     user_message = null,
     continue_chat = false,

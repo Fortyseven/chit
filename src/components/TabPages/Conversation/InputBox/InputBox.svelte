@@ -65,7 +65,8 @@
     }
 
     async function submit() {
-        const msg = $inputText.trim();
+        const cont_mode = !$inputText.trim() && $chatTimeline.length > 0;
+        const msg = cont_mode ? null : $inputText.trim();
         const pasted_image = $pastedImage || undefined;
 
         if (msg !== '') {
