@@ -16,9 +16,15 @@ Chit is a light, serverless chat front-end for Ollama that doesn't rely on a ser
 
     -   Compatible with KoboldCpp presets, at least on import. Saving is supported, but not guaranteed to be backwards compatible. Try it!
 
+    -   Temporary system prompt clipboard (works like "M" and "MC" on a calculator)
+
+-   Quick system prompt presets for common tasks (summary, etc.)
+
 -   Basic variable expansion for system prompts (e.g. `{{myvariable}}` -> `My Text`, and `{{date}}` expands to the current date/time of inference.
 
 -   Markdown rendering if it's detected in the response (code blocks, etc), or just uses it all the time if configured.
+
+    -   Code block syntax highting for common languages
 
 -   Reroll responses, copy responses to clipboard, etc.
 
@@ -29,6 +35,7 @@ Chit is a light, serverless chat front-end for Ollama that doesn't rely on a ser
 -   Responses are streamed in real time.
 
 -   Everything is persisted through your browser's localStorage, or through JSON exports.
+
 
 # Use it
 
