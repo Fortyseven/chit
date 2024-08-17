@@ -10,6 +10,7 @@
     import { rerollLastResponse } from '$lib/chat';
 
     import ChatButton from '../../../UI/ChatButton.svelte';
+    import { hljs } from '../../../../lib/vendor/highlight.min.js';
 
     export let line;
     export let index;
@@ -20,7 +21,18 @@
 
     let viewMode = 'markdown';
 
-    const md = markdownit();
+    const md = markdownit({
+        highlight: function (str, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                try {
+                    const hl = hljs.highlight(str, { language: lang }).value;
+                    return hl;
+                } catch (__) {}
+            }
+
+            return ''; // use external default escaping
+        }
+    });
 
     /* ----------------- */
 

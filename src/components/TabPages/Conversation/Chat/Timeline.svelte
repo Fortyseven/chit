@@ -83,6 +83,7 @@
                 font-size: 0.8em;
                 letter-spacing: -1px;
                 white-space: break-spaces;
+                margin-block: 1em;
             }
 
             em,
@@ -119,7 +120,8 @@
 
             code {
                 font-family: monospace !important;
-                color: var(--accent-color1);
+                // color: var(--accent-color1);
+                color: rgb(191, 191, 191);
                 line-height: 1.1em;
             }
 
