@@ -1,5 +1,6 @@
 <script>
     import { chatState } from '$stores/chatState';
+    import { appState } from '$stores/stores';
     import { ArrowUpLeft, TextNewLine } from 'carbon-icons-svelte';
 
     let saved_prompt = undefined;
@@ -29,7 +30,8 @@
         class="grid-cols-1"
         on:click={restoreMemory}
         title={saved_prompt?.slice(0, 20) + '...'}
-        disabled={!saved_prompt}><ArrowUpLeft /></button
+        disabled={!saved_prompt || $appState.ui.lock_system}
+        ><ArrowUpLeft /></button
     >
 </div>
 

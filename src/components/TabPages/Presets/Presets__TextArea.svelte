@@ -3,6 +3,7 @@
 
     import { chatState } from '$stores/chatState';
     import SYSTEM_PROMPTS from '../../../preset-prompts';
+    import { appState } from '$stores/stores';
 
     export let value;
 
@@ -54,7 +55,12 @@
         {...$$restProps}
     />
     <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
-        <select on:change={usePrompt} bind:this={selectEl} class="col-span-5">
+        <select
+            on:change={usePrompt}
+            bind:this={selectEl}
+            class="col-span-5"
+            disabled={$appState.ui.lock_system}
+        >
             <option value="">Custom</option>
             {#each Object.keys(SYSTEM_PROMPTS) as key}
                 <option value={key}>{SYSTEM_PROMPTS[key].name}</option>
@@ -79,6 +85,11 @@
             outline: none;
         }
     }
+
+    select:disabled {
+        opacity: 0.25;
+    }
+
     // button {
     //     @apply transition-all;
     //     @apply duration-300;
