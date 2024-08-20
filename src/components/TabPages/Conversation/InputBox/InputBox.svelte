@@ -40,7 +40,7 @@
     import { Readability } from '@mozilla/readability';
 
     const QUICK_ART_PROMPT =
-        '[Write a paragraph visually describing the current scenario for an AI art generator. Describe the scene, the mood, etc.]';
+        '[Write a paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc.]';
 
     let inputEl = undefined;
 
