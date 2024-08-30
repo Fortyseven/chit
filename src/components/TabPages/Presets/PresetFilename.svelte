@@ -39,7 +39,7 @@
         bind:value={$chatState.stateFilename}
     />
 {:else}
-    <span on:dblclick={startEdit} title="Double-click to edit prompt filename">
+    <span on:click={startEdit} title="Click to edit prompt filename">
         {$chatState.stateFilename}
     </span>
 {/if}
@@ -49,6 +49,9 @@
         color: var(--accent-color-lighter3);
         cursor: text;
         user-select: none;
+        &:hover {
+            text-decoration: underline;
+        }
     }
     input {
         padding: 0 0.2em;

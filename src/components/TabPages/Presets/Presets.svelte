@@ -191,7 +191,10 @@
 <!-- ----------------------------------------------------------------------- -->
 
 <div id="Presets" class="w-full h-full text-primary">
-    <div class="pb-4 text-3xl">Preset: <PresetFilename /></div>
+    <div class="pb-4 text-3xl">
+        <span class="font-bold">Preset:</span>
+        <PresetFilename />
+    </div>
 
     <div class="flex">
         <Button onClick={loadPresetFromFile} title="Load preset from file">
