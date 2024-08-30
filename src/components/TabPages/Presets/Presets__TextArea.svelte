@@ -7,24 +7,27 @@
 
     export let value;
 
-    let selectEl = undefined;
-
+    let selectorEl = null;
     let previous_prompt_key = '';
 
     function usePrompt() {
-        let selected_prompt_key = selectEl.value;
+        let selected_prompt_key = selectorEl.value;
 
         if (!selected_prompt_key) {
-            previous_prompt_key = '';
+            previous_prompt_key = selected_prompt_key;
             return;
         }
 
-        if (!$chatState.system_prompt) {
+        $appState.ui.selectedPresetId = selected_prompt_key;
+
+        // don't bother asking for confirmation if the system prompt is empty
+        if (!$chatState.system_prompt || !$appState.ui.system_prompt_modified) {
             $chatState.system_prompt =
                 SYSTEM_PROMPTS[selected_prompt_key].prompt;
             return;
         }
 
+        // is this is a different selection from the prior one?
         if (
             !previous_prompt_key ||
             previous_prompt_key != selected_prompt_key
@@ -34,30 +37,37 @@
                     'Are you sure you want to use this system prompt? This will overwrite your current prompt.'
                 )
             ) {
-                previous_prompt_key = selected_prompt_key;
                 if (selected_prompt_key) {
+                    previous_prompt_key = selected_prompt_key;
                     $chatState.system_prompt =
                         SYSTEM_PROMPTS[selected_prompt_key].prompt;
+                    $appState.ui.system_prompt_modified = false;
                 }
             } else {
-                selectEl.value = previous_prompt_key;
+                $appState.ui.selectedPresetId = previous_prompt_key;
             }
         }
     }
+
+    appState.subscribe((state) => {
+        if ($appState.ui.system_prompt_modified && selectorEl) {
+            selectorEl.value = '';
+        }
+    });
 </script>
 
 <div class="textarea-wrapper">
     <textarea
         bind:value
         placeholder="None"
-        on:input={() => (selectEl.value = '')}
+        on:input={() => ($appState.ui.system_prompt_modified = true)}
         class="bg-core-color-darker2 text-accent-color-lighter2"
         {...$$restProps}
     />
     <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
         <select
             on:change={usePrompt}
-            bind:this={selectEl}
+            bind:this={selectorEl}
             class="col-span-5"
             disabled={$appState.ui.lock_system}
         >

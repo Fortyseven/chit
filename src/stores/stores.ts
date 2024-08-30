@@ -41,7 +41,9 @@ export const appState: Writable<AppState> = writable({
         lock_system: false,
         // lock_template: false,
         lock_values: false,
-        play_sounds: true
+        play_sounds: true,
+        selectedPresetId: undefined,
+        system_prompt_modified: false
     },
     apiEndpoint: DEFAULT_OL_ENDPOINT,
     savedSystemPrompts: []

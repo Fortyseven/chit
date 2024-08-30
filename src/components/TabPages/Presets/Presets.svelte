@@ -28,6 +28,12 @@
             return;
         }
 
+        if (!$appState.ui.lock_system) {
+            // TODO: update dropdown to "custom"
+            // $appState.ui.selectedPresetId = '';
+            $appState.ui.system_prompt_modified = true;
+        }
+
         chatState.update((state) => {
             if (!$appState.ui.lock_model) {
                 if (data.savedsettings?.model_name) {
