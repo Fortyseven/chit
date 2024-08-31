@@ -28,7 +28,7 @@
 
 <div class="flex flex-row w-full h-full bg-black">
     <!-- --------- -->
-    <div class="flex-[0%] flex-grow-0 flex-shrink-0">
+    <div class="flex-grow-0 flex-shrink-0">
         <MenuBar />
     </div>
     <!-- --------- -->
