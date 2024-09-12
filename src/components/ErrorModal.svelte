@@ -1,14 +1,22 @@
 <script lang="ts">
     import { playSndFail } from '$lib/audio';
-    import { errorMessage } from '$stores/stores';
+    import { chatTimeline, errorMessage } from '$stores/stores';
+    import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
     import { onMount } from 'svelte';
 
     function dismiss() {
         $errorMessage = '';
+        setTimeout(() => {
+            $eventBus__keyboard = 'inputbox-focus';
+        }, 250);
     }
 
     onMount(() => {
         playSndFail();
+        chatTimeline.update((timeline) => {
+            timeline.pop();
+            return timeline;
+        });
         document.body.onkeydown = (ev) => {
             if (ev.key === 'Escape') {
                 document.body.onkeydown = null;
