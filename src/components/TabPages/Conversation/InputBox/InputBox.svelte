@@ -38,6 +38,7 @@
     } from 'carbon-icons-svelte';
 
     import { Readability } from '@mozilla/readability';
+    import { templateVariables } from '$stores/templates';
 
     const QUICK_ART_PROMPT =
         '[Write a paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc.]';
@@ -93,6 +94,7 @@
                 console.log('chatTimeline:', $chatTimeline);
                 console.log('chatState:', $chatState);
                 console.log('appState:', $appState);
+                console.log('templateVariables:', $templateVariables);
                 console.groupEnd();
 
                 $inputText = '';

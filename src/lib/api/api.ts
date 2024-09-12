@@ -10,11 +10,9 @@ import {
     errorMessage
 } from '../../stores/stores';
 
-import {
-    chatState_resetToDefaults,
-    chatState,
-    systemPromptTemplated
-} from '../../stores/chatState';
+import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
+
+import { systemPromptTemplated } from '../../stores/templates';
 
 import { ebk_inputBoxBack } from '../events/eventBus__keyboard';
 

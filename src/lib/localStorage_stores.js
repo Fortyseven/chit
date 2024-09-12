@@ -1,5 +1,6 @@
 import * as Storages from '../stores/stores';
 import * as Storages_ChatState from '../stores/chatState';
+import * as Storages_Templates from '../stores/templates';
 
 const PREFIX = 'CHIT';
 const unSubscriptions = [];
@@ -59,6 +60,7 @@ export function setLocalStorageSubscriptions() {
     console.debug('💾 Setting up local storage subscriptions...');
     _setLocalStoreSubscriptionsGroup(Storages);
     _setLocalStoreSubscriptionsGroup(Storages_ChatState);
+    _setLocalStoreSubscriptionsGroup(Storages_Templates);
 }
 
 function _syncLocalStorageStores_Group(group) {
@@ -98,4 +100,5 @@ export function restoreLocalStorageStores() {
 
     _syncLocalStorageStores_Group(Storages);
     _syncLocalStorageStores_Group(Storages_ChatState);
+    _syncLocalStorageStores_Group(Storages_Templates);
 }

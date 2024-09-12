@@ -1,10 +1,19 @@
 <script>
+    import TemplateVariables from './TemplateVariables.svelte';
+
     import Icon from '$components/UI/Icon.svelte';
-    import { systemPromptTemplated } from '$stores/chatState';
-    import { userVariables, sysVariables } from '$stores/stores';
+
+    import {
+        userVariables,
+        sysVariables,
+        systemPromptTemplated,
+        systemPromptTemplateTokens
+    } from '$stores/templates';
 
     let new_key = '';
     let new_value = '';
+
+    let showPreview = true;
 
     let newKeyEl;
     let newValueEl;
@@ -20,7 +29,7 @@
     }
 </script>
 
-<div class="settings">
+<div class="variables-menu">
     <h1 class="text-primary pb-4 text-3xl">Variables</h1>
 
     <hr class="opacity-25" />
@@ -75,63 +84,48 @@
         {/each}
     </div>
 
-    <div class="my-4"></div>
+    <!-- -------------------------------------------------- -->
+    {#if $systemPromptTemplateTokens}
+        <hr class="opacity-25 mt-5" />
 
-    <div class="flex">
-        <input
-            class="flex-shrink w-1/4"
-            type="text"
-            bind:this={newKeyEl}
-            bind:value={new_key}
-            on:keydown={(ev) => {
-                if (ev.key === 'Enter') newValueEl.focus();
-            }}
-        />
-        <div class="flex-none w-4 text-bold content-center text-center">=</div>
-        <input
-            class="flex-grow w-1/2"
-            type="text"
-            bind:this={newValueEl}
-            bind:value={new_value}
-            on:keydown={(ev) => {
-                if (ev.key === 'Enter') {
-                    addNew();
-                    newKeyEl.focus();
-                }
-            }}
-        />
-        <button class="w-6 flex-none content-center text-red-500 pl-2">
-            <button
-                on:click={() => {
-                    addNew();
-                    newKeyEl.focus();
-                }}
-            >
-                <Icon icon="add" />
-            </button>
-        </button>
-    </div>
+        <h2 class="py-4 text-2xl">
+            <Icon color="var(--accent-color)" icon="document" /> Template Variables
+        </h2>
+
+        <TemplateVariables></TemplateVariables>
+    {/if}
+
+    <!-- -------------------------------------------------- -->
 
     <hr class="mt-6 opacity-25" />
 
     <h3 class="py-4 text-xl">
         <Icon color="var(--accent-color)" icon="eye" /> Preview
     </h3>
-
-    <div
-        class="overflow-scroll max-h-[500px] bg-core-color-darker5 p-2 resize- text-accent-color-lighter3"
-    >
-        {$systemPromptTemplated}
-    </div>
+    {#if showPreview}
+        <textarea
+            class="overflow-scroll w-full h-full max-h-64 bg-core-color-darker5 p-2 resize- text-accent-color-lighter3"
+            >{$systemPromptTemplated}</textarea
+        >
+    {/if}
 </div>
 
 <style lang="scss">
-    .settings {
+    .variables-menu {
         width: 100%;
-        margin: auto;
+        height: 100%;
 
-        input {
+        overflow: hidden;
+        overflow-y: scroll;
+
+        input,
+        textarea {
             background-color: var(--core-color-darker2, #f0f);
+        }
+
+        textarea {
+            padding: 0.5em;
+            font-size: 0.8em;
         }
     }
 </style>

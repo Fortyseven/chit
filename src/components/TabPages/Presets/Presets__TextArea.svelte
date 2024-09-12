@@ -4,6 +4,7 @@
     import { chatState } from '$stores/chatState';
     import SYSTEM_PROMPTS from '../../../preset-prompts';
     import { appState } from '$stores/stores';
+    import { refreshTemplateVars } from '$stores/templates';
 
     export let value;
 
@@ -47,6 +48,8 @@
                 $appState.ui.selectedPresetId = previous_prompt_key;
             }
         }
+
+        refreshTemplateVars();
     }
 
     appState.subscribe((state) => {
@@ -60,7 +63,10 @@
     <textarea
         bind:value
         placeholder="None"
-        on:input={() => ($appState.ui.system_prompt_modified = true)}
+        on:input={() => {
+            $appState.ui.system_prompt_modified = true;
+            refreshTemplateVars();
+        }}
         class="bg-core-color-darker2 text-accent-color-lighter2"
         {...$$restProps}
     />

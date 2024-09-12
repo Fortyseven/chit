@@ -1,5 +1,5 @@
 import { derived, get, Writable, writable } from 'svelte/store';
-import { appState, sysVariables, userVariables } from './stores';
+import { appState } from './stores';
 
 type ChatStateValues = {
     mirostat: number;
@@ -97,29 +97,3 @@ export const chatState_resetToDefaults = () => {
         return state;
     });
 };
-
-export const systemPromptTemplated = derived(
-    [chatState, appState, userVariables, sysVariables],
-    ([$chatState, $appState, $userVariables, $sysVariables]) => {
-        let system_prompt = $chatState.system_prompt;
-
-        for (const uvar of $userVariables) {
-            system_prompt = system_prompt.replaceAll(
-                '{{' + uvar.key + '}}',
-                uvar.value
-            );
-        }
-
-        for (const svar of $sysVariables) {
-            // if svar.value is a function, get the value
-            let value =
-                svar.value instanceof Function ? svar.value() : svar.value;
-            system_prompt = system_prompt.replaceAll(
-                '{{' + svar.key + '}}',
-                value
-            );
-        }
-
-        return system_prompt;
-    }
-);
