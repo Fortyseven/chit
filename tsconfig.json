@@ -3,6 +3,10 @@
         "strict": true,
         "moduleResolution": "node",
         "baseUrl": "src",
+        "lib": [
+            "ESNext",
+            "DOM",
+        ],
         "paths": {
             "$src/*": [
                 "src/*"

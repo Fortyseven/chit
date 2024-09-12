@@ -1,26 +1,30 @@
 {
-	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-		// "module": "ESNext",
-		// "moduleResolution": "bundler"
-		"baseUrl": "src",
-		"paths": {
-			"$src/*": [
-				"/*"
-			],
-			"$lib/*": [
-				"lib/*"
-			],
-			"$stores/*": [
-				"stores/*"
-			],
-		}
-	}
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strict": true,
+        "lib": [
+            "ESNext",
+            "DOM",
+        ],
+        // "module": "ESNext",
+        // "moduleResolution": "bundler"
+        "baseUrl": "src",
+        "paths": {
+            "$src/*": [
+                "/*"
+            ],
+            "$lib/*": [
+                "lib/*"
+            ],
+            "$stores/*": [
+                "stores/*"
+            ],
+        }
+    }
 }
