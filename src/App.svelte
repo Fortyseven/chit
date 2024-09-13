@@ -41,6 +41,13 @@
     <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
     <!-- --------- -->
+    {#if $appState.ui.selectedTab === 'presets'}
+        <div
+            class="w-full max-w-[300px] hidden xl:block 2xl:max-w-[400px] p-4 bg-core-color-darker1 resize-x overflow-x variables-optional"
+        >
+            <Variables></Variables>
+        </div>
+    {/if}
     <div class="flex-auto bg-core-color-darker2">
         <Chat />
     </div>
@@ -92,5 +99,13 @@
                 border-color: white;
             }
         }
+    }
+
+    .variables-optional {
+        background: linear-gradient(
+            90deg,
+            var(--core-color-darker2) 0%,
+            var(--core-color-darker1) 5%
+        );
     }
 </style>

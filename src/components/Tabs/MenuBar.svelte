@@ -6,7 +6,9 @@
     <!-- <TabBar /> -->
     <div class="flex flex-col h-full gap-4 p-4">
         <MenuBarButton icon="message" label="Presets" menuId="presets" />
-        <MenuBarButton icon="table" label="Variables" menuId="variables" />
+        <span class="block xl:hidden">
+            <MenuBarButton icon="table" label="Variables" menuId="variables" />
+        </span>
         <MenuBarButton icon="settings" label="Settings" menuId="settings" />
     </div>
 </div>
