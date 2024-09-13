@@ -105,7 +105,12 @@ export function refreshTemplateVars() {
             });
         }
     }
+}
+
+export function cleanupTemplateVars() {
     // cull templateVariables that are not in tlv
+    const template_tokens = get(systemPromptTemplateTokens);
+
     templateVariables.update((t) =>
         t.filter((tv) => {
             return template_tokens.includes(tv.key);
@@ -114,11 +119,13 @@ export function refreshTemplateVars() {
 }
 
 export const templateIncomplete = derived(
-    templateVariables,
-    ($templateVariables) => {
-        // debugger;
-        // console.log('templateIncomplete - ', $templateVariables);
-        // debugger;
-        return $templateVariables.filter((i) => !i.value).length;
+    [templateVariables, systemPromptTemplateTokens],
+    ([$templateVariables, $systemPromptTemplateTokens]) => {
+        if ($systemPromptTemplateTokens && $systemPromptTemplateTokens.length) {
+            return !!$templateVariables.filter((tv) => {
+                return $systemPromptTemplateTokens.includes(tv.key);
+            });
+        }
+        return false;
     }
 );

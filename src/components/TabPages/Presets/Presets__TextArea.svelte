@@ -57,20 +57,25 @@
             selectorEl.value = '';
         }
     });
+
+    function modified() {
+        $appState.ui.system_prompt_modified = true;
+        refreshTemplateVars();
+    }
 </script>
 
 <div class="textarea-wrapper">
     <textarea
         bind:value
         placeholder="None"
-        on:input={() => {
-            $appState.ui.system_prompt_modified = true;
-            refreshTemplateVars();
-        }}
+        on:input={modified}
+        on:keyup={modified}
+        on:focus={refreshTemplateVars}
         class="bg-core-color-darker2 text-accent-color-lighter2"
         class:template_incomplete={$templateIncomplete}
         {...$$restProps}
     />
+    {$templateIncomplete}
     <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
         <select
             on:change={usePrompt}

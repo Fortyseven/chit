@@ -101,4 +101,6 @@ export function restoreLocalStorageStores() {
     _syncLocalStorageStores_Group(Storages);
     _syncLocalStorageStores_Group(Storages_ChatState);
     _syncLocalStorageStores_Group(Storages_Templates);
+
+    Storages_Templates.cleanupTemplateVars();
 }
