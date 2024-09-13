@@ -4,7 +4,7 @@
     import { chatState } from '$stores/chatState';
     import SYSTEM_PROMPTS from '../../../preset-prompts';
     import { appState } from '$stores/stores';
-    import { refreshTemplateVars } from '$stores/templates';
+    import { refreshTemplateVars, templateIncomplete } from '$stores/templates';
 
     export let value;
 
@@ -68,6 +68,7 @@
             refreshTemplateVars();
         }}
         class="bg-core-color-darker2 text-accent-color-lighter2"
+        class:template_incomplete={$templateIncomplete}
         {...$$restProps}
     />
     <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
@@ -106,20 +107,7 @@
         opacity: 0.25;
     }
 
-    // button {
-    //     @apply transition-all;
-    //     @apply duration-300;
-    //     @apply rounded-md;
-
-    //     background-color: var(--accent-color-darker3);
-
-    //     flex: auto;
-
-    //     &:disabled {
-    //         opacity: 0.5;
-    //     }
-    //     &:hover {
-    //         opacity: 0.5;
-    //     }
-    // }
+    .template_incomplete {
+        outline: 3px inset rgb(161, 0, 0) !important;
+    }
 </style>

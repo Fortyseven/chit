@@ -104,16 +104,21 @@ export function refreshTemplateVars() {
                 return tv;
             });
         }
-
-        // TODO: cleanup non-existent ones
-
-        // tlv.find((tv) => {
-        //     if (tv.key === tok) {
-        //         return true;
-        //     }
-        //     console.log(' =========== > adding', tok);
-        //     templateVariables.push({ key: tok, value: 'ZZZ' });
-        // });
     }
-    console.log('refreshTemplateVars - ', get(templateVariables));
+    // cull templateVariables that are not in tlv
+    templateVariables.update((t) =>
+        t.filter((tv) => {
+            return template_tokens.includes(tv.key);
+        })
+    );
 }
+
+export const templateIncomplete = derived(
+    templateVariables,
+    ($templateVariables) => {
+        // debugger;
+        // console.log('templateIncomplete - ', $templateVariables);
+        // debugger;
+        return $templateVariables.filter((i) => !i.value).length;
+    }
+);
