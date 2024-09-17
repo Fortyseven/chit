@@ -11,7 +11,7 @@ After the summary, provide a short list of bullet points highlighting the overal
 
 Also note any unusual or worrying content.
 
-Also, provide a comma-separated list of keywords for categorization. Make sure the keywords are relevant to the content.
+Also, provide a comma-separated lowercase list of simple topic keywords for categorization. Make sure the keywords are relevant to the content.
 
-IMPORTANT: Do not include any personal opinions or interpretations. Only use the information provided in the text. Do not invent information. Strive for accuracy using ONLY the information provided.`
+IMPORTANT: Do NOT include opinion, interpretations, or infer additional context where it does not exist in the provided text. Only use the information provided in the text. Do not invent information. Strive for accuracy using ONLY the information provided. This is true for the summary, or for follow-up questions asked by the user about the text: only use what is provided.`
 };
