@@ -104,6 +104,7 @@
     </h3>
     {#if showPreview}
         <textarea
+            readonly disabled
             class="overflow-scroll w-full h-full max-h-64 bg-core-color-darker5 p-2 resize- text-accent-color-lighter3"
             >{$systemPromptTemplated}</textarea
         >
