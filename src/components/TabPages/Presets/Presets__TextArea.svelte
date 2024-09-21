@@ -75,7 +75,6 @@
         class:template_incomplete={$templateIncomplete}
         {...$$restProps}
     />
-    {$templateIncomplete}
     <div class="mt-4 grid grid-cols-6 gap-4 place-content-center">
         <select
             on:change={usePrompt}
@@ -92,6 +91,17 @@
             <PresetMemory />
         </div>
     </div>
+        <div class="grid place-content-end mt-4">
+            <button
+                class="w-fit px-2"
+                on:click={() => {
+                    $appState.ui.popout_variables =
+                        !$appState.ui.popout_variables;
+                }}
+            >
+                Variables
+            </button>
+        </div>
 </div>
 
 <style lang="scss">
@@ -114,5 +124,26 @@
 
     .template_incomplete {
         outline: 3px inset rgb(161, 0, 0) !important;
+    }
+
+    button {
+        @apply transition-all;
+        @apply duration-300;
+        @apply rounded-md;
+
+        display: grid;
+        place-content: center;
+        place-items: center;
+
+        background-color: var(--accent-color-darker3);
+
+        flex: auto;
+
+        &:disabled {
+            opacity: 0.5;
+        }
+        &:hover {
+            opacity: 0.5;
+        }
     }
 </style>

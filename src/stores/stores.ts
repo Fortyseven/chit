@@ -21,6 +21,7 @@ type AppStateUI = {
     lock_system: boolean;
     lock_values: boolean;
     play_sounds: boolean;
+    popout_variables: boolean;
 };
 
 export type AppState = {
@@ -43,7 +44,8 @@ export const appState: Writable<AppState> = writable({
         lock_values: false,
         play_sounds: true,
         selectedPresetId: undefined,
-        system_prompt_modified: false
+        system_prompt_modified: false,
+        popout_variables: false
     },
     apiEndpoint: DEFAULT_OL_ENDPOINT,
     savedSystemPrompts: []

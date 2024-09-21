@@ -260,6 +260,17 @@
 <!-- ----------------------------------------------------------------------- -->
 
 <style lang="scss">
+    #Presets {
+        z-index: 10;
+        position: relative;
+        // background: linear-gradient(
+        //     90deg,
+        //     var(--core-color-darker2) 0%,
+        //     var(--core-color-darker1) 5%
+        // );
+        background-color: var(--core-color-darker1);
+
+    }
     .chat-values {
         ul {
             list-style: none;

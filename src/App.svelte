@@ -33,7 +33,7 @@
     </div>
     <!-- --------- -->
     <div
-        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-core-color-darker1 resize-x overflow-x"
+        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-core-color-darker1 resize-x overflow-x panel"
     >
         <svelte:component this={PAGES[$appState.ui.selectedTab]} />
     </div>
@@ -41,7 +41,7 @@
     <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
     <!-- --------- -->
-    {#if $appState.ui.selectedTab === 'presets'}
+    {#if $appState.ui.selectedTab === 'presets' && $appState.ui.popout_variables}
         <div
             class="w-full max-w-[300px] hidden xl:block 2xl:max-w-[400px] p-4 bg-core-color-darker1 resize-x overflow-x variables-optional"
         >
@@ -101,11 +101,34 @@
         }
     }
 
-    .variables-optional {
-        background: linear-gradient(
-            90deg,
-            var(--core-color-darker2) 0%,
-            var(--core-color-darker1) 5%
-        );
+    .variables-optional,
+    .panel {
+        //         background: linear-gradient(
+        //     90deg,
+        //     var(--core-color-darker2) 0%,
+        //     var(--core-color-darker1) 5%
+        // );
+        box-shadow: 0 0 10px black;
+
+    }
+
+    .panel {
+        z-index: 10;
+    }
+
+    .variables-optional{
+        z-index: 5;
+        // transition: all 0.5s;
+        animation: slide-in 0.25s linear;
+        position: static;
+        @keyframes slide-in {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0%);
+                transform-origin: left ;
+            }
+        }
     }
 </style>

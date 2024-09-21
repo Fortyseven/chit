@@ -14,7 +14,8 @@ const STORE_BLACKLIST = [
     'chatState_resetToDefaults',
     'sysVariables',
     'systemPromptTemplated',
-    'contentEl'
+    'contentEl',
+    'isBeingEditedIndex'
 ];
 
 /***
