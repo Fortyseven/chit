@@ -15,7 +15,10 @@ const STORE_BLACKLIST = [
     'sysVariables',
     'systemPromptTemplated',
     'contentEl',
-    'isBeingEditedIndex'
+    'isBeingEditedIndex',
+    'refreshTemplateVars',
+    'cleanupTemplateVars',
+    'defaultModelName'
 ];
 
 /***
