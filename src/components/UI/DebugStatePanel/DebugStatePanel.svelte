@@ -51,8 +51,6 @@
 
         <DebugStatePanelValue key="apiEndpoint" value={$appState.apiEndpoint} />
 
-        <DebugStatePanelValue key="pbEndpoint" value={$appState.pbEndpoint} />
-
         <hr />
 
         <!-- ui crap ------------------------------------------------------- -->

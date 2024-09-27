@@ -2,16 +2,6 @@
     import { appState, DEFAULT_OL_ENDPOINT } from '$stores/stores';
     import SettingControl from './UI/SettingControl.svelte';
     import SettingGroup from './UI/SettingGroup.svelte';
-
-    let pbAdminLink = '';
-
-    $: {
-        try {
-            pbAdminLink = new URL(`_/`, $appState?.pbEndpoint);
-        } catch (e) {
-            pbAdminLink = '';
-        }
-    }
 </script>
 
 <SettingGroup name="General">

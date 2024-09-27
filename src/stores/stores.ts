@@ -27,7 +27,6 @@ type AppStateUI = {
 export type AppState = {
     ui: AppStateUI;
     apiEndpoint: string;
-    pbEndpoint: string;
     savedSystemPrompts: string[];
 };
 
