@@ -109,14 +109,13 @@
         //     var(--core-color-darker1) 5%
         // );
         box-shadow: 0 0 10px black;
-
     }
 
     .panel {
         z-index: 10;
     }
 
-    .variables-optional{
+    .variables-optional {
         z-index: 5;
         // transition: all 0.5s;
         animation: slide-in 0.25s linear;
@@ -127,7 +126,7 @@
             }
             to {
                 transform: translateX(0%);
-                transform-origin: left ;
+                transform-origin: left;
             }
         }
     }
