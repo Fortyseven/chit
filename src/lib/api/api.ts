@@ -14,7 +14,8 @@ import { chatState_resetToDefaults, chatState } from '../../stores/chatState';
 
 import { systemPromptTemplated } from '../../stores/templates';
 
-import { ebk_inputBoxBack } from '../events/eventBus__keyboard';
+//@ts-ignore
+import { ebk_inputBoxBack } from '../events/eventBus__keyboard.js';
 
 export const pendingResponse = writable({
     role: 'assistant',
@@ -201,7 +202,25 @@ export async function OL_chat(
             body: JSON.stringify(body)
         });
 
-        console.log('OL_chat RESPONSE stream: ', stream);
+        // we're going to sneak back in the original image since the
+        // one we sent to the server was base64 encoded, etc. This way
+        // we can keep the original image for restoration onBack
+        if (pasted_image) {
+            chatTimeline.update((timeline) => {
+                const last_message = timeline.pop();
+
+                if (last_message) {
+                    // we're saving the original blob for reference
+                    // in case the user goes 'back'
+                    last_message.image_blob = pasted_image;
+
+                    timeline.push(last_message);
+
+                    return timeline;
+                }
+            });
+        }
+
         if (stream.status >= 300) {
             console.error('Error connecting to server: ' + stream.body);
             errorMessage.set(stream.statusText);

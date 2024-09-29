@@ -39,6 +39,7 @@
 
     import { Readability } from '@mozilla/readability';
     import { templateVariables } from '$stores/templates';
+    import { isUrl } from '../../../../utils.js';
 
     const QUICK_ART_PROMPT =
         '[Write a paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc.]';
@@ -213,18 +214,33 @@
             let last_message = timeline.pop();
 
             if (last_message.role === 'user') {
+                // last message was from the user
                 last_user_message = last_message.content;
+
+                if (last_message.hasOwnProperty('image_blob')) {
+                    $pastedImage = image_blob;
+                }
             } else {
+                // we're going back after the assistant as responded,
+                // probably, so we need to discard that, and then check if the
+                // last message was from the user and restore that to the input
                 let next_last = timeline.pop();
+
                 if (next_last && next_last.role === 'user') {
                     last_user_message = next_last.content;
+
+                    if (next_last.hasOwnProperty('image_blob')) {
+                        $pastedImage = next_last.image_blob;
+                    }
                 } else {
+                    // leave it alone?
                     timeline.push(next_last);
                 }
             }
 
             return timeline;
         });
+
         $inputText = last_user_message;
         inputEl?.focus();
     }
