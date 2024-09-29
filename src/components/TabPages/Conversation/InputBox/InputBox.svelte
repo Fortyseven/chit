@@ -71,63 +71,58 @@
         }
     }
 
-    function isUrl(str) {
-        if (!str.startsWith('http')) {
-            return false;
+    /* --------------------------------------------------------- */
+    async function processSlashCommand(msg) {
+        if (msg === '/clear') {
+            onClear(true);
+            return true;
+        } else if (msg === '/debug') {
+            console.group('Stores');
+            console.log('chatTimeline:', $chatTimeline);
+            console.log('chatState:', $chatState);
+            console.log('appState:', $appState);
+            console.log('templateVariables:', $templateVariables);
+            console.groupEnd();
+
+            $inputText = '';
+            return true;
+        } else if (msg === '/art') {
+            $inputText = QUICK_ART_PROMPT;
+            return true;
+        } else if (isUrl(msg?.trim())) {
+            // if we have a solo URL in the input, fetch it and use the text body as the input
+            try {
+                let response = await fetch(msg);
+                let data = await response.text();
+
+                // strip html and css, just return text
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(data, 'text/html');
+
+                const reader = new Readability(doc);
+                const article = reader.parse();
+
+                $inputText = article.textContent;
+
+                submit();
+            } catch (err) {
+                errorMessage.set(`There was an error fetching ${msg}. (CORS?)`);
+            } finally {
+                return true;
+            }
         }
 
-        try {
-            new URL(str);
-            return true;
-        } catch (e) {
-            return false;
-        }
+        return false;
     }
 
+    /* --------------------------------------------------------- */
     async function submit() {
         const cont_mode = !$inputText.trim() && $chatTimeline.length > 0;
         const msg = cont_mode ? null : $inputText.trim();
         const pasted_image = $pastedImage || undefined;
 
         if (msg !== '') {
-            if (msg === '/clear') {
-                onClear(true);
-                return;
-            } else if (msg === '/debug') {
-                console.group('Stores');
-                console.log('chatTimeline:', $chatTimeline);
-                console.log('chatState:', $chatState);
-                console.log('appState:', $appState);
-                console.log('templateVariables:', $templateVariables);
-                console.groupEnd();
-
-                $inputText = '';
-                return;
-            } else if (msg === '/art') {
-                $inputText = QUICK_ART_PROMPT;
-                return;
-            } else if (isUrl(msg?.trim())) {
-                // if we have a solo URL in the input, fetch it and use the text body as the input
-                try {
-                    let response = await fetch(msg);
-                    let data = await response.text();
-
-                    // strip html and css, just return text
-                    let parser = new DOMParser();
-                    let doc = parser.parseFromString(data, 'text/html');
-
-                    const reader = new Readability(doc);
-                    const article = reader.parse();
-
-                    $inputText = article.textContent;
-
-                    submit();
-                } catch (err) {
-                    errorMessage.set(
-                        `There was an error fetching ${msg}. (CORS?)`
-                    );
-                }
-
+            if (await processSlashCommand(msg)) {
                 return;
             }
 
