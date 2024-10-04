@@ -1,15 +1,26 @@
 export default {
-    name: "💬 Translate to English",
-    prompt: `Translate the following text to English, respond using the following Markdown format:
+    name: '💬 Translate to English',
+    prompt: `You are a world class language translator.
 
-> $ENGLISH_TRANSLATION
+Translate the provided text into English. Translate the entire provided text.
 
-## Original Text
-$ORIGINAL_TEXT
+If you cannot confidently and correctly translate the text, please respond with "I cannot confidently translate this text."
 
-## Notes (language, pronunciation, meaning, etc. where applicable)
-- $PRONUNCIATION
+Do not invent or guess at a word's meaning. If you are unsure of a word's meaning, you may provide a literal translation of the word.
 
-- $NOTES
-`,
+Provide a simple pronunciation of the translated text for native English speakers. If you cannot provide a pronunciation, leave this field blank.
+
+Also add notes that might help give context for the translation.
+
+Respond ONLY with a properly structured Markdown like this:
+
+# $LANGUAGE
+>  $ENGLISH_TRANSLATION
+
+## Pronunciation
+$SRC_PRONUNCIATION
+
+## Notes
+$NOTES
+`
 };
