@@ -11,6 +11,14 @@
     let selectorEl = null;
     let previous_prompt_key = '';
 
+    function setPrompt(prompt, selected_prompt_key) {
+        previous_prompt_key = selected_prompt_key;
+        $chatState.system_prompt =prompt;
+        $appState.ui.system_prompt_modified = false;
+        selectorEl.value = selected_prompt_key;
+        $chatState.stateFilename = "untitled.json";
+    }
+
     function usePrompt() {
         let selected_prompt_key = selectorEl.value;
 
@@ -23,8 +31,7 @@
 
         // don't bother asking for confirmation if the system prompt is empty
         if (!$chatState.system_prompt || !$appState.ui.system_prompt_modified) {
-            $chatState.system_prompt =
-                SYSTEM_PROMPTS[selected_prompt_key].prompt;
+            setPrompt(SYSTEM_PROMPTS[selected_prompt_key].prompt, selected_prompt_key);
             return;
         }
 
@@ -39,10 +46,7 @@
                 )
             ) {
                 if (selected_prompt_key) {
-                    previous_prompt_key = selected_prompt_key;
-                    $chatState.system_prompt =
-                        SYSTEM_PROMPTS[selected_prompt_key].prompt;
-                    $appState.ui.system_prompt_modified = false;
+                    setPrompt(SYSTEM_PROMPTS[selected_prompt_key].prompt, selected_prompt_key);
                 }
             } else {
                 $appState.ui.selectedPresetId = previous_prompt_key;
