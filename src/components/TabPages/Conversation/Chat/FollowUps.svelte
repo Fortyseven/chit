@@ -108,8 +108,10 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             padding: 0.25em 1em;
             color: $accent-color-darker1;
             width: 100%;
-            height: 4em;
+            min-height: 4em;
             transition: all 0.15s;
+            line-height: 1.2;
+
             // opacity: 0.75;
             &:hover {
                 // background-color: $accent-color-darker5;
