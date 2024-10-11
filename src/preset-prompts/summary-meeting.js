@@ -23,22 +23,20 @@ $SUMMARY
 ## Topics
 
 ### Topic1
-- $TOPICDETAIL1
-- $TOPICDETAIL2
-- etc
+1. $TOPICDETAIL1
+etc
 
 ### Topic2
-- $TOPIC2DETAIL1
-- $TOPIC2DETAIL2
-- etc
+1. $TOPIC2DETAIL1
+etc
 
 ## Key Takeaways
 1. $TAKEAWAY1
-- etc
+etc
 
 ## Action Items
 1. $ACTIONITEM1
-- etc
+etc
 
 # Topic Keywords
 $keyword, $keyword, etc
