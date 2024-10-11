@@ -1,5 +1,5 @@
 export default {
-    name: '✨ Summarize Meeting',
+    name: '🥩 Summarize Meeting',
     prompt: `Generate a comprehensive markdown summary the following meeting transcript.
 
 The transcript is provided in tab separated value format. The first column is the start time, the second is the end time, and the third column is the actual conversation text.
