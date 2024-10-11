@@ -1,10 +1,12 @@
 <script>
     import { chatTimeline } from '$stores/stores';
     import { pendingResponse, responseInProgress } from '$lib/api/api';
+    import { getFollowUps } from '../InputBox/ConvoTools.store.js';
 
     import ConversationTimelineResponse_User from './TimelineResponse_User.svelte';
     import ConversationTimelineResponse_Assistant from './TimelineResponse_Assistant.svelte';
     import TimelineResponseAssistant from './TimelineResponse_Assistant.svelte';
+    import FollowUps from './FollowUps.svelte';
 </script>
 
 <div class="timeline py-4">
@@ -35,10 +37,15 @@
             </div>
         </div>
     {/each}
+    <!-- ---------------------------------------------------------- -->
     {#if $responseInProgress}
         <div>
             <TimelineResponseAssistant line={$pendingResponse} index={-1} />
         </div>
+    {/if}
+    <!-- ---------------------------------------------------------- -->
+    {#if $getFollowUps && !$responseInProgress && $chatTimeline.length !== 0}
+        <FollowUps />
     {/if}
 </div>
 

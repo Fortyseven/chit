@@ -8,6 +8,8 @@
     import { chatState } from '$stores/chatState';
     import { chatTimeline } from '$stores/stores';
 
+    import { getFollowUps } from './ConvoTools.store';
+
     function copyChatToClipboard() {
         const chatText = $chatTimeline
             // .slice($chatState.system_prompt_id === 'general' ? 0 : 1)
@@ -24,15 +26,23 @@
     }
 </script>
 
-<div class="h-12 p-2 flex place-content-end gap-4">
-    {#if !$responseInProgress && $chatTimeline.length > 0}
-        <button
-            class="button rounded-md disabled:opacity-0.25"
-            on:click={copyChatToClipboard}
-        >
-            <Copy /> Copy Chat
-        </button>
-    {/if}
+<div class="h-12 p-2 flex gap-4">
+    <div class="flex-auto grid place-content-start">
+        <label>
+            Suggestions
+            <input type="checkbox" bind:checked={$getFollowUps} />
+        </label>
+    </div>
+    <div class="flex-auto grid place-content-end">
+        {#if true || (!$responseInProgress && $chatTimeline.length > 0)}
+            <button
+                class="button rounded-md disabled:opacity-0.25"
+                on:click={copyChatToClipboard}
+            >
+                <Copy /> Copy Chat
+            </button>
+        {/if}
+    </div>
 </div>
 
 <style lang="scss">
