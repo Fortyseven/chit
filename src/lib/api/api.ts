@@ -17,6 +17,8 @@ import { systemPromptTemplated } from '../../stores/templates';
 //@ts-ignore
 import { ebk_inputBoxBack } from '../events/eventBus__keyboard.js';
 
+import { ollama } from '../../lib/api/ollama.js';
+
 export const pendingResponse = writable({
     role: 'assistant',
     content: ''
@@ -69,14 +71,9 @@ export const cancelInference = () => {
 
 /* ------------------------------------------------ */
 
-export const OL_listLocalModels = async () => {
-    const response = await fetch(`${get(appState).apiEndpoint}/api/tags`);
-    return response.json();
-};
-
 export const refreshModelList = async () => {
     console.log('Refreshing models');
-    const response = await OL_listLocalModels();
+    const response = await ollama().list();
 
     models.set(response.models.sort((a, b) => a.model.localeCompare(b.model)));
 
