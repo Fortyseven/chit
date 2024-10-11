@@ -72,12 +72,11 @@ export const cancelInference = () => {
 /* ------------------------------------------------ */
 
 export const refreshModelList = async () => {
-    console.log('Refreshing models');
+    console.info('Refreshing models');
+
     const response = await ollama().list();
 
     models.set(response.models.sort((a, b) => a.model.localeCompare(b.model)));
-
-    // console.log('Models: ', get(models));
 };
 
 function _getChatParamObject() {
