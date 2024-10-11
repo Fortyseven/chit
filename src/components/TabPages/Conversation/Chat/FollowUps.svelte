@@ -14,7 +14,7 @@
     import Loading from '../../../UI/Loading.svelte';
     import { scrollToBottom } from '$lib/chat';
 
-    const PROMPT_FOLLOWUP = `You will be provided with an AI assistant's response. Generate a JSON array of 4 suggested follow-up queries the user might want to query you about it.
+    const PROMPT_FOLLOWUP = `You will be provided with an AI assistant's response. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
 
 For example, follow-up queries might be among:
 - "Tell me more about..."
