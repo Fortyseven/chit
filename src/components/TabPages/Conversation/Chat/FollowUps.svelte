@@ -73,7 +73,7 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
     onMount(() => {
         scrollToBottom();
         responseInProgress.subscribe((value) => {
-            if (value == false && $getFollowUps) {
+            if (value == false && $getFollowUps && !$isLoadingFollowups) {
                 console.log('regenerating followups');
                 regenerateFollowUps();
             }
