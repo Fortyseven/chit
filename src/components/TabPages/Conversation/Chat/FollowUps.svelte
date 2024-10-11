@@ -7,6 +7,7 @@
         isLoadingFollowups
     } from '../InputBox/ConvoTools.store.js';
     import { chatTimeline } from '$stores/stores';
+    import { chatState } from '$stores/chatState';
 
     import { ollama } from '../../../../lib/api/ollama.js';
 
@@ -38,15 +39,12 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
                 // format: 'json',
                 options: {
                     temperature: 0.8,
-                    // mirostat: 0,
-                    // mirostat_eta: 0.1,
-                    // mirostat_tau: 5,
-                    num_ctx: 2048,
-                    repeat_last_n: 64,
-                    repeat_penalty: 1.1,
-                    tfs_z: 1,
-                    top_k: 40,
-                    top_p: 0.9
+                    // if we don't use the current context size
+                    // we may incur a penalty as ollama readjusts
+                    // to the new size; and then the user gets hit
+                    // with another as it returns to their existing
+                    // one; so just use what we have
+                    num_ctx: $chatState.values.num_ctx
                 }
             });
 
