@@ -27,7 +27,9 @@
 
 <div class="h-12 p-2 flex gap-4">
     <div class="flex-auto grid place-content-start">
-        <label title="Generate follow-up response suggestions.">
+        <label
+            title="Generate follow-up response suggestions. This may be slow if the model is too big."
+        >
             <input type="checkbox" bind:checked={$getFollowUps} />
             Follow-ups
         </label>

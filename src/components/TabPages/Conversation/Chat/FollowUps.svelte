@@ -147,7 +147,7 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
     {#if $isLoadingFollowups}
         <Loading />
     {:else if $followUpSuggestions?.length > 0}
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3 mr-5">
             {#each $followUpSuggestions as sug}
                 <div class="suggestion-entry">
                     <button class="w-full" on:click={() => useSuggestion(sug)}
