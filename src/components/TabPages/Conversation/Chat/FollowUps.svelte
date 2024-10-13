@@ -108,6 +108,10 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
         );
     }
 
+    function useSuggestion(suggestion) {
+        $inputText = suggestion;
+    }
+
     /* ----------------------------------------------------------*/
     const eventBusContext = getContext('event-bus');
     let eventBusContextHandler = undefined;
@@ -139,7 +143,9 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
         <div class="grid grid-cols-2 gap-3">
             {#each $followUpSuggestions as sug}
                 <div class="suggestion-entry">
-                    <button class="w-full">{sug}</button>
+                    <button class="w-full" on:click={() => useSuggestion(sug)}
+                        >{sug}</button
+                    >
                 </div>
             {/each}
         </div>
