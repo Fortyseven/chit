@@ -31,15 +31,17 @@ For example, follow-up queries might be among:
 - "Does it say..."
 
 Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`,
-        rp_choices: `You will be provided with a role playing chat conversation between a user and an assistant. Generate a JSON array of 4 suggested ways the story can continue.
+        rp_choices: `You will be provided with a role playing chat conversation between a USER and an ASSISTANT. Generate a JSON array of 4 suggested ways the story can continue.
+
+        Responses should be things the USER could say or do. Do not write responses for the ASSISTANT.
 
 For example:
-- "You decide to..."
-- "You ask..."
-- "Look closer at..."
-- "Try to escape..."
-- "Attack..."
-- Or any other action that could possibly be taken.
+- "I decide to..."
+- "I ask..."
+- "I look closer at..."
+- "I'll try to escape..."
+- "I'm attacking..."
+- Or any other action that could possibly be taken by the USER.
 
 Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
     };
