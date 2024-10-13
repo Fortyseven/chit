@@ -1,11 +1,9 @@
-import { Writable, writable } from 'svelte/store';
+import { derived, Writable, writable } from 'svelte/store';
 
 export const DEFAULT_OL_ENDPOINT = 'http://localhost:11434';
 
 export const models = writable([]);
 export const chatTimeline = writable([]);
-export const responseInProgress_AbortController: Writable<AbortController | null> =
-    writable(null);
 export const inputText = writable('');
 export const errorMessage = writable('');
 export const defaultModelName = writable(undefined);

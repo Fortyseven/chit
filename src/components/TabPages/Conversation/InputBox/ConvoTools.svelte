@@ -5,7 +5,6 @@
         responseInProgress,
         wasAborted
     } from '$lib/api/api';
-    import { chatState } from '$stores/chatState';
     import { chatTimeline } from '$stores/stores';
 
     import { getFollowUps } from './ConvoTools.store';

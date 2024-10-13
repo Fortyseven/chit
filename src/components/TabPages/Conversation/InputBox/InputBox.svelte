@@ -1,17 +1,18 @@
 <script>
     // @ts-nocheck
 
-    import { onMount } from 'svelte';
+    import { getContext, onMount } from 'svelte';
 
     import {
         chatTimeline,
         inputText,
         errorMessage,
         appState,
-        isBeingEditedIndex
+        isBeingEditedIndex,
+        inputSubmitDisabled
     } from '$stores/stores';
     import { pastedImage } from '$stores/imageState';
-    import { chatState } from '$stores/chatState';
+    import { chatState, completedResponse } from '$stores/chatState';
 
     import {
         pendingContinuedAssistantChat,
@@ -19,7 +20,6 @@
         wasAborted
     } from '$lib/api/api';
 
-    import { OL_chat } from '$lib/api/api';
     import { clearChat, rerollLastResponse } from '$lib/chat';
     import { eventBus__keyboard } from '$lib/events/eventBus__keyboard';
 
@@ -40,6 +40,7 @@
     import { Readability } from '@mozilla/readability';
     import { templateVariables } from '$stores/templates';
     import { isUrl } from '../../../../utils.js';
+    import { dispatchToEventBus } from '$lib/events';
 
     const QUICK_ART_PROMPT =
         '[Write a paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc.]';
@@ -116,6 +117,29 @@
         return false;
     }
 
+    getContext('event-bus').subscribe(async (ev) => {
+        if (ev && ev.name) {
+            console.log('⭐ InputBox event-bus RECEIVED EVENT:', ev);
+            switch (ev.name) {
+                case 'onResponseComplete':
+                    console.log('ZZZ InputBox event-bus RECEIVED EVENT:', ev);
+                    if ($completedResponse && !$wasAborted) {
+                        chatTimeline.update((timeline) => {
+                            console.log(
+                                'Updating timeline:',
+                                $completedResponse
+                            );
+                            timeline.push($completedResponse);
+                            return timeline;
+                        });
+                    }
+                    inputEl?.focus();
+
+                    break;
+            }
+        }
+    });
+
     /* --------------------------------------------------------- */
     async function submit() {
         const cont_mode = !$inputText.trim() && $chatTimeline.length > 0;
@@ -132,20 +156,27 @@
             $pastedImage = undefined;
 
             try {
-                var result = await OL_chat(msg, false, pasted_image);
+                dispatchToEventBus('runInference', {
+                    user_message: msg,
+                    continue_chat: cont_mode,
+                    pasted_image
+                });
 
-                if (result && !$wasAborted) {
-                    chatTimeline.update((timeline) => {
-                        console.log('Updating timeline:', result);
-                        timeline.push(result);
-                        return timeline;
-                    });
-                    inputEl?.focus();
-                }
-                if ($wasAborted) {
-                    $wasAborted = false;
-                    $inputText = msg;
-                }
+                // if (!$wasAborted && $completedResponse) {
+                // }
+
+                // if (result && !$wasAborted) {
+                //     chatTimeline.update((timeline) => {
+                //         console.log('Updating timeline:', result);
+                //         timeline.push(result);
+                //         return timeline;
+                //     });
+                //     inputEl?.focus();
+                // }
+                // if ($wasAborted) {
+                //     $wasAborted = false;
+                //     $inputText = msg;
+                // }
                 console.log('New timeline:', $chatTimeline);
             } catch (e) {
                 errorMessage.set(e.message);
@@ -155,7 +186,10 @@
             // let the model add to it's last conversation
 
             try {
-                let result = await OL_chat(msg, true);
+                dispatchToEventBus('runInference', {
+                    user_message: msg,
+                    continue_chat: true
+                });
 
                 if (result && result.content.trim() && !$wasAborted) {
                     chatTimeline.update(async (timeline) => {

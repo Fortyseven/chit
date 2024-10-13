@@ -1,8 +1,9 @@
 import { contentEl, chatTimeline, inputText } from '../stores/stores';
-import { OL_chat } from '$lib/api/api';
 import { ebk_inputBoxFocus } from '$lib/events/eventBus__keyboard';
 import { get } from 'svelte/store';
 import { chatState } from '../stores/chatState';
+import { dispatchToEventBus } from './events';
+import { pendingResponse } from './api/api';
 
 export function scrollToBottom() {
     const el = get(contentEl);
@@ -16,6 +17,7 @@ export function scrollToBottom() {
 export function clearChat() {
     chatTimeline.set([]);
     inputText.set('');
+    pendingResponse.set(undefined);
 
     // starting from scratch, so no guid yet unless saved
     chatState.update((state) => {
@@ -66,18 +68,42 @@ export async function rerollLastResponse(rewindToIndex = undefined) {
     popLastMessage();
 
     // rerun inference
-    let response = await OL_chat();
+    // let response = await runInference();
+    dispatchToEventBus('runInference');
 
-    if (response) {
-        // add new response to timeline
-        chatTimeline.update((timeline) => {
-            timeline.push(response);
-            return timeline;
-        });
-    } else {
-        console.error('Failed to reroll last response');
-    }
+    // getContext('event-bus').subscribe((ev) => {
+    //     if (ev) {
+    //         console.log('⭐ InputBox event-bus RECEIVED EVENT:', ev);
+    //         switch (ev.name) {
+    //             case 'onResponseComplete':
+    //                 console.log('ZZZ InputBox event-bus RECEIVED EVENT:', ev);
+    //                 if ($completedResponse && !$wasAborted) {
+    //                     chatTimeline.update((timeline) => {
+    //                         console.log(
+    //                             'Updating timeline:',
+    //                             $completedResponse
+    //                         );
+    //                         timeline.push($completedResponse);
+    //                         return timeline;
+    //                     });
+    //                 }
+    //                 inputEl?.focus();
+
+    //                 break;
+    //         }
+    //     }
+    // });
+
+    // if (response) {
+    //     // add new response to timeline
+    //     chatTimeline.update((timeline) => {
+    //         timeline.push(response);
+    //         return timeline;
+    //     });
+    // } else {
+    //     console.error('Failed to reroll last response');
     // }
+    // // }
 }
 
 /*

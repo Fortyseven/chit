@@ -7,8 +7,7 @@
         contentEl,
         defaultModelName,
         inputText,
-        models,
-        responseInProgress_AbortController
+        models
     } from '$stores/stores';
     import { chatState } from '$stores/chatState';
 
@@ -83,6 +82,7 @@
             key="defaultModelName"
             value={$defaultModelName}
         />
+        <DebugStatePanelValue key="chatState" value={$chatState} />
 
         <hr />
 
@@ -131,11 +131,6 @@
         />
 
         <DebugStatePanelValue key={`wasAborted`} value={$wasAborted} />
-
-        <DebugStatePanelValue
-            key="responseInProgress_AbortController"
-            value={$responseInProgress_AbortController}
-        />
 
         <hr />
 

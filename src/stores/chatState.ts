@@ -1,4 +1,4 @@
-import { derived, get, Writable, writable } from 'svelte/store';
+import { get, Writable, writable } from 'svelte/store';
 import { appState } from './stores';
 
 type ChatStateValues = {
@@ -97,3 +97,5 @@ export const chatState_resetToDefaults = () => {
         return state;
     });
 };
+
+export const completedResponse = writable(undefined);

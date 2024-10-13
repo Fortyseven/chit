@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    import { appState, chatTimeline, errorMessage } from '$stores/stores';
+    import { appState, errorMessage } from '$stores/stores';
 
     import { init } from '$lib/init';
 
@@ -13,6 +13,9 @@
     import Chat from '$components/TabPages/Conversation/Chat/Chat.svelte';
     import Presets from '$components/TabPages/Presets/Presets.svelte';
     import Variables from '$components/TabPages/Variables/Variables.svelte';
+    import EventRepeater from './EventRepeater.svelte';
+    import API from './API.svelte';
+    // import SessionBar from '$components/TabPages/Sessions/SessionBar.svelte';
 
     const PAGES = {
         presets: Presets,
@@ -21,43 +24,49 @@
     };
 
     onMount(async () => {
-        console.log('onMount');
         await init();
     });
 </script>
 
-<div class="flex flex-row w-full h-full bg-black">
-    <!-- --------- -->
-    <div class="flex-grow-0 flex-shrink-0">
-        <MenuBar />
-    </div>
-    <!-- --------- -->
-    <div
-        class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-core-color-darker1 resize-x overflow-x panel"
-    >
-        <svelte:component this={PAGES[$appState.ui.selectedTab]} />
-    </div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-    <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
-    <!-- --------- -->
-    {#if $appState.ui.selectedTab === 'presets' && $appState.ui.popout_variables}
-        <div
-            class="w-full max-w-[300px] hidden xl:block 2xl:max-w-[400px] p-4 bg-core-color-darker1 resize-x overflow-x variables-optional"
-        >
-            <Variables></Variables>
+<EventRepeater>
+    <API>
+        <div class="flex flex-row w-full h-full bg-black">
+            <div class="flex-grow-0 flex-shrink-0">
+                <!-- <SessionBar /> -->
+            </div>
+            <!-- --------- -->
+            <div class="flex-grow-0 flex-shrink-0">
+                <MenuBar />
+            </div>
+            <!-- --------- -->
+            <div
+                class="w-full max-w-[400px] 2xl:max-w-[640px] p-4 bg-core-color-darker1 resize-x overflow-x panel"
+            >
+                <svelte:component this={PAGES[$appState.ui.selectedTab]} />
+            </div>
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+            <!-- <div class="w-1 bg-black cursor-row-resize"></div> -->
+            <!-- --------- -->
+            {#if $appState.ui.selectedTab === 'presets' && $appState.ui.popout_variables}
+                <div
+                    class="w-full max-w-[300px] hidden xl:block 2xl:max-w-[400px] p-4 bg-core-color-darker1 resize-x overflow-x variables-optional"
+                >
+                    <Variables></Variables>
+                </div>
+            {/if}
+            <div class="flex-auto bg-core-color-darker2">
+                <Chat />
+            </div>
+            <!-- --------- -->
         </div>
-    {/if}
-    <div class="flex-auto bg-core-color-darker2">
-        <Chat />
-    </div>
-    <!-- --------- -->
-</div>
-<!-- <DebugStatePanel /> -->
+        <DebugStatePanel />
 
-{#if $errorMessage}
-    <ErrorModal />
-{/if}
+        {#if $errorMessage}
+            <ErrorModal />
+        {/if}
+    </API>
+</EventRepeater>
 
 <style lang="scss" global>
     :global(input),
