@@ -61,7 +61,7 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
                 // to the new size; and then the user gets hit
                 // with another as it returns to their existing
                 // one; so just use what we have
-                num_ctx: $chatState.values.num_ctx || 2048
+                num_ctx: parseInt($chatState.values.num_ctx || 2048)
             }
         });
 
