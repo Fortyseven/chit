@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { Ollama } from 'ollama';
+import { Ollama } from 'ollama/browser';
 import { appState } from '$stores/stores';
 
 let ollamaInstance = undefined;

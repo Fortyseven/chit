@@ -1,9 +1,9 @@
 import postcss from './postcss.config.cjs';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import sveltePreprocess from 'svelte-preprocess';
 import path from 'path';
-
 const IGNORED_WARNINGS = [
     'a11y-autofocus',
     'a11y-click-events-have-key-events',
@@ -26,6 +26,20 @@ export default defineConfig({
             onwarn(warning, handler) {
                 if (!IGNORED_WARNINGS.includes(warning.code)) handler(warning);
             }
+        }),
+        nodePolyfills({
+            // To exclude specific polyfills, add them to this list.
+            exclude: [
+                'fs' // Excludes the polyfill for `fs` and `node:fs`.
+            ],
+            // Whether to polyfill specific globals.
+            globals: {
+                Buffer: true, // can also be 'build', 'dev', or false
+                global: true,
+                process: true
+            },
+            // Whether to polyfill `node:` protocol imports.
+            protocolImports: true
         })
     ],
     css: {
