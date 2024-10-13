@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 
     import { appState, contentEl } from '$stores/stores';
     import { responseInProgress } from '$lib/api/api';
@@ -25,28 +25,31 @@
         }
     }
 
-    responseInProgress.subscribe(async (inReceivingResponse) => {
-        if (inReceivingResponse) {
-            console.log('responseInProgress starting scroll');
-            if (responseScrollTimer) clearInterval(responseScrollTimer);
+    const responseInProgressUnsubscribe = responseInProgress.subscribe(
+        async (inReceivingResponse) => {
+            if (inReceivingResponse) {
+                if (responseScrollTimer) clearInterval(responseScrollTimer);
 
-            responseScrollTimer = setInterval(() => {
-                console.log('responseInProgress scrolling');
-                scrollToBottom();
-            }, 250);
-        } else {
-            playSndResponse();
+                responseScrollTimer = setInterval(() => {
+                    scrollToBottom();
+                }, 250);
+            } else {
+                playSndResponse();
 
-            if (responseScrollTimer) clearInterval(responseScrollTimer);
-            setTimeout(() => {
-                scrollToBottom();
-            }, 500);
-            console.log('responseInProgress stopping scroll');
+                if (responseScrollTimer) clearInterval(responseScrollTimer);
+                setTimeout(() => {
+                    scrollToBottom();
+                }, 500);
+            }
         }
-    });
+    );
 
     onMount(() => {
         scrollToBottom();
+    });
+
+    onDestroy(() => {
+        responseInProgressUnsubscribe();
     });
 </script>
 
