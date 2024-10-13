@@ -11,8 +11,10 @@
     import {
         followUpSuggestions,
         isLoadingFollowups,
-        followUpType
+        followUpType,
+        followAutoSubmit
     } from '../InputBox/ConvoTools.store.js';
+    import { dispatchToEventBus } from '$lib/events.js';
 
     /* ----------------------------------------------------------*/
 
@@ -130,7 +132,20 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
     }
 
     function useSuggestion(suggestion) {
-        $inputText = suggestion;
+        let input_text = '';
+        if ($followUpType === 'rp_choices') {
+            input_text = `**${suggestion}**`;
+        } else {
+            input_text = suggestion;
+        }
+
+        if ($followAutoSubmit) {
+            dispatchToEventBus('runInference', {
+                user_message: input_text
+            });
+        } else {
+            $inputText = input_text;
+        }
     }
 
     /* ----------------------------------------------------------*/

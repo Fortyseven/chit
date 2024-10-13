@@ -4,3 +4,4 @@ export const getFollowUps = writable(true);
 export const followUpSuggestions = writable([]);
 export const isLoadingFollowups = writable(false);
 export const followUpType = writable('questions');
+export const followAutoSubmit = writable(true);

@@ -7,7 +7,11 @@
     } from '$lib/api/api';
     import { chatTimeline } from '$stores/stores';
 
-    import { followUpType, getFollowUps } from './ConvoTools.store';
+    import {
+        followAutoSubmit,
+        followUpType,
+        getFollowUps
+    } from './ConvoTools.store';
 
     function copyChatToClipboard() {
         const chatText = $chatTimeline
@@ -26,7 +30,7 @@
 </script>
 
 <div class="h-12 p-2 flex gap-4">
-    <div class="flex-auto grid place-content-start">
+    <div class="flex-auto flex items-center gap-3 place-content-start">
         <label
             title="Generate follow-up response suggestions. This may be slow if the model is too big."
         >
@@ -40,6 +44,14 @@
                 <option selected value="questions">Questions</option>
                 <option value="rp_choices">Story Choices</option>
             </select>
+        </label>
+        <label>
+            <input
+                type="checkbox"
+                bind:checked={$followAutoSubmit}
+                disabled={!$getFollowUps}
+            />
+            Auto-submit
         </label>
     </div>
     <div class="flex-auto grid place-content-end">
