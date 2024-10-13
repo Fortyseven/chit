@@ -15,12 +15,13 @@
         followAutoSubmit
     } from '../InputBox/ConvoTools.store.js';
     import { dispatchToEventBus } from '$lib/events.js';
+    import { systemPromptTemplated } from '$stores/templates';
 
     /* ----------------------------------------------------------*/
 
     const MAX_RETRIES = 3;
     const PROMPT_FOLLOWUP = {
-        questions: `You will be provided with a chat fragment between a user and an assistant. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
+        questions: `You will be provided with a chat conversation between a user and an assistant. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
 
 For example, follow-up queries might be among:
 - "Tell me more about..."
@@ -30,7 +31,7 @@ For example, follow-up queries might be among:
 - "Does it say..."
 
 Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`,
-        rp_choices: `You will be provided with a role playing chat fragment between a user and an assistant. Generate a JSON array of 4 suggested ways the story can continue.
+        rp_choices: `You will be provided with a role playing chat conversation between a user and an assistant. Generate a JSON array of 4 suggested ways the story can continue.
 
 For example:
 - "You decide to..."
@@ -81,6 +82,16 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
     }
 
     /* ----------------------------------------------------------*/
+
+    function concatenateEntries(data) {
+        const result = data.map(
+            (entry) => `${entry.role.toUpperCase()}: ${entry.content}`
+        );
+
+        return result.join('\n\n');
+    }
+
+    /* ----------------------------------------------------------*/
     let isRegenerating = false;
 
     async function regenerateFollowUps(called_by = undefined) {
@@ -94,9 +105,10 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
             return;
         }
 
-        const lastResponse =
-            `USER: ${$chatTimeline[$chatTimeline.length - 2]?.content}\n\n` +
-            `ASSISTANT: ${$chatTimeline[$chatTimeline.length - 1]?.content}`;
+        const lastResponse = concatenateEntries([
+            { role: 'SYSTEM', content: $systemPromptTemplated },
+            ...$chatTimeline
+        ]);
 
         let retries = MAX_RETRIES;
 
