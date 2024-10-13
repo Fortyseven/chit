@@ -144,9 +144,12 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             {/each}
         </div>
     {:else}
-        <div class="flex">
+        <div class="fail flex">
             <div class="w-full col-span-2">
-                <p>No follow-up suggestions available</p>
+                <div>Failed to generate follow-ups.</div>
+                <button class="retry" on:click={regenerateFollowUps}>
+                    Retry
+                </button>
             </div>
         </div>
     {/if}
@@ -169,6 +172,30 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
                 opacity: 1;
                 border-color: $accent-color;
                 color: $accent-color-lighter1;
+            }
+        }
+    }
+    .fail {
+        opacity: 0.25;
+        text-align: center;
+        div {
+            margin-bottom: 1em;
+        }
+        button.retry {
+            @apply transition-all;
+            @apply duration-300;
+            @apply rounded-md;
+
+            padding-inline: 1em;
+
+            background-color: var(--accent-color-darker3);
+
+            flex: auto;
+            &:disabled {
+                opacity: 0.5;
+            }
+            &:hover {
+                opacity: 0.5;
             }
         }
     }
