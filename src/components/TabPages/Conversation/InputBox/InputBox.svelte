@@ -8,8 +8,7 @@
         inputText,
         errorMessage,
         appState,
-        isBeingEditedIndex,
-        inputSubmitDisabled
+        isBeingEditedIndex
     } from '$stores/stores';
     import { pastedImage } from '$stores/imageState';
     import { chatState, completedResponse } from '$stores/chatState';
@@ -371,7 +370,7 @@
                     disabled={$responseInProgress ||
                         ($inputText.length === 0 && $chatTimeline.length === 0)}
                 >
-                    <TrashCan /> Back
+                    <TrashCan /> Clear
                 </button>
             </div>
         </div>
