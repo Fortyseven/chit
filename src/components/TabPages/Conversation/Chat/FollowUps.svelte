@@ -2,7 +2,7 @@
     import { getContext, onDestroy, onMount } from 'svelte';
     import { ollama } from '../../../../lib/api/ollama.js';
 
-    import { chatTimeline } from '$stores/stores';
+    import { chatTimeline, inputText } from '$stores/stores';
     import { chatState } from '$stores/chatState';
 
     import Loading from '../../../UI/Loading.svelte';
@@ -15,7 +15,7 @@
     /* ----------------------------------------------------------*/
 
     const MAX_RETRIES = 3;
-    const PROMPT_FOLLOWUP = `You will be provided with an AI assistant's response. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
+    const PROMPT_FOLLOWUP = `You will be provided with a chat fragment between a user and an assistant. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
 
 For example, follow-up queries might be among:
 - "Tell me more about..."
@@ -73,7 +73,14 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             return;
         }
 
-        const lastResponse = $chatTimeline[$chatTimeline.length - 1]?.content;
+        if ($chatTimeline.length < 2) {
+            console.log('🛑 Not enough chat history to generate followups');
+            return;
+        }
+
+        const lastResponse =
+            `USER: ${$chatTimeline[$chatTimeline.length - 2]?.content}\n\n` +
+            `ASSISTANT: ${$chatTimeline[$chatTimeline.length - 1]?.content}`;
 
         let retries = MAX_RETRIES;
 
