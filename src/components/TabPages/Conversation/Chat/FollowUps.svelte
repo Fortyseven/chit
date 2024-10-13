@@ -5,17 +5,20 @@
     import { chatTimeline, inputText } from '$stores/stores';
     import { chatState } from '$stores/chatState';
 
+    import { Renew } from 'carbon-icons-svelte';
     import Loading from '../../../UI/Loading.svelte';
     import { scrollToBottom } from '$lib/chat';
     import {
         followUpSuggestions,
-        isLoadingFollowups
+        isLoadingFollowups,
+        followUpType
     } from '../InputBox/ConvoTools.store.js';
 
     /* ----------------------------------------------------------*/
 
     const MAX_RETRIES = 3;
-    const PROMPT_FOLLOWUP = `You will be provided with a chat fragment between a user and an assistant. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
+    const PROMPT_FOLLOWUP = {
+        questions: `You will be provided with a chat fragment between a user and an assistant. Generate a JSON array of 4 suggested follow-up queries written from the user's perspective..
 
 For example, follow-up queries might be among:
 - "Tell me more about..."
@@ -24,7 +27,19 @@ For example, follow-up queries might be among:
 - "Why does..."
 - "Does it say..."
 
-Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
+Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`,
+        rp_choices: `You will be provided with a role playing chat fragment between a user and an assistant. Generate a JSON array of 4 suggested ways the story can continue.
+
+For example:
+- "You decide to..."
+- "You ask..."
+- "Look closer at..."
+- "Try to escape..."
+- "Attack..."
+- Or any other action that could possibly be taken.
+
+Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
+    };
 
     /* ----------------------------------------------------------*/
 
@@ -34,7 +49,7 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
         let response = await ollama().generate({
             model: 'llama3.2:latest',
             prompt: lastResponse,
-            system: PROMPT_FOLLOWUP,
+            system: PROMPT_FOLLOWUP[$followUpType],
             // format: 'json',
             options: {
                 temperature: 0.8,
@@ -53,7 +68,6 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             const parsed = JSON.parse(response);
             if (Array.isArray(parsed) && parsed.length > 0) {
                 parsed.sort();
-                // console.log('🟢 LLM returned followups:', parsed);
                 return parsed;
             } else {
                 console.error(
@@ -155,6 +169,12 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
                 </div>
             {/each}
         </div>
+        <div class="reroll w-full pt-4">
+            <button
+                class="m-auto flex items-center gap-3"
+                on:click={regenerateFollowUps}><Renew /> Reroll</button
+            >
+        </div>
     {:else}
         <div class="fail flex">
             <div class="w-full col-span-2">
@@ -187,13 +207,14 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             }
         }
     }
+    .reroll,
     .fail {
         opacity: 0.25;
         text-align: center;
         div {
             margin-bottom: 1em;
         }
-        button.retry {
+        button {
             @apply transition-all;
             @apply duration-300;
             @apply rounded-md;

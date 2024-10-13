@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import { Copy } from 'carbon-icons-svelte';
     import {
         pendingContinuedAssistantChat,
@@ -7,7 +7,7 @@
     } from '$lib/api/api';
     import { chatTimeline } from '$stores/stores';
 
-    import { getFollowUps } from './ConvoTools.store';
+    import { followUpType, getFollowUps } from './ConvoTools.store';
 
     function copyChatToClipboard() {
         const chatText = $chatTimeline
@@ -32,6 +32,14 @@
         >
             <input type="checkbox" bind:checked={$getFollowUps} />
             Follow-ups
+            <select
+                bind:value={$followUpType}
+                disabled={!$getFollowUps}
+                style:opacity={!$getFollowUps ? '0.25' : '1'}
+            >
+                <option selected value="questions">Questions</option>
+                <option value="rp_choices">Story Choices</option>
+            </select>
         </label>
     </div>
     <div class="flex-auto grid place-content-end">
