@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
 
-    import { getContext, onMount } from 'svelte';
+    import { getContext, onDestroy, onMount } from 'svelte';
 
     import {
         chatTimeline,
@@ -116,29 +116,6 @@
 
         return false;
     }
-
-    getContext('event-bus').subscribe(async (ev) => {
-        if (ev && ev.name) {
-            console.log('⭐ InputBox event-bus RECEIVED EVENT:', ev);
-            switch (ev.name) {
-                case 'onResponseComplete':
-                    console.log('ZZZ InputBox event-bus RECEIVED EVENT:', ev);
-                    if ($completedResponse && !$wasAborted) {
-                        chatTimeline.update((timeline) => {
-                            console.log(
-                                'Updating timeline:',
-                                $completedResponse
-                            );
-                            timeline.push($completedResponse);
-                            return timeline;
-                        });
-                    }
-                    inputEl?.focus();
-
-                    break;
-            }
-        }
-    });
 
     /* --------------------------------------------------------- */
     async function submit() {
@@ -282,6 +259,38 @@
     responseInProgress.subscribe(async (value) => {
         if (!value) {
             inputEl?.focus();
+        }
+    });
+
+    const eventBusContext = getContext('event-bus');
+    let eventBusContextHandler = undefined;
+
+    onMount(() => {
+        eventBusContextHandler = eventBusContext.subscribe(async (ev) => {
+            if (ev && ev.name) {
+                switch (ev.name) {
+                    case 'onResponseComplete':
+                        if ($completedResponse && !$wasAborted) {
+                            chatTimeline.update((timeline) => {
+                                console.log(
+                                    'Updating timeline:',
+                                    $completedResponse
+                                );
+                                timeline.push($completedResponse);
+                                return timeline;
+                            });
+                        }
+                        inputEl?.focus();
+
+                        break;
+                }
+            }
+        });
+    });
+
+    onDestroy(() => {
+        if (eventBusContextHandler) {
+            eventBusContextHandler();
         }
     });
 </script>

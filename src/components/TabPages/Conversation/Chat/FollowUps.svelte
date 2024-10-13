@@ -126,7 +126,9 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
     });
 
     onDestroy(() => {
-        eventBusContextHandler();
+        if (eventBusContextHandler) {
+            eventBusContextHandler();
+        }
     });
 </script>
 
