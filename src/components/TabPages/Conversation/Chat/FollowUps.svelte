@@ -49,7 +49,7 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
         console.debug('🔁 Generating followups...');
 
         let response = await ollama().generate({
-            model: 'llama3.2:latest',
+            model: $chatState.model_name,
             prompt: lastResponse,
             system: PROMPT_FOLLOWUP[$followUpType],
             // format: 'json',
