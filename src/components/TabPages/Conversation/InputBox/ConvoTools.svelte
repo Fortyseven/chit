@@ -27,9 +27,9 @@
 
 <div class="h-12 p-2 flex gap-4">
     <div class="flex-auto grid place-content-start">
-        <label>
-            Suggestions
+        <label title="Generate follow-up response suggestions.">
             <input type="checkbox" bind:checked={$getFollowUps} />
+            Follow-ups
         </label>
     </div>
     <div class="flex-auto grid place-content-end">
@@ -56,5 +56,8 @@
         &:hover {
             opacity: 1;
         }
+    }
+    label {
+        opacity: 0.75;
     }
 </style>
