@@ -69,12 +69,12 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
 
     async function regenerateFollowUps(called_by = undefined) {
         if (isRegenerating) {
-            console.log('🛑 Already regenerating followups');
+            console.warn('🛑 Already regenerating followups');
             return;
         }
 
         if ($chatTimeline.length < 2) {
-            console.log('🛑 Not enough chat history to generate followups');
+            console.warn('🛑 Not enough chat history to generate followups');
             return;
         }
 
@@ -126,7 +126,6 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
     onMount(() => {
         eventBusContextHandler = eventBusContext.subscribe(async (ev) => {
             if (ev && ev.name === 'onResponseComplete') {
-                // console.log('⭐ FollowUps event-bus RECEIVED EVENT:', ev.name);
                 if (!$isLoadingFollowups)
                     await regenerateFollowUps(
                         'subscribed-event-bus-onResponseComplete'
