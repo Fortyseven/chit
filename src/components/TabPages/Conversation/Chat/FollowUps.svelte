@@ -95,31 +95,31 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
 </script>
 
 <div>
-    {#await promise}
-        <div class="w-full col-span-2">
-            <Loading />
-        </div>
-    {:then suggestions}
-        {#if suggestions?.length > 0}
-            <div class="grid grid-cols-2 gap-3">
-                {#each suggestions as sug}
-                    <div class="suggestion-entry">
-                        <button class="w-full">{sug}</button>
-                    </div>
-                {/each}
+    <div class="grid grid-cols-2 gap-3 m-auto mr-6">
+        {#await promise}
+            <div class="w-full col-span-2">
+                <Loading />
             </div>
-        {:else}
-            <div class="flex">
+        {:then suggestions}
+            {#if suggestions?.length > 0}
+                <div class="w-full col-span-2">
+                    {#each suggestions as sug}
+                        <div class="suggestion-entry text-left">
+                            <button>{sug}</button>
+                        </div>
+                    {/each}
+                </div>
+            {:else}
                 <div class="w-full col-span-2">
                     <p>No follow-up suggestions available</p>
                 </div>
+            {/if}
+        {:catch error}
+            <div class="w-full col-span-2">
+                <p>Failed to generate follow-up suggestions</p>
             </div>
-        {/if}
-    {:catch error}
-        <div class="w-full col-span-2">
-            <p>Failed to generate follow-up suggestions</p>
-        </div>
-    {/await}
+        {/await}
+    </div>
 </div>
 
 <style lang="scss">
