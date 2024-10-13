@@ -95,31 +95,31 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
 </script>
 
 <div>
-    <div class="grid grid-cols-2 gap-3 m-auto mr-6">
-        {#await promise}
-            <div class="w-full col-span-2">
-                <Loading />
+    {#await promise}
+        <div class="w-full col-span-2">
+            <Loading />
+        </div>
+    {:then suggestions}
+        {#if suggestions?.length > 0}
+            <div class="grid grid-cols-2 gap-3">
+                {#each suggestions as sug}
+                    <div class="suggestion-entry">
+                        <button class="w-full">{sug}</button>
+                    </div>
+                {/each}
             </div>
-        {:then suggestions}
-            {#if suggestions?.length > 0}
-                <div class="w-full col-span-2">
-                    {#each suggestions as sug}
-                        <div class="suggestion-entry text-left">
-                            <button>{sug}</button>
-                        </div>
-                    {/each}
-                </div>
-            {:else}
+        {:else}
+            <div class="flex">
                 <div class="w-full col-span-2">
                     <p>No follow-up suggestions available</p>
                 </div>
-            {/if}
-        {:catch error}
-            <div class="w-full col-span-2">
-                <p>Failed to generate follow-up suggestions</p>
             </div>
-        {/await}
-    </div>
+        {/if}
+    {:catch error}
+        <div class="w-full col-span-2">
+            <p>Failed to generate follow-up suggestions</p>
+        </div>
+    {/await}
 </div>
 
 <style lang="scss">
@@ -131,15 +131,11 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`;
             border-radius: 10px;
             padding: 0.25em 1em;
             color: $accent-color-darker1;
-            width: 100%;
             min-height: 4em;
             transition: all 0.15s;
             line-height: 1.2;
 
-            // opacity: 0.75;
             &:hover {
-                // background-color: $accent-color-darker5;
-                // color: white;
                 opacity: 1;
                 border-color: $accent-color;
                 color: $accent-color-lighter1;
