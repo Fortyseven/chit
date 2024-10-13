@@ -157,7 +157,6 @@
                     return;
                 }
 
-                console.log('Do we get here?1');
                 for await (const chunk of stream) {
                     $pendingResponse.content += chunk.message.content;
                 }
@@ -188,10 +187,7 @@
                     $wasAborted = true;
                     return;
                 }
-                // console.error('procesing runInference error: ', err);
-                // throw Error('Error connecting to server: ' + err.message);
             } finally {
-                console.debug('runInference ultimate finally; RIP');
                 $responseInProgress = false;
             }
 
@@ -204,10 +200,8 @@
             }
 
             $completedResponse = pending;
-            console.log('--- set completedResponse:', pending);
         } catch (err) {
             if (err.name !== 'AbortError') {
-                console.error('runInference error: ', err);
                 throw Error('Error connecting to server: ' + err.message);
             } else {
                 return null;
@@ -221,7 +215,6 @@
 
     getContext('event-bus').subscribe(async (ev) => {
         if (ev) {
-            console.log('⭐ API event-bus RECEIVED EVENT:', ev);
             switch (ev.name) {
                 case 'runInference':
                     await runInference(ev.data);
