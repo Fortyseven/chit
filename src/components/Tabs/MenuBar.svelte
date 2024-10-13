@@ -1,5 +1,6 @@
 <script>
     import MenuBarButton from './UI/MenuBar__Button.svelte';
+    import MenuBarCustomButton from './UI/MenuBar__CustomButton.svelte';
 </script>
 
 <div id="MenuBar" class="w-full h-full bg-core-color">
@@ -10,6 +11,12 @@
             <MenuBarButton icon="table" label="Variables" menuId="variables" />
         </span>
         <MenuBarButton icon="settings" label="Settings" menuId="settings" />
+        <MenuBarCustomButton
+            emoji="☢"
+            label="Nuke"
+            onclick={() =>
+                confirm('Kill localStorage?') && window.localStorage.clear()}
+        />
     </div>
 </div>
 
