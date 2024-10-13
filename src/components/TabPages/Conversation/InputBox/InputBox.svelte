@@ -34,7 +34,10 @@
         SendAlt,
         Chat,
         Add,
-        AddAlt
+        AddAlt,
+        Renew,
+        Undo,
+        TrashCan
     } from 'carbon-icons-svelte';
 
     import { Readability } from '@mozilla/readability';
@@ -340,36 +343,35 @@
             <div class="flex flex-col h-full gap-2">
                 <!-- ---------------------------- -->
                 <button
-                    class="button"
+                    class="button flex items-center gap-3 pl-3"
                     on:click={async () => {
                         if (!$responseInProgress) await rerollLastResponse();
                     }}
                     title="Retry the last response"
                     disabled={$responseInProgress || $chatTimeline.length === 0}
+                    ><Renew /> Reroll</button
                 >
-                    <i class="mi-refresh with-text">Reroll</i>
-                </button>
                 <!-- ---------------------------- -->
                 <button
-                    class="button"
+                    class="button flex items-center gap-3 pl-3"
                     on:click={async () => {
                         if (!$responseInProgress) await onBack();
                     }}
                     title="Step back one response"
                     disabled={$responseInProgress ||
                         ($inputText.length === 0 && $chatTimeline.length === 0)}
-                    ><i class="mi-arrow-left with-text">Back</i>
-                </button>
+                    ><Undo /> Back</button
+                >
                 <!-- ---------------------------- -->
                 <button
                     id="BtnClear"
-                    class="button"
+                    class="button flex items-center gap-3 pl-3"
                     on:click={() => onClear()}
                     title="Clear the current chat"
                     disabled={$responseInProgress ||
                         ($inputText.length === 0 && $chatTimeline.length === 0)}
                 >
-                    <i class="mi-delete with-text">Clear</i>
+                    <TrashCan /> Back
                 </button>
             </div>
         </div>
