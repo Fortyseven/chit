@@ -34,6 +34,14 @@
         }
     });
 
+    // return a quoted version of the text
+    function md_quote(text) {
+        return text
+            .split('\n')
+            .map((line) => '>' + line)
+            .join('\n');
+    }
+
     /* ----------------- */
 
     onMount(() => {
@@ -116,6 +124,14 @@
             iconName="clipboard"
             onClick={() => {
                 navigator.clipboard.writeText(line.content.trim());
+            }}
+        />
+        <!-- -------------- -->
+        <ChatButton
+            tooltip="Quote with Markdown"
+            iconName="message"
+            onClick={() => {
+                navigator.clipboard.writeText(md_quote(line.content.trim()));
             }}
         />
         <!-- -------------- -->
