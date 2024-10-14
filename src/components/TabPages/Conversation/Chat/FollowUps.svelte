@@ -16,6 +16,7 @@
     } from '../InputBox/ConvoTools.store.js';
     import { dispatchToEventBus } from '$lib/events.js';
     import { systemPromptTemplated } from '$stores/templates';
+    import { concatenateEntries } from '$src/utils.js';
 
     /* ----------------------------------------------------------*/
 
@@ -81,16 +82,6 @@ Only respond with valid JSON in this format: ["suggestion", "suggestion2"]`
                 return null;
             }
         } catch (e) {}
-    }
-
-    /* ----------------------------------------------------------*/
-
-    function concatenateEntries(data) {
-        const result = data.map(
-            (entry) => `${entry.role.toUpperCase()}: ${entry.content}`
-        );
-
-        return result.join('\n\n');
     }
 
     /* ----------------------------------------------------------*/

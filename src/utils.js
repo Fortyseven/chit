@@ -10,3 +10,11 @@ export function isUrl(str) {
         return false;
     }
 }
+
+export function concatenateEntries(data) {
+    const result = data.map(
+        (entry) => `${entry.role.toUpperCase()}: ${entry.content}`
+    );
+
+    return result.join('\n\n');
+}

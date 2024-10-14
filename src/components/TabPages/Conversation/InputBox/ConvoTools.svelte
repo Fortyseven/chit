@@ -1,17 +1,18 @@
 <script>
-    import { Copy } from 'carbon-icons-svelte';
-    import {
-        pendingContinuedAssistantChat,
-        responseInProgress,
-        wasAborted
-    } from '$lib/api/api';
+    import { Copy, PaintBrush } from 'carbon-icons-svelte';
+    import { responseInProgress } from '$lib/api/api';
     import { chatTimeline } from '$stores/stores';
+    import { concatenateEntries } from '$src/utils.js';
 
     import {
         followAutoSubmit,
         followUpType,
         getFollowUps
     } from './ConvoTools.store';
+    import { systemPromptTemplated } from '$stores/templates';
+    import { chatState } from '$stores/chatState';
+    import { ollama } from '$lib/api/ollama';
+    import Dialog from '$components/UI/Dialog.svelte';
 
     function copyChatToClipboard() {
         const chatText = $chatTimeline
@@ -27,7 +28,56 @@
 
         navigator.clipboard.writeText(chatText);
     }
+
+    let showArtPrompt = false;
+    let artPromptText = '';
+
+    async function generateArtPrompt(isreload = false) {
+        const SPROMPT =
+            'You will be given a full chat transcript between a user and an AI assistant. Write a single detailed paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc. Only respond with the paragraph.';
+
+        const lastResponse = concatenateEntries([
+            { role: 'SYSTEM', content: $systemPromptTemplated },
+            ...$chatTimeline
+        ]);
+
+        let response = await ollama().generate({
+            model: $chatState.model_name,
+            prompt: lastResponse,
+            system: SPROMPT,
+            options: {
+                temperature: 0.8,
+                // if we don't use the current context size
+                // we may incur a penalty as ollama readjusts
+                // to the new size; and then the user gets hit
+                // with another as it returns to their existing
+                // one; so just use what we have
+                num_ctx: parseInt($chatState.values.num_ctx || 2048)
+            }
+        });
+
+        if (!isreload) {
+            showArtPrompt = true;
+        }
+        artPromptText = response.response;
+    }
 </script>
+
+{#if showArtPrompt}
+    <Dialog
+        onClose={() => (showArtPrompt = false)}
+        onCopy={() => {
+            navigator.clipboard.writeText(artPromptText);
+            console.log('Copied to clipboard');
+        }}
+        onReload={async () => {
+            await generateArtPrompt(true);
+        }}
+        title="Art Prompt"
+    >
+        <p>{artPromptText}</p>
+    </Dialog>
+{/if}
 
 <div class="h-12 p-2 flex gap-4">
     <div class="flex-auto flex items-center gap-3 place-content-start">
@@ -54,7 +104,13 @@
             Auto-submit
         </label>
     </div>
-    <div class="flex-auto grid place-content-end">
+    <div class="flex-auto flex gap-3 place-content-end">
+        <button
+            class="button rounded-md disabled:opacity-0.25"
+            on:click={async () => await generateArtPrompt()}
+        >
+            <PaintBrush /> Art Prompt
+        </button>
         {#if true || (!$responseInProgress && $chatTimeline.length > 0)}
             <button
                 class="button rounded-md disabled:opacity-0.25"
