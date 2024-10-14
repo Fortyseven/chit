@@ -34,7 +34,7 @@
 
     async function generateArtPrompt(isreload = false) {
         const SPROMPT =
-            'You will be given a full chat transcript between a user and an AI assistant. Write a single detailed paragraph visually describing the current moment for an AI art generator. Describe the scene, the mood, etc. Only respond with the paragraph.';
+            'You will be given a full chat transcript between a user and an AI assistant. Write a single detailed paragraph visually describing the current moment in a way that can be processed bv an AI art generator. Describe the composition and details using vivid language.  Only respond with the paragraph.';
 
         const lastResponse = concatenateEntries([
             { role: 'SYSTEM', content: $systemPromptTemplated },
