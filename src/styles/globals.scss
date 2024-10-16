@@ -44,7 +44,9 @@ $core-color-darker6: darken($core-color, 60%);
 
 :root {
     // --font-primary: Mulish, 'Roboto Condensed', sans-serif;
-    --font-primary: 'Roboto Flex', 'Roboto Condensed', sans-serif;
+    --font-primary: 'Nimbus', 'Acorn Mode 0 New', system-ui, -apple-system, sans-serif;
+
+
     --font-primary-condensed: 'Roboto Condensed', sans-serif;
 
     --core-color: #{$core-color};

@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Nimbus';
+    font-weight: normal;
+    src: url('./NimbusSanL-Reg.otf') format('opentype');
+}
+@font-face {
+    font-family: 'Nimbus';
+    font-weight: bold;
+    src: url('./NimbusSanL-Bol.otf') format('opentype');
+}
+@font-face {
+    font-family: 'Nimbus';
+    font-weight: normal;
+    font-style: italic;
+    src: url('./NimbusSanL-RegIta.otf') format('opentype');
+}
+@font-face {
+    font-family: 'Nimbus';
+    font-weight: bold;
+    font-style: italic;
+    src: url('./NimbusSanL-BolIta.otf') format('opentype');
+}
