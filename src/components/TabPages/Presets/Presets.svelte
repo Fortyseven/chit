@@ -186,6 +186,12 @@
     }
 
     function onBlurValue(key) {
+        /* this is a hack to allow for the user to enter a number in the
+         * input field and have it automatically converted to a larger
+         * number if it's less than 1024. This is because the model
+         * expects the context length to be at least 1024, and it's
+         * easier to just multiply by 1024 than to have the user
+         * enter a number that large */
         if (key == 'num_ctx') {
             if ($chatState.values.num_ctx <= 1024) {
                 $chatState.values.num_ctx *= 1024;
