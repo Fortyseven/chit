@@ -131,11 +131,13 @@
         gap: 0.5rem /* 8px */;
         opacity: 0.75;
         transition: opacity 0.2s;
+        font-weight: bold;
         &:hover {
             opacity: 1;
         }
     }
     label {
         opacity: 0.75;
+        font-weight: bold;
     }
 </style>
