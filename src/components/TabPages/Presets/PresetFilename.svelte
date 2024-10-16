@@ -49,9 +49,7 @@
         color: var(--accent-color-lighter3);
         cursor: text;
         user-select: none;
-        &:hover {
-            text-decoration: underline;
-        }
+        text-decoration: underline;
     }
     input {
         padding: 0 0.2em;
