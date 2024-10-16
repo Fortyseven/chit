@@ -32,11 +32,14 @@
     .user {
         flex: auto;
         display: flex;
-
+        width: 100%;
         .text {
             flex: auto;
             color: var(--primary-fg);
+            font-style: italic;
             line-height: 1.35em;
+            width: 100%;
+            overflow: scroll;
             &::before {
                 content: '> ';
                 font-weight: bold;

@@ -12,7 +12,7 @@
 <div class="timeline py-4">
     {#each $chatTimeline as line, index}
         <div class="flex gap-2">
-            <div class="flex-auto">
+            <div class="flex-auto w-[calc(100%-100px)]">
                 {#if line}
                     {#if line?.role === 'user'}
                         <ConversationTimelineResponse_User {line} {index} />
@@ -162,7 +162,8 @@
 
                 strong {
                     color: inherit !important;
-                    &::before,&::after {
+                    &::before,
+                    &::after {
                         content: unset;
                     }
                     text-decoration: underline;
@@ -198,7 +199,7 @@
                 color: rgb(179, 251, 255);
                 font-size: 0.9em;
                 font-weight: bold;
-                font-style:italic;
+                font-style: italic;
                 border-bottom: none;
                 text-decoration: none;
                 &::before {
@@ -237,7 +238,7 @@
             table {
                 outline: 1px solid var(--accent-color-darker4);
                 box-shadow: 0 0 20px black;
-                width:100%;
+                width: 100%;
                 margin-block: 1em;
                 th {
                     background-color: var(--accent-color-darker4);
@@ -246,7 +247,8 @@
                     color: black !important;
                     strong {
                         color: black !important;
-                        &::before,&::after {
+                        &::before,
+                        &::after {
                             content: unset;
                         }
                     }
