@@ -272,17 +272,22 @@
             if (ev && ev.name) {
                 switch (ev.name) {
                     case 'onResponseComplete':
-                        if ($completedResponse && !$wasAborted) {
-                            chatTimeline.update((timeline) => {
-                                console.log(
-                                    'Updating timeline:',
-                                    $completedResponse
-                                );
-                                timeline.push($completedResponse);
-                                return timeline;
-                            });
+                        try {
+                            if ($completedResponse && !$wasAborted) {
+                                chatTimeline.update((timeline) => {
+                                    console.log(
+                                        'Updating timeline:',
+                                        $completedResponse
+                                    );
+                                    timeline.push($completedResponse);
+                                    return timeline;
+                                });
+                            }
+                        } finally {
+                            setTimeout(() => {
+                                inputEl?.focus();
+                            }, 100);
                         }
-                        inputEl?.focus();
 
                         break;
                 }
@@ -348,8 +353,9 @@
                     }}
                     title="Retry the last response"
                     disabled={$responseInProgress || $chatTimeline.length === 0}
-                    ><Renew /> Reroll</button
                 >
+                    <Renew /> Reroll
+                </button>
                 <!-- ---------------------------- -->
                 <button
                     class="button flex items-center gap-3 pl-3"
@@ -359,8 +365,9 @@
                     title="Step back one response"
                     disabled={$responseInProgress ||
                         ($inputText.length === 0 && $chatTimeline.length === 0)}
-                    ><Undo /> Back</button
                 >
+                    <Undo /> Back
+                </button>
                 <!-- ---------------------------- -->
                 <button
                     id="BtnClear"
