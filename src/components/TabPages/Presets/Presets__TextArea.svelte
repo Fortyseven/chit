@@ -13,10 +13,20 @@
 
     function setPrompt(prompt, selected_prompt_key) {
         previous_prompt_key = selected_prompt_key;
-        $chatState.system_prompt =prompt;
+        $chatState.system_prompt = prompt;
         $appState.ui.system_prompt_modified = false;
         selectorEl.value = selected_prompt_key;
-        $chatState.stateFilename = "untitled.json";
+        $chatState.stateFilename = 'untitled.json';
+
+        // TODO: This is mostly a hack for me; 99% of the time I want to
+        // set the context to 65535, because the full context drags down
+        // a 4090. Not everyone has a 4090, of course, so even this may
+        // be a drag for them. This needs to be a setting.
+
+        if ($chatState.model_name.startsWith('llama3.')) {
+            // set context to 65535
+            $chatState.values.num_ctx = 65535;
+        }
     }
 
     function usePrompt() {
@@ -31,7 +41,10 @@
 
         // don't bother asking for confirmation if the system prompt is empty
         if (!$chatState.system_prompt || !$appState.ui.system_prompt_modified) {
-            setPrompt(SYSTEM_PROMPTS[selected_prompt_key].prompt, selected_prompt_key);
+            setPrompt(
+                SYSTEM_PROMPTS[selected_prompt_key].prompt,
+                selected_prompt_key
+            );
             return;
         }
 
@@ -46,7 +59,10 @@
                 )
             ) {
                 if (selected_prompt_key) {
-                    setPrompt(SYSTEM_PROMPTS[selected_prompt_key].prompt, selected_prompt_key);
+                    setPrompt(
+                        SYSTEM_PROMPTS[selected_prompt_key].prompt,
+                        selected_prompt_key
+                    );
                 }
             } else {
                 $appState.ui.selectedPresetId = previous_prompt_key;
@@ -95,17 +111,16 @@
             <PresetMemory />
         </div>
     </div>
-        <div class="grid place-content-end mt-4">
-            <button
-                class="w-fit px-2"
-                on:click={() => {
-                    $appState.ui.popout_variables =
-                        !$appState.ui.popout_variables;
-                }}
-            >
-                Variables
-            </button>
-        </div>
+    <div class="grid place-content-end mt-4">
+        <button
+            class="w-fit px-2"
+            on:click={() => {
+                $appState.ui.popout_variables = !$appState.ui.popout_variables;
+            }}
+        >
+            Variables
+        </button>
+    </div>
 </div>
 
 <style lang="scss">
