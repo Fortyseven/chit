@@ -136,25 +136,131 @@
                 margin-bottom: 1em;
             }
 
+            hr {
+                margin: 2em 10% !important;
+                border: 1px;
+                border-color: #40f;
+                border-style: dashed;
+            }
+
+            h5,
             h4,
             h3,
             h2,
             h1 {
-                color: var(--accent-color2);
+                color: white;
                 font-weight: bold;
                 margin: 0.5em 0 0.5em 0;
-                border-bottom: 1px solid rgba(0, 187, 255, 0.5);
-                font-size: 1.2em;
+                border-bottom: 3px solid #fff8;
+                padding-bottom: 0.5em;
+                font-size: 1.5em;
+                margin-block-start: 1.5em;
+                &::before {
+                    content: '# ';
+                    opacity: 0.5;
+                }
+
+                strong {
+                    color: inherit !important;
+                    &::before,&::after {
+                        content: unset;
+                    }
+                    text-decoration: underline;
+                }
             }
 
             h2 {
-                color: #0ff;
-                font-size: 1.1em;
+                color: rgb(104, 187, 255);
+                font-size: 1.3em;
+                border-bottom: 2px solid white;
+                border-bottom-style: double;
+                border-bottom-color: #4af4;
+                &::before {
+                    content: '## ';
+                    opacity: 0.5;
+                }
             }
 
             h3 {
-                color: #aff;
-                font-size: 1em;
+                color: var(--accent-color);
+                font-size: 1.1em;
+                border-bottom: 2px solid white;
+                border-bottom-style: solid;
+
+                border-bottom-color: #faa2;
+                &::before {
+                    content: '### ';
+                    opacity: 0.5;
+                }
+            }
+
+            h4 {
+                color: rgb(179, 251, 255);
+                font-size: 0.9em;
+                font-weight: bold;
+                font-style:italic;
+                border-bottom: none;
+                text-decoration: none;
+                &::before {
+                    content: '#### ';
+                    opacity: 0.5;
+                }
+            }
+
+            h5 {
+                color: white;
+                font-size: 0.8em;
+                font-weight: bold;
+                font-style: italic;
+                border-bottom: none;
+                text-decoration: none;
+                &::before {
+                    content: '##### ';
+                    opacity: 0.5;
+                }
+            }
+
+            h6 {
+                color: #aaa;
+                font-size: 0.8em;
+                font-weight: normal;
+                // font-style: italic;
+                border-bottom: none;
+                text-decoration: none;
+                &::before {
+                    content: '###### ';
+                    color: white;
+                    opacity: 0.25;
+                }
+            }
+
+            table {
+                outline: 1px solid var(--accent-color-darker4);
+                box-shadow: 0 0 20px black;
+                width:100%;
+                margin-block: 1em;
+                th {
+                    background-color: var(--accent-color-darker4);
+                    padding: 0.5em;
+                    text-align: center !important;
+                    color: black !important;
+                    strong {
+                        color: black !important;
+                        &::before,&::after {
+                            content: unset;
+                        }
+                    }
+                }
+                tr {
+                    background-color: #202020;
+                    color: white;
+                    td {
+                        outline: 1px solid var(--accent-color-darker4);
+                        padding: 0.25em;
+
+                        text-align: left !important;
+                    }
+                }
             }
         }
     }
