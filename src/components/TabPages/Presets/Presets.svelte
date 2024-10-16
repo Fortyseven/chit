@@ -269,36 +269,35 @@
         //     var(--core-color-darker1) 5%
         // );
         background-color: var(--core-color-darker1);
-
     }
     .chat-values {
+        font-size: 0.8rem;
         ul {
             list-style: none;
             padding: 0;
+            margin: auto;
             display: flex;
             flex-wrap: wrap;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            gap: 0.25em 1em;
         }
 
         li {
-            flex: 1 1 auto;
+            flex: 1 1 40%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1em;
             margin: 0;
             padding: 0;
-            padding-bottom: 0.25em;
-            display: flex;
 
             label {
                 display: block;
                 margin-bottom: 0.5em;
-
-                width: 6.5em;
+                // width: auto;
                 text-transform: capitalize;
             }
 
             input {
-                width: 4em;
+                // width: auto;
                 height: 2em;
                 font-family: monospace !important;
             }
