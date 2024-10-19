@@ -13,6 +13,17 @@
     import LockLabelToggle from '$components/UI/LockLabelToggle.svelte';
     import PresetFilename from './PresetFilename.svelte';
 
+    const advancedValues = [
+        'mirostat',
+        'mirostat_eta',
+        'mirostat_tau',
+        'repeat_last_n',
+        'repeat_penalty',
+        'tfs_z',
+        'top_k',
+        'top_p'
+    ];
+
     onMount(async () => {
         $chatState.loadedKoboldState = undefined;
     });
@@ -248,7 +259,7 @@
             </LockLabelToggle>
             {#if $chatState.values}
                 <ul>
-                    {#each Object.keys($chatState.values) as key}
+                    {#each Object.keys($chatState.values).filter((e) => !advancedValues.includes(e)) as key}
                         <li>
                             <label>{key}</label>
                             <input
@@ -259,6 +270,26 @@
                     {/each}
                 </ul>
             {/if}
+        </div>
+        <!-- --------------- -->
+        <div class="chat-values">
+            <details>
+                <summary>Advanced</summary>
+
+                {#if $chatState.values}
+                    <ul>
+                        {#each Object.keys($chatState.values).filter( (e) => advancedValues.includes(e) ) as key}
+                            <li>
+                                <label>{key}</label>
+                                <input
+                                    bind:value={$chatState.values[key]}
+                                    on:blur={() => onBlurValue(key)}
+                                />
+                            </li>
+                        {/each}
+                    </ul>
+                {/if}
+            </details>
         </div>
     {/if}
 </div>
@@ -306,6 +337,13 @@
                 // width: auto;
                 height: 2em;
                 font-family: monospace !important;
+            }
+        }
+
+        details {
+            summary {
+                cursor: pointer;
+                color: var(--accent-color);
             }
         }
 
