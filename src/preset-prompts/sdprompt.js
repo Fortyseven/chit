@@ -1,5 +1,6 @@
 export default {
-    name: "🎨 SD Prompter",
+    name: '🎨 SD Prompter',
+    temperature: 1.2,
     prompt: `You will be provided with a fragment of text; either individual key words, or a brief description.
 
 You are to imagine a fuller, more visually descriptive prompt suitable for Stable Diffusion, based on this fragment. The response should be no more than two sentences.
@@ -18,5 +19,5 @@ Tips:
 - Combine well-defined concepts in unique ways (e.g., "cyberpunk shinto priest").
 - Integrate an artist's name or style into your prompt to influence the generated image.
 - Be ultra-descriptive in your prompts. The more specific and detailed your prompt, the better the AI can generate an image that aligns with your vision.
-`,
+`
 };

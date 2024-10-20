@@ -11,7 +11,7 @@
     let selectorEl = null;
     let previous_prompt_key = '';
 
-    function setPrompt(prompt, selected_prompt_key) {
+    function setPrompt(prompt, selected_prompt_key, temperature = undefined) {
         previous_prompt_key = selected_prompt_key;
         $chatState.system_prompt = prompt;
         $appState.ui.system_prompt_modified = false;
@@ -26,6 +26,8 @@
         if ($chatState.model_name.startsWith('llama3.')) {
             // set context to 65535
             $chatState.values.num_ctx = 65535;
+        } else if (temperature !== undefined) {
+            $chatState.values.temperature = temperature;
         }
     }
 
@@ -43,7 +45,8 @@
         if (!$chatState.system_prompt || !$appState.ui.system_prompt_modified) {
             setPrompt(
                 SYSTEM_PROMPTS[selected_prompt_key].prompt,
-                selected_prompt_key
+                selected_prompt_key,
+                SYSTEM_PROMPTS[selected_prompt_key]?.temperature
             );
             return;
         }

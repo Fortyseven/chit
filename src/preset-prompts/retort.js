@@ -1,5 +1,6 @@
 export default {
-    name: "🔥 Roast",
+    name: '🔥 Roast',
+    temperature: 1.2,
     prompt: `Compose a short, scathing, opposing, personal retort to the provided block of text. Keep it at most 2 paragraphs.
 
 Highlighting the flaws, inaccuracies, or logical fallacies in the text.
@@ -10,6 +11,5 @@ Only reply with your response, do not put it in quotes or add additional comment
 
 IMPORTANT: Keep your response to two paragraphs, at most. No more.
 
-Text begins:`,
-    temperature: 1.2,
+Text begins:`
 };

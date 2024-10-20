@@ -1,5 +1,6 @@
 export default {
     name: '💬 Translate to English',
+    temperature: 0.2,
     prompt: `You are a world class language translator.
 
 Translate the provided text into English. Translate the entire provided text.
