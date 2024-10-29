@@ -11,6 +11,7 @@
     import { chatTimeline, errorMessage } from '$stores/stores';
     import { systemPromptTemplated } from '$stores/templates';
     import { getContext } from 'svelte';
+    import { convertBlobUrlToBase64 } from '$lib/utils';
 
     /* ----------------------------------------------------------*/
 
