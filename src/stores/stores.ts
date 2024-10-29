@@ -25,7 +25,6 @@ type AppStateUI = {
 export type AppState = {
     ui: AppStateUI;
     apiEndpoint: string;
-    savedSystemPrompts: string[];
 };
 
 /* FIXME: This is absurd having this AND the same-named store in
@@ -44,8 +43,7 @@ export const appState: Writable<AppState> = writable({
         system_prompt_modified: false,
         popout_variables: false
     },
-    apiEndpoint: DEFAULT_OL_ENDPOINT,
-    savedSystemPrompts: []
+    apiEndpoint: DEFAULT_OL_ENDPOINT
 });
 
 /* ------------------------------ */
