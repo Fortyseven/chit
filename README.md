@@ -1,5 +1,5 @@
 # ⚠️ NOTICE! ⚠️
-## This project has been superceded by a [complete rewrite](https://github.com/Fortyseven/chit-v2) with a lot more features, and flexibility -- same privacy!
+## This project has been superseded by a [complete rewrite](https://github.com/Fortyseven/chit-v2) with a lot more features, and flexibility -- same privacy!
 
 
 
